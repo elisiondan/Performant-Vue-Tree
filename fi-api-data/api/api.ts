@@ -9,11 +9,4 @@ const request = axios.create({
   },
 });
 
-export default async function (path: string) {
-  const result = request.get('/api', {
-    params: {
-      url: path,
-    },
-  });
-  return result;
-}
+export default request;

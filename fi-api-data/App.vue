@@ -8,7 +8,8 @@
 import Vue from 'vue';
 import Tree from '@/components/Tree.vue';
 import ITreeData from '@/models/tree-data';
-import getDataFrom from './api';
+import parseFIData from '~/functions/parse-fi-data';
+import getDataFrom from '~/services/fetch-fi-data';
 
 interface IData {
   treeData: ITreeData;
@@ -35,7 +36,8 @@ export default Vue.extend({
   },
   async created() {
     const result = await getDataFrom('/auth/do/mu');
-    console.log(result);
+    const parsedData = parseFIData(result.data);
+    console.log(parsedData);
   },
 });
 </script>

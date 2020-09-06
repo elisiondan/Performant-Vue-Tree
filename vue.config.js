@@ -22,7 +22,7 @@ module.exports = {
     devtool: 'source-map',
     resolve: {
       alias: {
-        '~': path.resolve(__dirname, ''),
+        '~': path.resolve(__dirname, 'fi-api-data'),
       },
     },
   },

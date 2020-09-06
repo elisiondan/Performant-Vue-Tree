@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from '../examples/App.vue';
+import App from '../fi-api-data/App.vue';
 
 Vue.config.productionTip = false;
 

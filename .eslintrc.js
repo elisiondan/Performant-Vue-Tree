@@ -11,12 +11,23 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
+  settings: {
+    "settings": {
+      "import/resolver": {
+        "node": {
+            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+    }
+    },
+  },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     semi: 'off', // disable the base rule as it can report incorrect errors
     '@typescript-eslint/semi': ['error'],
-    "@typescript-eslint/interface-name-prefix" : "off"
+    "@typescript-eslint/interface-name-prefix" : "off",
+    "@typescript-eslint/no-explicit-any" : "off",
+    "import/extensions": "off"
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',
