@@ -4,6 +4,7 @@
       v-for="root in data.trees"
       :key="root.id"
       :root="root"
+      @item-click="($event) => $emit('item-click', $event)"
     />
   </div>
 </template>

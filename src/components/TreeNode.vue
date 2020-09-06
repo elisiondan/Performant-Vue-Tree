@@ -1,9 +1,9 @@
 <template functional>
   <div
     v-bind="data.attrs"
-    @click="listeners['arrow-click']"
+    @click="listeners['item-click'](props.node)"
   >
-    Hi
+    {{ props.node }}
   </div>
 </template>
 

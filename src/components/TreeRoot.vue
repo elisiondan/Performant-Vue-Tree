@@ -2,7 +2,7 @@
   <div>
     <tree-node
       :node="root"
-      @arrow-click="onClick"
+      @item-click="onItemClick"
     />
   </div>
 </template>
@@ -24,9 +24,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    onClick() {
-      console.warn('hi');
-      this.$emit('hi');
+    onItemClick(item: ITreeNode) {
+      this.$emit('item-click', item);
     },
   },
 });

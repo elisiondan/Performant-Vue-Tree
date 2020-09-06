@@ -1,7 +1,6 @@
 import parser from 'fast-xml-parser';
-import FiApiResponse from '~/models/fi-api-response';
 
-export default function (xmlData: any): FiApiResponse {
+export default function (xmlData: any) {
   const jsonObj = parser.parse(xmlData, {
     attributeNamePrefix: '@_',
     ignoreNameSpace: true,
