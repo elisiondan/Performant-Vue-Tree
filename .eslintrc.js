@@ -4,7 +4,7 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/essential',
+    'plugin:vue/recommended',
     '@vue/airbnb',
     '@vue/typescript/recommended',
   ],
@@ -14,6 +14,12 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    semi: 'off', // disable the base rule as it can report incorrect errors
+    '@typescript-eslint/semi': ['error'],
+    "@typescript-eslint/interface-name-prefix" : "off"
+  },
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
   },
   overrides: [
     {
