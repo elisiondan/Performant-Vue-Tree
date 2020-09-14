@@ -1,22 +1,29 @@
-<template functional>
-  <div
-    v-bind="data.attrs"
-    @click="listeners['item-click'](props.node)"
-  >
-    {{ props.node }}
-  </div>
-</template>
-
 <script lang='tsx'>
-import Vue, { PropType } from 'vue';
-import ITreeNode from '@/models/tree-node';
+import Vue, { PropType, CreateElement } from 'vue';
+import { IProcessedTreeNode } from '@/models/tree-node';
+import getNodesToRender from '@/components/TreeNode/get-nodes-to-render';
 
-export default Vue.extend({
+const renderSubtree = (h: CreateElement, context: any): JSX.Element => {
+  const { props, listeners, scopedSlots } = context;
+  const nodes = getNodesToRender(context.props);
+
+  return <TreeNode
+    class={{ foo: true, bar: false }}
+    isRoot={false}
+    active-item-id={props.activeItemId}
+    showTreeBorders={props.showTreeBorders}
+    node={props.node}
+    {...{ on: listeners }}
+    {...{ scopedSlots }}
+  />;
+};
+
+const TreeNode = Vue.extend({
   name: 'TreeNode',
   functional: true,
   props: {
     node: {
-      type: Object as PropType<ITreeNode>,
+      type: Object as PropType<IProcessedTreeNode>,
       required: true,
     },
     activeNodeId: {
@@ -32,13 +39,16 @@ export default Vue.extend({
       default: false,
     },
   },
-  // render(h, context) {
-  //   const onArrowClick = context.listeners['arrow-click'] as Function;
-  //   return <div
-  //             onClick={() => {
-  //               onArrowClick(context.props.node);
-  //             }}
-  //           >Hi</div>;
-  // },
+  render(h, context) {
+    const { props, listeners } = context;
+    const onArrowClick = listeners['item-click'] as Function;
+    return <div
+            onClick={() => onArrowClick(props.node)}
+        >
+            {renderSubtree(h, context)}
+        </div>;
+  },
 });
+
+export default TreeNode;
 </script>

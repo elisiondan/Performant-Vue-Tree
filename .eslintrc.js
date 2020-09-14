@@ -18,7 +18,8 @@ module.exports = {
         '@typescript-eslint/semi': ['error'],
         "@typescript-eslint/interface-name-prefix" : "off",
         "@typescript-eslint/no-explicit-any" : "off",
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "no-underscore-dangle": "off"
     },
     parserOptions: {
       parser: '@typescript-eslint/parser',
