@@ -8,6 +8,7 @@ interface AddedProperties {
 
 interface INodeObject {
     id: string | number;
+    name?: string;
 }
 
 export default interface ITreeNode {

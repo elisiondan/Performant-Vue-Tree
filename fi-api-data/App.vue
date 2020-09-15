@@ -2,6 +2,7 @@
   <div id="app">
     <tree
       :data="treeData"
+      :options="options"
       @item-click="onItemClick"
     />
   </div>
@@ -11,6 +12,7 @@
 import Vue from 'vue';
 import Tree from '@/components/Tree.vue';
 import ITreeData from '@/models/tree-data';
+import ITreeOptions from '@/models/tree-options';
 import parseFIData from '~/functions/xml-to-json';
 import getDataFrom from '~/services/fetch-fi-data';
 import FiApiResponse from '~/models/fi-api-response';
@@ -36,6 +38,13 @@ export default Vue.extend({
         trees: [],
       },
     };
+  },
+  computed: {
+    options(): ITreeOptions {
+      return {
+        isExpandable(node: FiTreeNode) { return node.url !== ''; },
+      };
+    },
   },
   async created() {
     const parsedData = await this.fetchParsedData('/auth/do/mu');
@@ -79,7 +88,6 @@ export default Vue.extend({
     },
     async onItemClick(item: FiTreeNode) {
       const parsedData = await this.fetchParsedData(item.url);
-      // console.log(parsedData);
       // eslint-disable-next-line no-param-reassign
       item.children = this.parseFiDataForTree(parsedData.strom);
     },

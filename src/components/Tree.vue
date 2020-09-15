@@ -4,6 +4,7 @@
       v-for="root in data.trees"
       :key="root.id"
       :root="root"
+      :options="treeOptions"
       @item-click="($event) => $emit('item-click', $event)"
     />
   </div>
@@ -12,8 +13,14 @@
 <script lang='ts'>
 import Vue, { PropType } from 'vue';
 import ITreeData from '@/models/tree-data';
+import ITreeOptions, { IFullTreeOptions } from '@/models/tree-options';
 
 import TreeRoot from '@/components/TreeRoot.vue';
+import isExpandableNode from '@/functions/is-expandable-node';
+
+const defaultOptions: IFullTreeOptions = {
+  isExpandable: isExpandableNode,
+};
 
 export default Vue.extend({
   name: 'Tree',
@@ -24,6 +31,18 @@ export default Vue.extend({
     data: {
       type: Object as PropType<ITreeData>,
       required: true,
+    },
+    options: {
+      type: Object as PropType<ITreeOptions>,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    treeOptions(): any {
+      return {
+        ...defaultOptions,
+        ...this.options,
+      };
     },
   },
 });

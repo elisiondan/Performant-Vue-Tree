@@ -2,15 +2,21 @@
   <div>
     <tree-node
       :node="root"
+      :options="options"
       @item-click="onItemClick"
     />
   </div>
 </template>
 
 <script lang='ts'>
+/* eslint-disable no-param-reassign */
 import Vue, { PropType } from 'vue';
-import ITreeNode from '@/models/tree-node';
+import { IProcessedTreeNode } from '@/models/tree-node';
 import TreeNode from '@/components/TreeNode.vue';
+import { IFullTreeOptions } from '@/models/tree-options';
+
+import isExpanded from '@/functions/is-expanded';
+import NodeState from '@/enums/node-state';
 
 export default Vue.extend({
   name: 'TreeRoot',
@@ -19,13 +25,24 @@ export default Vue.extend({
   },
   props: {
     root: {
-      type: Object as PropType<ITreeNode>,
+      type: Object as PropType<IProcessedTreeNode>,
+      required: true,
+    },
+    options: {
+      type: Object as PropType<IFullTreeOptions>,
       required: true,
     },
   },
   methods: {
-    onItemClick(item: ITreeNode) {
-      this.$emit('item-click', item);
+    onItemClick(node: IProcessedTreeNode) {
+      if (isExpanded(node)) {
+        node.__state = NodeState.CLOSED;
+      } else {
+        node.__state = NodeState.OPEN;
+      }
+
+      this.$emit('item-click', node);
+      this.$forceUpdate();
     },
   },
 });
