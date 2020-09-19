@@ -1,12 +1,10 @@
 import FiNodeBase from './fi-node-base';
-import FiSubNode from './fi-subnode';
+import { FiSubNodeWrapper } from './fi-subnode';
 
-interface FiSubNodes {
-    poduzly: {
-        poduzel: FiSubNode[];
-    };
+export interface FiNodeWrapper {
+    uzel: FiNode[];
 }
 
 export default interface FiNode extends FiNodeBase {
-    poduzly: FiSubNodes;
+    poduzly: FiSubNodeWrapper[];
 }

@@ -13,5 +13,5 @@ export default interface FiFolder {
     '@_polozek_v_podstromu'?: number;
     /** Popis a příklad použití elementu obsah_slozky_ignoruji_ctete_metadata vizte níže. * */
     obsah_slozky_ignoruji_ctete_metadata?: string;
-    slozka?: FiFolder | FiFolder[];
+    slozka?: FiFolder[];
 }

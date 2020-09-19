@@ -7,6 +7,7 @@ export default function (xmlData: any) {
     parseAttributeValue: true,
     allowBooleanAttributes: true,
     ignoreAttributes: false,
+    arrayMode: true,
   });
-  return jsonObj.fmgr;
+  return jsonObj.fmgr[0];
 }

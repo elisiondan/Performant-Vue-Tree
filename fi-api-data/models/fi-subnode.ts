@@ -1,5 +1,9 @@
 import FiNodeBase from './fi-node-base';
 
+export interface FiSubNodeWrapper {
+    poduzel: FiSubnode[];
+}
+
 interface FiBinder {
     id: number;
 }
