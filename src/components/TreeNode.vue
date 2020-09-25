@@ -3,6 +3,7 @@ import Vue, { PropType, CreateElement } from 'vue';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import getNodesToRender from '@/components/TreeNode/get-nodes-to-render';
 import TreeExpandArrow from '@/components/TreeExpandArrow.vue';
+import TreeFolderIcon from '@/components/TreeFolderIcon.vue';
 import { IFullTreeOptions } from '@/models/tree-options';
 
 const renderSubtree = (h: CreateElement, context: any) => {
@@ -11,8 +12,8 @@ const renderSubtree = (h: CreateElement, context: any) => {
 
   return nodesToRender.reduce((acc, node) => {
     const treeNode = <TreeNode
-        class="pl-3 ml-2"
-        isRoot={props.isRoot}
+        class="pl-4 ml-2 "
+        isRoot={false}
         active-item-id={props.activeItemId}
         showTreeBorders={props.showTreeBorders}
         node={node}
@@ -36,34 +37,38 @@ const TreeNode: any = Vue.extend({
     },
     options: {
       type: Object as PropType<IFullTreeOptions>,
-      default: () => ({}),
-    },
-    activeNodeId: {
-      type: [String, Number],
-      default: -1,
+      required: true,
     },
     isRoot: {
       type: Boolean,
       default: false,
     },
-    showBorders: {
-      type: Boolean,
-      default: false,
-    },
   },
   render(h, context) {
-    const { props, data, listeners } = context;
+    const {
+      props, data, listeners, scopedSlots,
+    } = context;
     const onArrowClick = listeners['item-click'] as Function;
-    return <div class={`transition-border border-l border-dashed${data.class ? data.class : ''}`}>
-            <div class="mt-1 transition-bg leading-tight flex flex-auto items-center cursor-pointer">
+    const { options } = props;
+    return <div class={`transition-border 
+                        ${options.visual.showFolderBorders && !props.isRoot ? 'border-l border-dashed border-gray-500' : ''} 
+                        ${data.class ? data.class : ''} `}>
+            <div class="mt-1 transition-bg leading-tight flex flex-auto items-center cursor-pointer ">
                 {/* @ts-ignore */}
                 <TreeExpandArrow node={props.node}
                     options={props.options}
                     onClick={() => onArrowClick(props.node)}
                  />
 
+                {scopedSlots.prependLabel({
+                  node: props.node,
+                })}
+                {/* @ts-ignore */}
+                <TreeFolderIcon node={props.node}
+                    options={props.options}
+                 />
                 <div class="label">
-                <span domPropsInnerHTML={props.node.obj.name || props.node.obj.id}></span>
+                    <span domPropsInnerHTML={props.node.obj.name || props.node.obj.id}></span>
                 </div>
             </div>
             {renderSubtree(h, context)}

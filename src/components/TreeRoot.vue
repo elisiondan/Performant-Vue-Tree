@@ -1,11 +1,24 @@
 <template>
-  <div>
-    <tree-node
-      :node="root"
-      :options="options"
-      @item-click="onItemClick"
-    />
-  </div>
+  <tree-node
+    :node="root"
+    :options="options"
+    :is-root="true"
+    @item-click="onItemClick"
+  >
+    <template #prependLabel="data">
+      <slot
+        name="prependLabel"
+        :data="data"
+      />
+    </template>
+
+    <template #appendLabel="data">
+      <slot
+        name="appendLabel"
+        :data="data"
+      />
+    </template>
+  </tree-node>
 </template>
 
 <script lang='ts'>

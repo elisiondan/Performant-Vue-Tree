@@ -2,12 +2,11 @@
 import Vue from 'vue';
 import ClarityIcon from '@/components/ClarityIcon.vue';
 import { Prop } from 'vue/types/options.d';
-import isExpanded from '@/functions/is-expanded';
-import { IProcessedTreeNode } from '@/models/tree-node';
 import { IFullTreeOptions } from '@/models/tree-options';
+import { IProcessedTreeNode } from '@/models/tree-node';
 
 export default Vue.extend({
-  name: 'TreeExpandArrow',
+  name: 'TreeFolderIcon',
   functional: true,
   props: {
     node: {
@@ -19,21 +18,17 @@ export default Vue.extend({
       required: true,
     },
   },
-  render(h, { props, listeners }) {
-    const onClick = listeners.click as Function;
-    if (props.options.isExpandable(props.node) === false) {
+  render(h, { props }) {
+    const isNotFolder = !props.options.isExpandable(props.node);
+    console.log(isNotFolder);
+
+    if (props.options.visual.showIconForFolders === false || isNotFolder) {
       return <div/>;
     }
-
-    const dir = isExpanded(props.node) ? 'down' : 'right';
-
-    return <div onClick={() => onClick()}>
-        {/* @ts-ignore */}
-        <ClarityIcon dir={dir}
-            name="angle"
-            size={18}
-        />
-    </div>;
+    /* @ts-ignore */
+    return <div class="mr-1"><ClarityIcon size={16}
+            name="folder"
+        /></div>;
   },
 });
 </script>

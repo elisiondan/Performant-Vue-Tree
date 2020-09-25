@@ -6,7 +6,21 @@
       :root="root"
       :options="treeOptions"
       @item-click="($event) => $emit('item-click', $event)"
-    />
+    >
+      <template #prependLabel="nodeData">
+        <slot
+          name="prependLabel"
+          :data="nodeData"
+        />
+      </template>
+
+      <template #appendLabel="nodeData">
+        <slot
+          name="appendLabel"
+          :data="nodeData"
+        />
+      </template>
+    </tree-root>
   </div>
 </template>
 
@@ -20,6 +34,10 @@ import isExpandableNode from '@/functions/is-expandable-node';
 
 const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
+  visual: {
+    showIconForFolders: true,
+    showFolderBorders: true,
+  },
 };
 
 export default Vue.extend({

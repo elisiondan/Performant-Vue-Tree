@@ -4,7 +4,7 @@ export default async function (path: string) {
   const result = request.get('/api', {
     params: {
       url: path,
-      strom: 1,
+      strom: 0,
     },
   });
   return result;

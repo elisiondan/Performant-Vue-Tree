@@ -16,20 +16,18 @@ import ITreeOptions from '@/models/tree-options';
 import parseFIData from '~/functions/xml-to-json';
 import getDataFrom from '~/services/fetch-fi-data';
 import FiApiResponse from '~/models/fi-api-response';
-import FiFolder from './models/fi-folder';
 import FiTreeNode from './models/fi-tree-node';
-import FiTree from './models/fi-tree';
-import FiNode, { FiNodeWrapper } from './models/fi-node';
-import FiNodeBase from './models/fi-node-base';
+import FiBaseNode, { FiFileNode, FiFolderNode } from './models/fi-node';
 
 interface IData {
   fiData: FiApiResponse | null;
   treeData: ITreeData;
-  folderToNode: Map<FiFolder, FiNodeBase>;
 }
 
-const isManyFolders = (i?: FiFolder | FiFolder[]): i is FiFolder[] => !!i && Array.isArray(i);
-const isSingleFolder = (i?: FiFolder | FiFolder[]): i is FiFolder => !!i && !Array.isArray(i);
+type Node = FiFolderNode | FiFileNode;
+
+const isFileNode = (i: Node): i is FiFileNode => Object.prototype.hasOwnProperty.call(i, 'objekty');
+const isFolderNode = (i: Node): i is FiFolderNode => !isFileNode(i);
 
 export default Vue.extend({
   name: 'App',
@@ -42,7 +40,6 @@ export default Vue.extend({
       treeData: {
         trees: [],
       },
-      folderToNode: new Map<FiFolder, FiNodeBase>(),
     };
   },
   computed: {
@@ -55,47 +52,55 @@ export default Vue.extend({
   async created() {
     const parsedData = await this.fetchParsedData('/auth/do/mu');
     this.fiData = parsedData;
-    // this.treeData.trees =
-    // [this.parseFiDataForTree(parsedData.strom.slozka, parsedData.uzly.uzel)];
-    this.treeData.trees = this.parseTrees(parsedData.strom, parsedData.uzly);
+    this.treeData.trees = this.parseRootNode(parsedData.uzel[0]);
   },
   methods: {
-    parseTrees(trees: FiTree[], nodes: FiNodeWrapper[]) {
-      return trees.map((tree) => this.parseTreeFolders(tree.slozka, nodes))[0];
+    parseRootNode(node: FiBaseNode) {
+      if (!node.poduzly) {
+        return [];
+      }
+
+      return node.poduzly[0].poduzel.map((child) => this.parseNode(child));
     },
 
-    parseTreeFolders(folders: FiFolder[], nodes: FiNodeWrapper[]) {
-      return folders.map((folderNode) => this.parseFolderNode(folderNode, nodes));
+    getUrlForNode(node: FiFolderNode | FiFileNode) {
+      if (isFolderNode(node)) {
+        const url = node.cesta;
+        return url;
+      }
+      return '';
     },
 
-    parseFolderNode(folderNode: FiFolder, nodes: FiNodeWrapper[]) {
-      const mappedNode = this.getNodeForFolder(folderNode, nodes);
+    getNodeName(node: Node) {
+      if (node.nazev) {
+        return node.nazev;
+      }
 
+      if (isFileNode(node) && node.objekty.length > 0) {
+        console.log(node.objekty[0]);
+        return node.objekty[0].objekt[0].jmeno_souboru;
+      }
+
+      return '';
+    },
+
+    parseNode(node: FiFolderNode | FiFileNode) {
       const treeNode: FiTreeNode = {
         obj: {
-          id: folderNode['@_uzel_id'],
-          name: mappedNode ? mappedNode.nazev : folderNode['@_url'],
+          id: node.uzel_id,
+          name: this.getNodeName(node),
         },
         children: [],
-        url: '',
+        url: this.getUrlForNode(node),
       };
 
-      if (folderNode.slozka) {
-        if (isManyFolders(folderNode.slozka)) {
-          treeNode.children = folderNode.slozka
-            .map((child) => this.parseFolderNode(child, nodes));
-        }
+      //   if (isBaseNode(node)) {
+      //     treeNode.children = node.poduzly[0].poduzel.map((child) => this.parseNode(child));
+      //   }
 
-        if (isSingleFolder(folderNode.slozka)) {
-          treeNode.children = [this.parseFolderNode(folderNode.slozka, nodes)];
-        }
-      }
-
-      if (folderNode.obsah_slozky_ignoruji_ctete_metadata) {
-        const url = folderNode.obsah_slozky_ignoruji_ctete_metadata;
-        treeNode.url = url
-          .substring(url.indexOf('=') + 1, url.indexOf(';') - 1);
-      }
+      //   if (isSubNode(node)) {
+      //     treeNode.children = node.poduzly.map((child) => this.parseNode(child.poduzel[0]));
+      //   }
 
       return treeNode;
     },
@@ -106,58 +111,11 @@ export default Vue.extend({
       return parsedData;
     },
 
-    getNodeForFolder(folder: FiFolder, nodeWrappers: FiNodeWrapper[]) {
-      let candidates = [folder];
-      if (folder.slozka) {
-        candidates = [...candidates, ...folder.slozka];
-      }
-
-      let mappedNode;
-      let i = 0;
-
-      while (!mappedNode && i < candidates.length) {
-        mappedNode = this.mapFolderToNode(candidates[i], nodeWrappers);
-        if (mappedNode === undefined) {
-          // console.log(folder);
-          // console.log(candidates);
-          // console.log(nodeWrappers);
-          // console.log('----------------');
-        }
-        i += 1;
-      }
-
-      return mappedNode;
-    },
-
-    mapFolderToNode(folder: FiFolder, nodeWrappers: FiNodeWrapper[]) {
-      nodeWrappers.forEach((nodeWrapper) => {
-        const baseNodes = nodeWrapper.uzel;
-
-        baseNodes.forEach((baseNode) => {
-          if (folder['@_uzel_id'] === baseNode.uzel_id) {
-            this.folderToNode.set(folder, baseNode);
-          } else {
-            baseNode.poduzly.forEach((subnodeWrapper) => {
-              const subnodes = subnodeWrapper.poduzel;
-
-              subnodes.forEach((subnode) => {
-                if (subnode.uzel_id === folder['@_uzel_id']) {
-                  this.folderToNode.set(folder, subnode);
-                }
-              });
-            });
-          }
-        });
-      });
-
-      return this.folderToNode.get(folder);
-    },
-
     async onItemClick(item: FiTreeNode) {
       if (item.url) {
         const parsedData = await this.fetchParsedData(item.url);
         // eslint-disable-next-line no-param-reassign
-        item.children = this.parseTrees(parsedData.strom, parsedData.uzly);
+        item.children = this.parseRootNode(parsedData.uzel[0]);
       }
     },
   },

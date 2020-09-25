@@ -1,6 +1,6 @@
 export default interface FiNodeBase {
     /** Volitelný název uzlu. * */
-    nazev: string;
+    nazev?: string;
     /** Volitelný anglický název uzlu. * */
     nazev_en: string;
     /** Volitelný popis uzlu. * */
@@ -38,6 +38,4 @@ export default interface FiNodeBase {
     /** Obsahuje počet poduzlů uzlu, tzn. kolik je pod uzelzavěšeno podsložek
      * nebo "podsouborů". Pro stanovení tohoto čísla se ignorují přístupová práva.  */
     pocet_poduzlu: number;
-    /** URL tohoto API s parametrem zajišťujícím získání metadat tohoto uzlu. * */
-    url_metadata: string;
 }
