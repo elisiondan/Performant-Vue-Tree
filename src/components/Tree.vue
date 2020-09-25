@@ -31,9 +31,11 @@ import ITreeOptions, { IFullTreeOptions } from '@/models/tree-options';
 
 import TreeRoot from '@/components/TreeRoot.vue';
 import isExpandableNode from '@/functions/is-expandable-node';
+import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
 
 const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
+  nodeEvaluators: [MatchTermEvaluator],
   visual: {
     showIconForFolders: true,
     showFolderBorders: true,

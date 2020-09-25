@@ -20,7 +20,6 @@ export default Vue.extend({
   },
   render(h, { props }) {
     const isNotFolder = !props.options.isExpandable(props.node);
-    console.log(isNotFolder);
 
     if (props.options.visual.showIconForFolders === false || isNotFolder) {
       return <div/>;

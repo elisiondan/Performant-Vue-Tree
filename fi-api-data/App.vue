@@ -77,7 +77,6 @@ export default Vue.extend({
       }
 
       if (isFileNode(node) && node.objekty.length > 0) {
-        console.log(node.objekty[0]);
         return node.objekty[0].objekt[0].jmeno_souboru;
       }
 

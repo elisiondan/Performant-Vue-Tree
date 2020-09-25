@@ -50,6 +50,11 @@ const TreeNode: any = Vue.extend({
     } = context;
     const onArrowClick = listeners['item-click'] as Function;
     const { options } = props;
+
+    if (!props.node.obj) {
+      return <div/>;
+    }
+
     return <div class={`transition-border 
                         ${options.visual.showFolderBorders && !props.isRoot ? 'border-l border-dashed border-gray-500' : ''} 
                         ${data.class ? data.class : ''} `}>

@@ -10,12 +10,16 @@
   },
   "dependencies": {
     "@clr/icons": "^4.0.1",
+    "@types/lodash": "^4.14.161",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-jsx": "^1.1.2",
     "@webcomponents/custom-elements": "^1.4.2",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "fast-xml-parser": "^3.17.4",
+    "json-fn": "^1.1.1",
+    "lodash": "^4.17.20",
+    "promise-worker": "^2.0.1",
     "tailwindcss": "^1.8.2",
     "vue": "^2.6.11",
     "vue-wait": "^1.4.8"
@@ -38,7 +42,8 @@
     "eslint-plugin-vue": "^6.2.2",
     "postcss-import": "^12.0.1",
     "typescript": "~3.9.3",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "worker-plugin": "^5.0.0"
   },
   "_id": "perfomant-vue-tree@0.1.0",
   "readme": "ERROR: No README data found!"

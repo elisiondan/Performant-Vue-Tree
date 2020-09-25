@@ -1,11 +1,15 @@
+import { INodeEvaluator } from '@/services/tree-traversal-service';
 import ITreeNode from './tree-node';
 
-export default interface ITreeOptions {
-    isExpandable? (node: ITreeNode): boolean;
+type ITreeOptions = Partial<{
+    isExpandable (node: ITreeNode): boolean;
+    nodeEvaluators: INodeEvaluator[];
     visual: {
         showIconForFolders?: boolean;
         showFolderBorders?: boolean;
     };
-}
+}>;
+
+export default ITreeOptions;
 
 export type IFullTreeOptions = Required<ITreeOptions>;

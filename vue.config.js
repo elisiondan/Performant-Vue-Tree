@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const WorkerPlugin = require('worker-plugin');
+
 module.exports = {
   runtimeCompiler: true,
   assetsDir: 'spa',
@@ -25,5 +28,10 @@ module.exports = {
         '~': path.resolve(__dirname, 'fi-api-data'),
       },
     },
+    plugins: [
+      new WorkerPlugin({
+        globalObject: 'self',
+      }),
+    ],
   },
 };
