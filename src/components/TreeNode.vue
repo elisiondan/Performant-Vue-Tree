@@ -5,6 +5,7 @@ import getNodesToRender from '@/components/TreeNode/get-nodes-to-render';
 import TreeExpandArrow from '@/components/TreeExpandArrow.vue';
 import TreeFolderIcon from '@/components/TreeFolderIcon.vue';
 import { IFullTreeOptions } from '@/models/tree-options';
+import evaluateNodeState from '@/functions/evaluate-node-state';
 
 const renderSubtree = (h: CreateElement, context: any) => {
   const { props, listeners, scopedSlots } = context;
@@ -51,9 +52,7 @@ const TreeNode: any = Vue.extend({
     const onArrowClick = listeners['item-click'] as Function;
     const { options } = props;
 
-    if (!props.node.obj) {
-      return <div/>;
-    }
+    props.node.__state = evaluateNodeState(props.node);
 
     return <div class={`transition-border 
                         ${options.visual.showFolderBorders && !props.isRoot ? 'border-l border-dashed border-gray-500' : ''} 
@@ -81,7 +80,7 @@ const TreeNode: any = Vue.extend({
   },
 });
 
-export default TreeNode;
+export default Vue.extend(TreeNode);
 </script>
 
 <style lang="postcss" scoped>

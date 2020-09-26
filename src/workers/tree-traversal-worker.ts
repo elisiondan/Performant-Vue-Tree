@@ -5,7 +5,6 @@
 
 import registerWorker from 'promise-worker/register';
 // import FilterTreeService, { ITreeFilters } from '@/modules/common/services/filter-tree/filter-tree-service';
-// import SearchTreeService from '@/services/search-tree-service';
 import TreeTraversalService, { INodeEvaluator } from '@/services/tree-traversal-service';
 // import InitialMarkingHandler from '@/modules/common/services/tree-traverse/node-handlers/initial-marking-handler';
 // import { ITreeSearch } from '@/modules/inventory/models/store/inventory-state';

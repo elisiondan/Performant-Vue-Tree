@@ -1,9 +1,11 @@
 import NodeState from '@/enums/node-state';
 
 interface AddedProperties {
-    __state: NodeState;
-    __visible: boolean;
-    __filtered: boolean;
+    __state?: NodeState;
+    __hidden?: boolean;
+    __filtered?: boolean;
+    __leadsToMatched?: boolean;
+    __matched?: boolean;
 }
 
 interface INodeObject {

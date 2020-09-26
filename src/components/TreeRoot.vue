@@ -1,5 +1,6 @@
 <template>
   <tree-node
+    v-if="!traversedRoot.__hidden && !traversedRoot.__filtered"
     :node="traversedRoot"
     :options="options"
     :is-root="true"

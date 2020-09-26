@@ -1,67 +1,91 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 import { INodeEvaluator } from '@/services/tree-traversal-service';
-import TreeNode from '@/models/tree-node';
+import { IProcessedTreeNode } from '@/models/tree-node';
 
-// const MatchTermEvaluator: INodeEvaluator = (node: TreeNode, searchTerm: string) => {
-//   const regex = new RegExp(searchTerm, 'ig');
-//   if (node.obj.name && regex.exec(node.obj.name)) {
-//     // eslint-disable-next-line no-param-reassign
-//     node.obj.name = node.obj.name.replace(regex, '<span class="bg-medium-gold">$&</span>');
-//   }
-// };
+interface SearchOptions {
+    searchTerm: string;
+    removeUnmatched: boolean;
+}
 
-// export default MatchTermEvaluator;
-
-const test: INodeEvaluator = {
-  handleNode(node: TreeNode, payload: any): void {
+const matchTermEvaluator: INodeEvaluator & any = {
+  handleNode(node: IProcessedTreeNode, payload: SearchOptions): void {
     const { searchTerm } = payload;
 
     if (!searchTerm) { return; }
-    const regex = new RegExp(payload.searchTerm, 'ig');
 
-    if (node.obj.name && regex.exec(node.obj.name)) {
-      // eslint-disable-next-line no-param-reassign
+    const regex = new RegExp(searchTerm, 'ig');
+    const isMatch = this.isMatch(node, regex);
+    if (isMatch) {
+      // @ts-ignore
       node.obj.name = node.obj.name.replace(regex, '<span class="bg-yellow-400">$&</span>');
     }
 
-    // if (!this.searchOptions.term) {
-    //   return;
-    // }
+    this.markNodes(node, payload, isMatch);
+  },
 
-    // super.searchByLookup(this.searchOptions, node);
+  isMatch(node: IProcessedTreeNode, regex: RegExp): boolean {
+    return !!node.obj.name && regex.test(node.obj.name);
+  },
+
+  // PRIVATE METHODS
+  doesLeadToMatched(node: IProcessedTreeNode) {
+    const someChildVisible = node.__leadsToMatched
+                            || node.__matched
+                            || node.children.some((c) => c.__leadsToMatched || c.__matched);
+    return someChildVisible;
+  },
+
+  shouldBeHidden(node: IProcessedTreeNode, removeUnmatched: boolean) {
+    const nodeHidden = !node.__leadsToMatched && !node.__matched;
+    const childrenHidden = !node.children.some((c) => c.__leadsToMatched || c.__matched);
+
+    return removeUnmatched ? (nodeHidden && childrenHidden) : false;
+  },
+
+  /**
+   * Evaluate for node whether
+   * - is a match
+   * - leads to a __matched node
+   * - should be visible
+   * @param nodeParam
+   * @param value
+   */
+  markNodes(node: IProcessedTreeNode, searchOptions: SearchOptions, isMatch: boolean) {
+    if (isMatch && node.__filtered !== true) {
+      node.__matched = true;
+    } else {
+      node.__matched = false;
+    }
+
+    node.__leadsToMatched = this.doesLeadToMatched(node);
+    node.__hidden = this.shouldBeHidden(node, searchOptions.removeUnmatched);
+    if (node.__matched) {
+      this.makeAllChildrenVisible(node);
+    }
+
+    return node;
+  },
+
+  /**
+   * Make all children of the current node visible
+   * @param nodeParam tree node
+   */
+  makeAllChildrenVisible(nodeParam: IProcessedTreeNode) {
+    const node = nodeParam;
+    let subResult: Array<IProcessedTreeNode> = [];
+
+    subResult = node.children.map((child: IProcessedTreeNode) => {
+      let copy = child;
+      copy.__hidden = false;
+      copy = this.makeAllChildrenVisible(copy);
+      return copy;
+    });
+
+    node.children = subResult;
+
+    return node;
   },
 };
 
-export default test;
-
-// export default class MatchTermEvaluator implements INodeEvaluator {
-// //   public isMatch(nodeParam: RcTreeNode, searchOptions: ITreeSearch): boolean {
-// //     if (searchOptions.term) {
-// //       const regex = new RegExp(escapeRegExp(searchOptions.term), 'ig');
-// //       nodeParam.obj.name = nodeParam.obj.
-// // name.replace(regex, '<span class="bg-medium-gold">$&</span>');
-// //       return nodeParam.obj.name.search(regex) !== -1;
-// //     }
-// //     return true;
-// //   }
-
-//     private term = '';
-
-//     public setSearchTerm(term: string) {
-//       this.term = term;
-//     }
-
-//     public handleNode(node: TreeNode, searchTerm = 'Akce a aktuality'): void {
-//       const regex = new RegExp(searchTerm, 'ig');
-//       if (node.obj.name && regex.exec(node.obj.name)) {
-//         // eslint-disable-next-line no-param-reassign
-//         node.obj.name = node.obj.name.replace(regex, '<span class="bg-medium-gold">$&</span>');
-//       }
-
-//       // if (!this.searchOptions.term) {
-//       //   return;
-//       // }
-
-//     // super.searchByLookup(this.searchOptions, node);
-//     }
-// }
+export default matchTermEvaluator;

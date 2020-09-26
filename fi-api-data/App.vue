@@ -18,6 +18,7 @@ import getDataFrom from '~/services/fetch-fi-data';
 import FiApiResponse from '~/models/fi-api-response';
 import FiTreeNode from './models/fi-tree-node';
 import FiBaseNode, { FiFileNode, FiFolderNode } from './models/fi-node';
+import trees from './fixtures/trees';
 
 interface IData {
   fiData: FiApiResponse | null;
@@ -38,7 +39,7 @@ export default Vue.extend({
     return {
       fiData: null,
       treeData: {
-        trees: [],
+        trees,
       },
     };
   },

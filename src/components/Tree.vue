@@ -1,8 +1,9 @@
 <template>
   <div>
     <input
-      v-model="search"
+      v-if="treeOptions.searchEvaluator.enabled"
       class="border"
+      @input="onSearchInput"
     >
     <tree-root
       v-for="root in data.trees"
@@ -37,10 +38,16 @@ import TreeRoot from '@/components/TreeRoot.vue';
 import isExpandableNode from '@/functions/is-expandable-node';
 import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
 import treeObserver from '@/services/tree-observer';
+import { debounce } from 'lodash';
 
 const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
   nodeEvaluators: [MatchTermEvaluator],
+  searchEvaluator: {
+    enabled: true,
+    highlightClass: 'bg-yellow-400',
+    debounceDelay: 100,
+  },
   visual: {
     showIconForFolders: true,
     showFolderBorders: true,
@@ -59,7 +66,7 @@ export default Vue.extend({
     },
     options: {
       type: Object as PropType<ITreeOptions>,
-      default: () => ({}),
+      default: () => defaultOptions,
     },
   },
   data() {
@@ -68,19 +75,22 @@ export default Vue.extend({
     };
   },
   computed: {
-    treeOptions(): any {
+    treeOptions(): IFullTreeOptions {
       return {
         ...defaultOptions,
         ...this.options,
       };
     },
   },
-  created() {
-    setTimeout(() => {
-      treeObserver.notify({
-        searchTerm: 'Akce a aktuality',
-      });
-    }, 1000);
+  methods: {
+    onSearchInput: debounce(
+      (event: any) => {
+        treeObserver.notify({
+          searchTerm: event.target.value,
+          removeUnmatched: true,
+        });
+      }, 100,
+    ),
   },
 });
 </script>
