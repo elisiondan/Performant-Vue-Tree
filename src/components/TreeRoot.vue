@@ -32,6 +32,7 @@ import { IItraversalOutput, ITraversalInput } from '@/workers/tree-traversal-wor
 
 import isExpanded from '@/functions/is-expanded';
 import NodeState from '@/enums/node-state';
+import treeObserver from '@/services/tree-observer';
 
 // @ts-ignore
 import JSONfn from 'json-fn';
@@ -65,8 +66,7 @@ export default Vue.extend({
     };
   },
   async created() {
-    const { tree } = await this.traverseTree();
-    this.traversedRoot = tree;
+    treeObserver.subscribe(this.root.obj.id, this.traverseTree);
   },
   methods: {
     onItemClick(node: IProcessedTreeNode) {
@@ -79,11 +79,14 @@ export default Vue.extend({
       this.$emit('item-click', node);
       this.$forceUpdate();
     },
-    async traverseTree() {
-      return treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({
+    async traverseTree(payload: any) {
+      const result = await treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({
         tree: this.root,
         nodeEvaluators: this.options.nodeEvaluators.map((e) => JSONfn.stringify(e)),
+        nodeEvaluatorsData: payload,
       } as ITraversalInput);
+
+      this.traversedRoot = result.tree;
     },
   },
 });

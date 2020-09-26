@@ -32,10 +32,12 @@ export default registerWorker((data) => {
   const { tree } = data;
   const topToBottom = data.topToBottom || false;
   const nodeEvaluators: INodeEvaluator[] = data.nodeEvaluators.map((e: string) => JSONfn.parse(e));
+  const nodeEvaluatorsData: any = data.nodeEvaluatorsData
   const matchedNodes: TreeNode[] = [];
 
 
-  const traversedTrees = treeTraversalService.traverseAllTrees([tree], nodeEvaluators, topToBottom);
+  const traversedTrees = treeTraversalService
+    .traverseAllTrees([tree], nodeEvaluators, nodeEvaluatorsData, topToBottom);
 
   return {
     tree: traversedTrees[0],

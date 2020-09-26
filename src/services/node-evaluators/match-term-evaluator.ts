@@ -13,12 +13,15 @@ import TreeNode from '@/models/tree-node';
 // export default MatchTermEvaluator;
 
 const test: INodeEvaluator = {
-  handleNode(node: TreeNode, searchTerm = 'Akce a aktuality'): void {
-    const regex = new RegExp(searchTerm, 'ig');
+  handleNode(node: TreeNode, payload: any): void {
+    const { searchTerm } = payload;
+
+    if (!searchTerm) { return; }
+    const regex = new RegExp(payload.searchTerm, 'ig');
+
     if (node.obj.name && regex.exec(node.obj.name)) {
       // eslint-disable-next-line no-param-reassign
-      node.obj.name = node.obj.name.replace(regex, '<span class="bg-yellow-100">$&</span>');
-      console.log(node.obj.name);
+      node.obj.name = node.obj.name.replace(regex, '<span class="bg-yellow-400">$&</span>');
     }
 
     // if (!this.searchOptions.term) {

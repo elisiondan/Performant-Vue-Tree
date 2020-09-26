@@ -1,5 +1,9 @@
 <template>
   <div>
+    <input
+      v-model="search"
+      class="border"
+    >
     <tree-root
       v-for="root in data.trees"
       :key="root.id"
@@ -32,6 +36,7 @@ import ITreeOptions, { IFullTreeOptions } from '@/models/tree-options';
 import TreeRoot from '@/components/TreeRoot.vue';
 import isExpandableNode from '@/functions/is-expandable-node';
 import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
+import treeObserver from '@/services/tree-observer';
 
 const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
@@ -57,6 +62,11 @@ export default Vue.extend({
       default: () => ({}),
     },
   },
+  data() {
+    return {
+      search: '',
+    };
+  },
   computed: {
     treeOptions(): any {
       return {
@@ -64,6 +74,13 @@ export default Vue.extend({
         ...this.options,
       };
     },
+  },
+  created() {
+    setTimeout(() => {
+      treeObserver.notify({
+        searchTerm: 'Akce a aktuality',
+      });
+    }, 1000);
   },
 });
 </script>
