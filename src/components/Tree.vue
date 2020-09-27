@@ -6,7 +6,7 @@
       @input="onSearchInput"
     >
     <tree-root
-      v-for="root in data.trees"
+      v-for="root in traversedTrees"
       :key="root.id"
       :root="root"
       :options="treeOptions"
@@ -32,27 +32,28 @@
 <script lang='ts'>
 import Vue, { PropType } from 'vue';
 import ITreeData from '@/models/tree-data';
-import ITreeOptions, { IFullTreeOptions } from '@/models/tree-options';
+import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-options';
 
 import TreeRoot from '@/components/TreeRoot.vue';
-import isExpandableNode from '@/functions/is-expandable-node';
-import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
-import treeObserver from '@/services/tree-observer';
-import { debounce } from 'lodash';
 
-const defaultOptions: IFullTreeOptions = {
-  isExpandable: isExpandableNode,
-  nodeEvaluators: [MatchTermEvaluator],
-  searchEvaluator: {
-    enabled: true,
-    highlightClass: 'bg-yellow-400',
-    debounceDelay: 100,
-  },
-  visual: {
-    showIconForFolders: true,
-    showFolderBorders: true,
-  },
-};
+import treeObserver from '@/services/tree-observer';
+import { debounce, cloneDeep } from 'lodash';
+import WorkerService from '@/services/worker-service';
+import { IItraversalOutput, ITraversalInput } from '@/workers/tree-traversal-worker';
+
+import JSONfn from 'json-fn';
+import { IProcessedTreeNode } from '@/models/tree-node';
+
+const treeTraversalWorker = new WorkerService(
+  new Worker('@/workers/tree-traversal-worker.ts', { type: 'module' }),
+);
+
+let fullTree: IProcessedTreeNode[] = [];
+
+interface IData {
+    search: '';
+    traversedTrees: readonly IProcessedTreeNode[];
+}
 
 export default Vue.extend({
   name: 'Tree',
@@ -69,9 +70,10 @@ export default Vue.extend({
       default: () => defaultOptions,
     },
   },
-  data() {
+  data(): IData {
     return {
       search: '',
+      traversedTrees: [],
     };
   },
   computed: {
@@ -82,15 +84,37 @@ export default Vue.extend({
       };
     },
   },
+  watch: {
+    data: {
+      handler(treeData: ITreeData) {
+        fullTree = cloneDeep(treeData.trees);
+        this.traversedTrees = Object.freeze(cloneDeep(treeData.trees));
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  created() {
+    treeObserver.subscribe('tree.obj.id', this.traverseTree);
+  },
   methods: {
     onSearchInput: debounce(
       (event: any) => {
         treeObserver.notify({
           searchTerm: event.target.value,
-          removeUnmatched: false,
+          removeUnmatched: true,
         });
       }, 100,
     ),
+    async traverseTree(payload: any) {
+      const result = await treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({
+        trees: fullTree,
+        nodeEvaluators: this.treeOptions.nodeEvaluators.map((e) => JSONfn.stringify(e)),
+        nodeEvaluatorsData: payload,
+      } as ITraversalInput);
+
+      this.traversedTrees = Object.freeze(result.trees);
+    },
   },
 });
 </script>
