@@ -1,6 +1,6 @@
 <template>
   <tree-node
-    v-if="!traversedRoot.__hidden && !traversedRoot.__filtered"
+
     :node="traversedRoot"
     :options="options"
     :is-root="true"
@@ -37,6 +37,7 @@ import treeObserver from '@/services/tree-observer';
 
 // @ts-ignore
 import JSONfn from 'json-fn';
+import { cloneDeep } from 'lodash';
 
 const treeTraversalWorker = new WorkerService(
   new Worker('@/workers/tree-traversal-worker.ts', { type: 'module' }),
@@ -45,6 +46,8 @@ const treeTraversalWorker = new WorkerService(
 interface IData {
     traversedRoot: IProcessedTreeNode;
 }
+
+let fullTree: IProcessedTreeNode = { obj: { id: Number.MAX_SAFE_INTEGER }, children: [] };
 
 export default Vue.extend({
   name: 'TreeRoot',
@@ -63,10 +66,13 @@ export default Vue.extend({
   },
   data() {
     return {
-      traversedRoot: this.root,
+      traversedRoot: cloneDeep(this.root),
     };
   },
+
   async created() {
+    fullTree = cloneDeep(this.root);
+    console.log(fullTree);
     treeObserver.subscribe(this.root.obj.id, this.traverseTree);
   },
   methods: {
@@ -82,7 +88,7 @@ export default Vue.extend({
     },
     async traverseTree(payload: any) {
       const result = await treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({
-        tree: this.root,
+        tree: fullTree,
         nodeEvaluators: this.options.nodeEvaluators.map((e) => JSONfn.stringify(e)),
         nodeEvaluatorsData: payload,
       } as ITraversalInput);

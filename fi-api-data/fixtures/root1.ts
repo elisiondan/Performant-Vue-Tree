@@ -17,7 +17,7 @@ export default () => ({
           },
           children: [],
           url: '',
-          __state: 0,
+
         },
         {
           obj: {
@@ -26,7 +26,7 @@ export default () => ({
           },
           children: [],
           url: '',
-          __state: 0,
+
         },
         {
           obj: {
@@ -35,7 +35,7 @@ export default () => ({
           },
           children: [],
           url: '',
-          __state: 0,
+
         },
         {
           obj: {
@@ -44,7 +44,7 @@ export default () => ({
           },
           children: [],
           url: '',
-          __state: 0,
+
         },
         {
           obj: {
@@ -53,7 +53,7 @@ export default () => ({
           },
           children: [],
           url: '',
-          __state: 0,
+
         },
         {
           obj: {
@@ -62,11 +62,11 @@ export default () => ({
           },
           children: [],
           url: '',
-          __state: 0,
+
         },
       ],
       url: '/do/mu/akce_prilohy/53152443/',
-      __state: 1,
+
     },
     {
       obj: {
@@ -75,7 +75,7 @@ export default () => ({
       },
       children: [],
       url: '/do/mu/akce_prilohy/muni_aktuality/',
-      __state: 1,
+
     },
     {
       obj: {
@@ -84,7 +84,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -93,7 +93,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -102,7 +102,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -111,7 +111,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -120,7 +120,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -129,7 +129,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -138,7 +138,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -147,7 +147,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -156,7 +156,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -165,7 +165,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -174,7 +174,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -183,7 +183,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -192,7 +192,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -201,7 +201,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -210,7 +210,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -219,7 +219,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -228,7 +228,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -237,7 +237,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -246,7 +246,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -255,7 +255,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -264,7 +264,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -273,7 +273,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -282,7 +282,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -291,7 +291,7 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
     {
       obj: {
@@ -300,9 +300,9 @@ export default () => ({
       },
       children: [],
       url: '',
-      __state: 0,
+
     },
   ],
   url: '/do/mu/akce_prilohy/',
-  __state: 1,
+
 });

@@ -113,9 +113,9 @@ export default Vue.extend({
 
     async onItemClick(item: FiTreeNode) {
       if (item.url) {
-        const parsedData = await this.fetchParsedData(item.url);
+        // const parsedData = await this.fetchParsedData(item.url);
         // eslint-disable-next-line no-param-reassign
-        item.children = this.parseRootNode(parsedData.uzel[0]);
+        // item.children = this.parseRootNode(parsedData.uzel[0]);
       }
     },
   },

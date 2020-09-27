@@ -1,4 +1,3 @@
-import { IProcessedTreeNode } from '@/models/tree-node';
 import root1 from './root1';
 import root2 from './root2';
 import root3 from './root3';
@@ -12,7 +11,7 @@ import root10 from './root10';
 import root11 from './root11';
 import root12 from './root12';
 
-const trees: IProcessedTreeNode[] = [
+const trees: any = [
   root1(), root2(),
   root3(), root4(),
   root5(), root6(),

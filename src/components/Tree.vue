@@ -87,7 +87,7 @@ export default Vue.extend({
       (event: any) => {
         treeObserver.notify({
           searchTerm: event.target.value,
-          removeUnmatched: true,
+          removeUnmatched: false,
         });
       }, 100,
     ),

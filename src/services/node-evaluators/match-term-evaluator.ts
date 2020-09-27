@@ -16,9 +16,8 @@ const matchTermEvaluator: INodeEvaluator & any = {
 
     const regex = new RegExp(searchTerm, 'ig');
     const isMatch = this.isMatch(node, regex);
-    if (isMatch) {
-      // @ts-ignore
-      node.obj.name = node.obj.name.replace(regex, '<span class="bg-yellow-400">$&</span>');
+    if (isMatch && node.obj.name) {
+      node.obj.name = node.obj.name.toString().replace(regex, '<span class="bg-yellow-400">$&</span>');
     }
 
     this.markNodes(node, payload, isMatch);
@@ -69,17 +68,15 @@ const matchTermEvaluator: INodeEvaluator & any = {
 
   /**
    * Make all children of the current node visible
-   * @param nodeParam tree node
+   * @param node tree node
    */
-  makeAllChildrenVisible(nodeParam: IProcessedTreeNode) {
-    const node = nodeParam;
+  makeAllChildrenVisible(node: IProcessedTreeNode) {
     let subResult: Array<IProcessedTreeNode> = [];
 
     subResult = node.children.map((child: IProcessedTreeNode) => {
-      let copy = child;
-      copy.__hidden = false;
-      copy = this.makeAllChildrenVisible(copy);
-      return copy;
+      child.__hidden = false;
+      child = this.makeAllChildrenVisible(child);
+      return child;
     });
 
     node.children = subResult;
