@@ -31,6 +31,8 @@
     ]
   },
   "include": [
+    "fi-api-data/**/*.ts",
+    "fi-api-data/**/*.vue",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",

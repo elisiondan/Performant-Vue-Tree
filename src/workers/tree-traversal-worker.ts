@@ -6,6 +6,7 @@
 import registerWorker from 'promise-worker/register';
 // import FilterTreeService, { ITreeFilters } from '@/modules/common/services/filter-tree/filter-tree-service';
 import TreeTraversalService, { INodeEvaluator } from '@/services/tree-traversal-service';
+import treeFilterEvaluator from '@/services/node-evaluators/tree-filter-evaluator';
 // import InitialMarkingHandler from '@/modules/common/services/tree-traverse/node-handlers/initial-marking-handler';
 // import { ITreeSearch } from '@/modules/inventory/models/store/inventory-state';
 import { IProcessedTreeNode } from '@/models/tree-node';
@@ -29,10 +30,14 @@ export interface IItraversalOutput<T extends IProcessedTreeNode> {
 export default registerWorker((data) => {
   const { trees } = data;
   const topToBottom = data.topToBottom || false;
-  const nodeEvaluators: INodeEvaluator[] = data.nodeEvaluators.map((e: string) => JSONfn.parse(e));
+  const nodeEvaluators: INodeEvaluator[] = (data.nodeEvaluators || []).map((e: string) => JSONfn.parse(e));
   const nodeEvaluatorsData: any = data.nodeEvaluatorsData
   const matchedNodes: IProcessedTreeNode[] = [];
 
+
+  if (nodeEvaluatorsData.filterOptions) {
+      nodeEvaluators.push(treeFilterEvaluator)
+  }
 
 
   const traversedTrees = treeTraversalService

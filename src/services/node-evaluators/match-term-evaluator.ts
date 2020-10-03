@@ -8,7 +8,17 @@ interface SearchOptions {
     removeUnmatched: boolean;
 }
 
-const matchTermEvaluator: INodeEvaluator & any = {
+interface IMatchTermEvaluator {
+    isMatch: (node: IProcessedTreeNode, regex: RegExp) => boolean;
+    doesLeadToMatched: (node: IProcessedTreeNode) => boolean;
+    shouldBeHidden: (node: IProcessedTreeNode, removeUnmatched: boolean) => boolean;
+    markNodes: (node: IProcessedTreeNode,
+        searchOptions: SearchOptions,
+        isMatch: boolean) => IProcessedTreeNode;
+    makeAllChildrenVisible: (node: IProcessedTreeNode) => IProcessedTreeNode;
+}
+
+const matchTermEvaluator: INodeEvaluator & IMatchTermEvaluator = {
   handleNode(node: IProcessedTreeNode, payload: SearchOptions): void {
     const { searchTerm } = payload;
 
@@ -27,7 +37,6 @@ const matchTermEvaluator: INodeEvaluator & any = {
     return !!node.obj.name && regex.test(node.obj.name);
   },
 
-  // PRIVATE METHODS
   doesLeadToMatched(node: IProcessedTreeNode) {
     const someChildVisible = node.__leadsToMatched
                             || node.__matched

@@ -1,9 +1,19 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    class="ml-4"
+  >
+    <button
+      class="bg-blue-700 hover:bg-blue-600 mb-2
+        text-white font-bold py-2 px-4 rounded inline-block"
+      @click="expandAll"
+    >
+      Expand all
+    </button>
     <tree
       :data="treeData"
       :options="options"
-      @item-click="onItemClick"
+      @arrow-click="onarrowClick"
     />
   </div>
 </template>
@@ -12,13 +22,16 @@
 import Vue from 'vue';
 import Tree from '@/components/Tree.vue';
 import ITreeData from '@/models/tree-data';
-import ITreeOptions from '@/models/tree-options';
+import ITreeOptions, { defaultOptions } from '@/models/tree-options';
+import ITreeNode from '@/models/tree-node';
+import treeObserver from '@/services/tree-observer';
 import parseFIData from '~/functions/xml-to-json';
 import getDataFrom from '~/services/fetch-fi-data';
 import FiApiResponse from '~/models/fi-api-response';
 import FiTreeNode from './models/fi-tree-node';
 import FiBaseNode, { FiFileNode, FiFolderNode } from './models/fi-node';
 import trees from './fixtures/trees';
+import expandAllEvaluator from '~/services/expand-all-evaluator';
 
 interface IData {
   fiData: FiApiResponse | null;
@@ -47,6 +60,7 @@ export default Vue.extend({
     options(): ITreeOptions {
       return {
         isExpandable(node: FiTreeNode) { return node.url !== '' || node.children.length > 0; },
+        nodeEvaluators: [...defaultOptions.nodeEvaluators, expandAllEvaluator],
       };
     },
   },
@@ -57,6 +71,11 @@ export default Vue.extend({
     this.treeData.trees = trees;
   },
   methods: {
+    expandAll() {
+      treeObserver.notify({
+        expandAll: true,
+      });
+    },
     parseRootNode(node: FiBaseNode) {
       if (!node.poduzly) {
         return [];
@@ -112,7 +131,7 @@ export default Vue.extend({
       return parsedData;
     },
 
-    async onItemClick(item: FiTreeNode) {
+    async onarrowClick(item: FiTreeNode) {
       if (item.url) {
         // const parsedData = await this.fetchParsedData(item.url);
         // eslint-disable-next-line no-param-reassign

@@ -4,7 +4,7 @@
     :node="root"
     :options="options"
     :is-root="true"
-    @item-click="onItemClick"
+    @arrow-click="onarrowClick"
   >
     <template #prependLabel="data">
       <slot
@@ -52,14 +52,14 @@ export default Vue.extend({
     },
   },
   methods: {
-    onItemClick(node: IProcessedTreeNode) {
+    onarrowClick(node: IProcessedTreeNode) {
       if (isExpanded(node)) {
         node.__state = NodeState.CLOSED;
       } else {
         node.__state = NodeState.OPEN;
       }
 
-      this.$emit('item-click', node);
+      this.$emit('arrow-click', node);
       this.$forceUpdate();
     },
   },

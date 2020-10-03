@@ -49,7 +49,7 @@ const TreeNode: any = Vue.extend({
     const {
       props, data, listeners, scopedSlots,
     } = context;
-    const onArrowClick = listeners['item-click'] as Function;
+    const onArrowClick = listeners['arrow-click'] as Function;
     const { options } = props;
 
     props.node.__state = evaluateNodeState(props.node);

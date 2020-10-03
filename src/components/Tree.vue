@@ -1,7 +1,7 @@
 <template>
   <div>
     <input
-      v-if="treeOptions.searchEvaluator.enabled"
+      v-if="treeOptions.matchTermEvaluator.enabled"
       class="border"
       @input="onSearchInput"
     >
@@ -10,7 +10,7 @@
       :key="root.id"
       :root="root"
       :options="treeOptions"
-      @item-click="($event) => $emit('item-click', $event)"
+      @arrow-click="($event) => $emit('arrow-click', $event)"
     >
       <template #prependLabel="nodeData">
         <slot
@@ -43,6 +43,7 @@ import { IItraversalOutput, ITraversalInput } from '@/workers/tree-traversal-wor
 
 import JSONfn from 'json-fn';
 import { IProcessedTreeNode } from '@/models/tree-node';
+import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
 
 const treeTraversalWorker = new WorkerService(
   new Worker('@/workers/tree-traversal-worker.ts', { type: 'module' }),
@@ -78,10 +79,17 @@ export default Vue.extend({
   },
   computed: {
     treeOptions(): IFullTreeOptions {
-      return {
+      const options = {
         ...defaultOptions,
         ...this.options,
       };
+
+      console.log(options);
+      if (options.matchTermEvaluator.enabled) {
+        options.nodeEvaluators.push(MatchTermEvaluator);
+      }
+
+      return options;
     },
   },
   watch: {
@@ -95,18 +103,27 @@ export default Vue.extend({
     },
   },
   created() {
-    treeObserver.subscribe('tree.obj.id', this.traverseTree);
+    treeObserver.subscribe('performant-tree-traversal', this.traverseTree);
   },
   methods: {
     onSearchInput: debounce(
       (event: any) => {
         treeObserver.notify({
           searchTerm: event.target.value,
-          removeUnmatched: true,
+          removeUnmatched: false,
+        //   filterOptions: {
+        //     filters: [(node: IProcessedTreeNode) => node.obj.name === 'Koronavirus 2020'],
+        //   },
         });
       }, 100,
     ),
     async traverseTree(payload: any) {
+      if (payload.filterOptions && payload.filterOptions.filters) {
+        // eslint-disable-next-line no-param-reassign
+        payload.filterOptions.filters = payload.filterOptions.filters
+          .map((o: any) => JSONfn.stringify(o));
+      }
+
       const result = await treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({
         trees: fullTree,
         nodeEvaluators: this.treeOptions.nodeEvaluators.map((e) => JSONfn.stringify(e)),
