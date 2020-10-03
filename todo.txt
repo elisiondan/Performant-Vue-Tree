@@ -1,1 +1,3 @@
 SCROLL TO FIRST MATCHED
+
+go into more detail about default options - describe each one

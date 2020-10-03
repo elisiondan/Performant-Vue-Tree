@@ -1,7 +1,7 @@
-import NodeState from '@/enums/node-state';
+import { INodeState } from '@/enums/node-state';
 
 interface AddedProperties {
-    __state?: NodeState;
+    __state?: INodeState;
     __hidden?: boolean;
     __filtered?: boolean;
     __leadsToMatched?: boolean;

@@ -10,6 +10,15 @@
     >
       Expand all
     </button>
+
+    <button
+      class="bg-blue-700 hover:bg-blue-600 mb-2
+        text-white font-bold py-2 px-4 rounded inline-block"
+      @click="collapseAll"
+    >
+      Collapse all
+    </button>
+
     <tree
       :data="treeData"
       :options="options"
@@ -22,8 +31,7 @@
 import Vue from 'vue';
 import Tree from '@/components/Tree.vue';
 import ITreeData from '@/models/tree-data';
-import ITreeOptions, { defaultOptions } from '@/models/tree-options';
-import ITreeNode from '@/models/tree-node';
+import ITreeOptions from '@/models/tree-options';
 import treeObserver from '@/services/tree-observer';
 import parseFIData from '~/functions/xml-to-json';
 import getDataFrom from '~/services/fetch-fi-data';
@@ -32,6 +40,7 @@ import FiTreeNode from './models/fi-tree-node';
 import FiBaseNode, { FiFileNode, FiFolderNode } from './models/fi-node';
 import trees from './fixtures/trees';
 import expandAllEvaluator from '~/services/expand-all-evaluator';
+import collapseAllEvaluator from '~/services/collapse-all-evaluator';
 
 interface IData {
   fiData: FiApiResponse | null;
@@ -60,7 +69,7 @@ export default Vue.extend({
     options(): ITreeOptions {
       return {
         isExpandable(node: FiTreeNode) { return node.url !== '' || node.children.length > 0; },
-        nodeEvaluators: [...defaultOptions.nodeEvaluators, expandAllEvaluator],
+        nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
       };
     },
   },
@@ -74,6 +83,11 @@ export default Vue.extend({
     expandAll() {
       treeObserver.notify({
         expandAll: true,
+      });
+    },
+    collapseAll() {
+      treeObserver.notify({
+        collapseAll: true,
       });
     },
     parseRootNode(node: FiBaseNode) {
