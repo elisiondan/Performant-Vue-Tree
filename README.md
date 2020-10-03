@@ -1,7 +1,11 @@
-# perfomant-vue-tree
+# performant-vue-tree
 Lighting fast and highly configurable tree structure.
 
+---
+**This component is in development and should not be used in production yet**
+---
 
+---
 ## Installation
 TBD
 
@@ -10,9 +14,9 @@ You can either register the component globally
 ```javascript
 // global plugin
 import Vue from 'vue'
-import PerfomantTree from 'vue-performant-tree'
+import performantTree from 'vue-performant-tree'
 
-Vue.use(PerfomantTree)
+Vue.use(performantTree)
 ```
 
 or import it separately where needed 
@@ -20,10 +24,10 @@ or import it separately where needed
 
 <script>
 import Vue from 'vue'
-import PerfomantTree from 'vue-performant-tree'
+import performantTree from 'vue-performant-tree'
 
 export default Vue.extend({
-    components: { PerfomantTree }
+    components: { performantTree }
     ...
 })
 ```
