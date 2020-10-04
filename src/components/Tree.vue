@@ -1,12 +1,14 @@
 <template>
   <div>
-    <input
-      v-if="treeOptions.matchTermEvaluator.enabled"
-      class="border"
-      @input="onSearchInput"
-    >
+    <tree-complements
+      :roots="roots"
+      :options="treeOptions"
+      class="max-w-md"
+      @search="onSearch"
+      @select-root="onSelectRoot"
+    />
     <tree-root
-      v-for="root in traversedTrees"
+      v-for="root in renderedTrees"
       :key="root.id"
       :root="root"
       :options="treeOptions"
@@ -35,9 +37,10 @@ import ITreeData from '@/models/tree-data';
 import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-options';
 
 import TreeRoot from '@/components/TreeRoot.vue';
+import TreeComplements from '@/components/TreeComplements.vue';
 
 import treeObserver from '@/services/tree-observer';
-import { debounce, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
 import WorkerService from '@/services/worker-service';
 import { IItraversalOutput, ITraversalInput } from '@/workers/tree-traversal-worker';
 
@@ -54,12 +57,14 @@ let fullTree: IProcessedTreeNode[] = [];
 interface IData {
     search: '';
     traversedTrees: readonly IProcessedTreeNode[];
+    selectedRootId: string | number;
 }
 
 export default Vue.extend({
   name: 'Tree',
   components: {
     TreeRoot,
+    TreeComplements,
   },
   props: {
     data: {
@@ -75,6 +80,7 @@ export default Vue.extend({
     return {
       search: '',
       traversedTrees: [],
+      selectedRootId: '',
     };
   },
   computed: {
@@ -84,12 +90,25 @@ export default Vue.extend({
         ...this.options,
       };
 
-      console.log(options);
       if (options.matchTermEvaluator.enabled) {
         options.nodeEvaluators.push(MatchTermEvaluator);
       }
 
       return options;
+    },
+    roots(): IProcessedTreeNode[] {
+      return this.traversedTrees.map((root) => ({
+        ...root,
+        children: [],
+      }));
+    },
+    renderedTrees(): readonly IProcessedTreeNode[] {
+      if (this.selectedRootId !== '') {
+        const selectedRoot = this.traversedTrees
+          .find((root) => root.obj.id === this.selectedRootId);
+        return selectedRoot ? [selectedRoot] : [];
+      }
+      return this.traversedTrees;
     },
   },
   watch: {
@@ -106,17 +125,19 @@ export default Vue.extend({
     treeObserver.subscribe('performant-tree-traversal', this.traverseTree);
   },
   methods: {
-    onSearchInput: debounce(
-      (event: any) => {
-        treeObserver.notify({
-          searchTerm: event.target.value,
-          removeUnmatched: false,
+    onSelectRoot(id: string | number) {
+      this.selectedRootId = id;
+    },
+    onSearch(term: string) {
+      treeObserver.notify({
+        searchTerm: term,
+        removeUnmatched: false,
         //   filterOptions: {
         //     filters: [(node: IProcessedTreeNode) => node.obj.name === 'Koronavirus 2020'],
         //   },
-        });
-      }, 100,
-    ),
+      });
+    },
+
     async traverseTree(payload: any) {
       if (payload.filterOptions && payload.filterOptions.filters) {
         // eslint-disable-next-line no-param-reassign
