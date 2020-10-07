@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    class="ml-4"
+    class="mx-2"
   >
     <button
       class="bg-blue-700 hover:bg-blue-600 mb-2
@@ -22,6 +22,7 @@
     <tree
       :data="treeData"
       :options="options"
+      class="max-w-sm"
       @arrow-click="onarrowClick"
     />
   </div>

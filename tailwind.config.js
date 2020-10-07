@@ -149,6 +149,7 @@ module.exports = {
       48: '12rem',
       56: '14rem',
       64: '16rem',
+      'max-content': 'max-content',
     },
     backgroundColor: (theme) => theme('colors'),
     backgroundImage: {
@@ -291,10 +292,11 @@ module.exports = {
       full: '100%',
       screen: '100vh',
     }),
-    inset: {
+    inset: (theme) => ({
+      ...theme('spacing'),
       0: '0',
       auto: 'auto',
-    },
+    }),
     letterSpacing: {
       tighter: '-0.05em',
       tight: '-0.025em',
@@ -346,6 +348,7 @@ module.exports = {
       '5xl': '64rem',
       '6xl': '72rem',
       full: '100%',
+      ...theme('spacing'),
       ...breakpoints(theme('screens')),
     }),
     minHeight: {
@@ -353,10 +356,12 @@ module.exports = {
       full: '100%',
       screen: '100vh',
     },
-    minWidth: {
+    minWidth: (theme, { breakpoints }) => ({
       0: '0',
       full: '100%',
-    },
+      ...theme('spacing'),
+      ...breakpoints(theme('screens')),
+    }),
     objectPosition: {
       bottom: 'bottom',
       center: 'center',
@@ -411,7 +416,6 @@ module.exports = {
     textOpacity: (theme) => theme('opacity'),
     width: (theme) => ({
       auto: 'auto',
-      'max-content': 'max-content',
       ...theme('spacing'),
       '1/2': '50%',
       '1/3': '33.333333%',

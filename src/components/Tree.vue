@@ -1,40 +1,52 @@
 <template>
-  <div>
-    <tree-complements
-      :roots="roots"
-      :options="treeOptions"
-      class="max-w-md"
-      @search="onSearch"
-      @select-root="onSelectRoot"
-    />
-    <tree-root
-      v-for="root in renderedTrees"
-      :key="root.id"
-      :root="root"
-      :options="treeOptions"
-      @arrow-click="($event) => $emit('arrow-click', $event)"
-    >
-      <template #prependLabel="nodeData">
-        <slot
-          name="prependLabel"
-          :data="nodeData"
-        />
-      </template>
+  <pvt-vertical-accordion
+    v-model="collapsed"
+    :title="accordionTitle"
+    class="tree mx-2"
+  >
+    <template #expandedBeforeChevron>
+      <tree-complements
+        :roots="roots"
+        :options="treeOptions"
+        class="max-w-md"
+        @search="onSearch"
+        @select-root="onSelectRoot"
+      />
+    </template>
 
-      <template #appendLabel="nodeData">
-        <slot
-          name="appendLabel"
-          :data="nodeData"
-        />
-      </template>
-    </tree-root>
-  </div>
+    <div class="overflow-x-auto mt-3">
+      <div class="min-w-max-content">
+        <tree-root
+          v-for="root in renderedTrees"
+          :key="root.id"
+          :root="root"
+          :options="treeOptions"
+          @arrow-click="($event) => $emit('arrow-click', $event)"
+        >
+          <template #prependLabel="nodeData">
+            <slot
+              name="prependLabel"
+              :data="nodeData"
+            />
+          </template>
+
+          <template #appendLabel="nodeData">
+            <slot
+              name="appendLabel"
+              :data="nodeData"
+            />
+          </template>
+        </tree-root>
+      </div>
+    </div>
+  </pvt-vertical-accordion>
 </template>
 
 <script lang='ts'>
 import Vue, { PropType } from 'vue';
 import ITreeData from '@/models/tree-data';
 import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-options';
+import PvtVerticalAccordion from '@/components/support/PvtVerticalAccordion.vue';
 
 import TreeRoot from '@/components/TreeRoot.vue';
 import TreeComplements from '@/components/TreeComplements.vue';
@@ -58,6 +70,8 @@ interface IData {
     search: '';
     traversedTrees: readonly IProcessedTreeNode[];
     selectedRootId: string | number;
+    selectedRoot: IProcessedTreeNode | undefined;
+    collapsed: boolean;
 }
 
 export default Vue.extend({
@@ -65,6 +79,7 @@ export default Vue.extend({
   components: {
     TreeRoot,
     TreeComplements,
+    PvtVerticalAccordion,
   },
   props: {
     data: {
@@ -81,6 +96,8 @@ export default Vue.extend({
       search: '',
       traversedTrees: [],
       selectedRootId: '',
+      selectedRoot: undefined,
+      collapsed: false,
     };
   },
   computed: {
@@ -97,18 +114,21 @@ export default Vue.extend({
       return options;
     },
     roots(): IProcessedTreeNode[] {
-      return this.traversedTrees.map((root) => ({
+      return this.data.trees.map((root) => ({
         ...root,
         children: [],
       }));
     },
     renderedTrees(): readonly IProcessedTreeNode[] {
       if (this.selectedRootId !== '') {
-        const selectedRoot = this.traversedTrees
-          .find((root) => root.obj.id === this.selectedRootId);
-        return selectedRoot ? [selectedRoot] : [];
+        return this.traversedTrees.filter((root) => root.obj.id === this.selectedRootId);
       }
       return this.traversedTrees;
+    },
+    accordionTitle(): string {
+      return this.selectedRoot
+        ? this.selectedRoot.obj.name || this.selectedRoot.obj.id.toString()
+        : '';
     },
   },
   watch: {
@@ -127,6 +147,8 @@ export default Vue.extend({
   methods: {
     onSelectRoot(id: string | number) {
       this.selectedRootId = id;
+      this.selectedRoot = this.data.trees
+        .find((root) => root.obj.id === this.selectedRootId);
     },
     onSearch(term: string) {
       treeObserver.notify({

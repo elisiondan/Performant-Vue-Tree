@@ -1,5 +1,5 @@
 <template>
-  <div class="border-b border-gray-400 pt-2 pb-3 mb-3">
+  <div class="border-b border-gray-400 py-3">
     <pvt-select
       v-model="selectedRoot"
       class="mb-2"
@@ -73,10 +73,10 @@ export default Vue.extend({
   },
   methods: {
     onSearchInput: debounce(
-      function onSearch(this: Vue, event: any) {
-        this.$emit('search', event.target.value);
+      function onSearch(this: Vue, term: string) {
+        this.$emit('search', term);
       },
-      100,
+      150,
     ),
     onSelectedRoot(root: item) {
       this.$emit('select-root', root.key);
