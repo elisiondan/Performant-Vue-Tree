@@ -16,27 +16,29 @@
 
     <div class="overflow-x-auto mt-3">
       <div class="min-w-max-content">
-        <tree-root
-          v-for="root in renderedTrees"
-          :key="root.id"
-          :root="root"
-          :options="treeOptions"
-          @arrow-click="($event) => $emit('arrow-click', $event)"
-        >
-          <template #prependLabel="nodeData">
-            <slot
-              name="prependLabel"
-              :data="nodeData"
-            />
-          </template>
+        <tree-virtual-scroller :nodes="renderedTrees">
+          <tree-root
+            v-for="root in renderedTrees"
+            :key="root.id"
+            :root="root"
+            :options="treeOptions"
+            @arrow-click="($event) => $emit('arrow-click', $event)"
+          >
+            <template #prependLabel="nodeData">
+              <slot
+                name="prependLabel"
+                :data="nodeData"
+              />
+            </template>
 
-          <template #appendLabel="nodeData">
-            <slot
-              name="appendLabel"
-              :data="nodeData"
-            />
-          </template>
-        </tree-root>
+            <template #appendLabel="nodeData">
+              <slot
+                name="appendLabel"
+                :data="nodeData"
+              />
+            </template>
+          </tree-root>
+        </tree-virtual-scroller>
       </div>
     </div>
   </pvt-vertical-accordion>
@@ -49,6 +51,7 @@ import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-op
 import PvtVerticalAccordion from '@/components/support/PvtVerticalAccordion.vue';
 
 import TreeRoot from '@/components/TreeRoot.vue';
+import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
 import TreeComplements from '@/components/TreeComplements.vue';
 
 import treeObserver from '@/services/tree-observer';
@@ -80,6 +83,7 @@ export default Vue.extend({
     TreeRoot,
     TreeComplements,
     PvtVerticalAccordion,
+    TreeVirtualScroller,
   },
   props: {
     data: {
@@ -135,7 +139,9 @@ export default Vue.extend({
     data: {
       handler(treeData: ITreeData) {
         fullTree = cloneDeep(treeData.trees);
-        this.traversedTrees = Object.freeze(cloneDeep(treeData.trees));
+        // eslint-disable-next-line no-param-reassign
+        fullTree.forEach((root) => { root.__visible = true; });
+        this.traversedTrees = Object.freeze(cloneDeep(fullTree));
       },
       deep: true,
       immediate: true,
@@ -153,7 +159,7 @@ export default Vue.extend({
     onSearch(term: string) {
       treeObserver.notify({
         searchTerm: term,
-        removeUnmatched: false,
+        removeUnmatched: true,
         //   filterOptions: {
         //     filters: [(node: IProcessedTreeNode) => node.obj.name === 'Koronavirus 2020'],
         //   },

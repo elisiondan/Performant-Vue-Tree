@@ -1,6 +1,6 @@
 <template>
   <tree-node
-    v-if="!root.__hidden && !root.__filtered"
+    v-if="root.__visible && !root.__filtered"
     :node="root"
     :options="options"
     :is-root="true"

@@ -11,7 +11,7 @@ interface SearchOptions {
 interface IMatchTermEvaluator {
     isMatch: (node: IProcessedTreeNode, regex: RegExp) => boolean;
     doesLeadToMatched: (node: IProcessedTreeNode) => boolean;
-    shouldBeHidden: (node: IProcessedTreeNode, removeUnmatched: boolean) => boolean;
+    shouldBeVisible: (node: IProcessedTreeNode, removeUnmatched: boolean) => boolean;
     markNodes: (node: IProcessedTreeNode,
         searchOptions: SearchOptions,
         isMatch: boolean) => IProcessedTreeNode;
@@ -44,11 +44,11 @@ const matchTermEvaluator: INodeEvaluator & IMatchTermEvaluator = {
     return someChildVisible;
   },
 
-  shouldBeHidden(node: IProcessedTreeNode, removeUnmatched: boolean) {
-    const nodeHidden = !node.__leadsToMatched && !node.__matched;
-    const childrenHidden = !node.children.some((c) => c.__leadsToMatched || c.__matched);
+  shouldBeVisible(node: IProcessedTreeNode, removeUnmatched: boolean): boolean {
+    const nodeVisible = !!(node.__leadsToMatched || node.__matched);
+    const someChildVisible = node.children.some((c) => c.__leadsToMatched || c.__matched);
 
-    return removeUnmatched ? (nodeHidden && childrenHidden) : false;
+    return removeUnmatched ? (nodeVisible || someChildVisible) : true;
   },
 
   /**
@@ -67,7 +67,7 @@ const matchTermEvaluator: INodeEvaluator & IMatchTermEvaluator = {
     }
 
     node.__leadsToMatched = this.doesLeadToMatched(node);
-    node.__hidden = this.shouldBeHidden(node, searchOptions.removeUnmatched);
+    node.__visible = this.shouldBeVisible(node, searchOptions.removeUnmatched);
     if (node.__matched) {
       this.makeAllChildrenVisible(node);
     }
@@ -83,7 +83,7 @@ const matchTermEvaluator: INodeEvaluator & IMatchTermEvaluator = {
     let subResult: Array<IProcessedTreeNode> = [];
 
     subResult = node.children.map((child: IProcessedTreeNode) => {
-      child.__hidden = false;
+      child.__visible = true;
       child = this.makeAllChildrenVisible(child);
       return child;
     });
