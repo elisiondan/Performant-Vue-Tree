@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import TreeNode from '@/models/tree-node';
 
 export interface INodeEvaluator {
@@ -13,18 +12,17 @@ export default class TreeTraversalService {
   traverseAllTrees(allTrees: TreeNode[],
     nodeHandlers: INodeEvaluator[],
     nodeEvaluatorsData: any,
-    topToBottom: boolean) {
-    const treesCopy: TreeNode[] = cloneDeep(allTrees);
-    treesCopy.forEach((tree) => {
+    topToBottom?: boolean) {
+    allTrees.forEach((tree) => {
       this.traverseTree(tree, nodeHandlers, nodeEvaluatorsData, topToBottom);
     });
-    return treesCopy;
+    return allTrees;
   }
 
   public traverseTree(node: TreeNode,
     nodeHandlers: INodeEvaluator[],
     nodeEvaluatorsData: any,
-    topToBottom: boolean) {
+    topToBottom?: boolean) {
     if (topToBottom) {
       nodeHandlers.forEach((handler) => {
         handler.handleNode(node, nodeEvaluatorsData);

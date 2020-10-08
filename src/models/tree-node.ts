@@ -6,6 +6,10 @@ interface AddedProperties {
     __filtered?: boolean;
     __leadsToMatched?: boolean;
     __matched?: boolean;
+    __height?: number;
+    __yPosition?: number;
+    __nodeIndex?: number;
+    __virtualVisible?: boolean;
 }
 
 interface INodeObject {

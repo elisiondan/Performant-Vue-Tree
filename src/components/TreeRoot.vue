@@ -31,6 +31,8 @@ import { IFullTreeOptions } from '@/models/tree-options';
 
 import isExpanded from '@/functions/is-expanded';
 import NodeState from '@/enums/node-state';
+import setVisibilityEvaluator from '@/services/node-evaluators/set-visibility-evaluator';
+import treeParser from '@/services/tree-parser';
 
 interface IData {
     traversedRoot: IProcessedTreeNode;
@@ -52,12 +54,18 @@ export default Vue.extend({
     },
   },
   methods: {
-    onarrowClick(node: IProcessedTreeNode) {
-      if (isExpanded(node)) {
+    async onarrowClick(node: IProcessedTreeNode) {
+      const expanded = isExpanded(node);
+      if (expanded) {
         node.__state = NodeState.CLOSED;
       } else {
         node.__state = NodeState.OPEN;
       }
+
+      node.children = await treeParser.traverseTree([setVisibilityEvaluator], {
+        trees: node.children,
+        payload: { $_setVisibilityEvaluator: !expanded },
+      });
 
       this.$emit('arrow-click', node);
       this.$forceUpdate();

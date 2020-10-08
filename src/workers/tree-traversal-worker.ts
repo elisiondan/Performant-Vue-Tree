@@ -22,18 +22,13 @@ export interface ITraversalInput {
   nodeEvaluators?: string[];
   topToBottom?: boolean;
 }
-export interface IItraversalOutput<T extends IProcessedTreeNode> {
-  trees: T[];
-  matchedNodes: IProcessedTreeNode[];
-}
+export type IItraversalOutput<T extends IProcessedTreeNode> = T[];
 
 export default registerWorker((data) => {
   const { trees } = data;
   const topToBottom = data.topToBottom || false;
   const nodeEvaluators: INodeEvaluator[] = (data.nodeEvaluators || []).map((e: string) => JSONfn.parse(e));
   const nodeEvaluatorsData: any = data.nodeEvaluatorsData
-  const matchedNodes: IProcessedTreeNode[] = [];
-
 
   if (nodeEvaluatorsData.filterOptions) {
       nodeEvaluators.push(treeFilterEvaluator)
@@ -43,8 +38,5 @@ export default registerWorker((data) => {
   const traversedTrees = treeTraversalService
     .traverseAllTrees(trees, nodeEvaluators, nodeEvaluatorsData, topToBottom);
 
-  return {
-    trees: traversedTrees,
-    matchedNodes,
-  };
+  return traversedTrees
 });

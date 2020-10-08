@@ -22,6 +22,8 @@ module.exports = {
     'import/extensions': 'off',
     'no-underscore-dangle': 'off',
     'class-methods-use-this': 'off',
+    'no-param-reassign': 'off',
+    '@typescript-eslint/camelcase': 'off',
     quotes: [1, 'single'],
   },
   overrides: [

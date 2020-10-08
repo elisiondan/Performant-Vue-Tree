@@ -10,6 +10,7 @@ const expandAllEvaluator: INodeEvaluator = {
     if (payload.expandAll) {
       // eslint-disable-next-line no-param-reassign
       node.__state = 'open';
+      node.__visible = true;
     }
   },
 };

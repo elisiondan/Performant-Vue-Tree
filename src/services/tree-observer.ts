@@ -4,7 +4,6 @@ type id = string | number;
 interface ITreeObserver {
     subscribe(id: id, callback: callback): void;
     notify(payload: any): void;
-    notifyAsync(payload: any): Promise<void>;
 }
 
 class TreeObserver implements ITreeObserver {
@@ -18,12 +17,6 @@ class TreeObserver implements ITreeObserver {
       this.subscribers.forEach((callback) => {
         callback(payload);
       });
-    }
-
-    async notifyAsync(payload: any) {
-      const callbacks = Array.from(this.subscribers.values())
-        .map((callback) => () => callback(payload));
-      await Promise.all(callbacks);
     }
 }
 
