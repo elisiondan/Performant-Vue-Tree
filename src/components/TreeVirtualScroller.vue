@@ -1,6 +1,5 @@
 <template>
   <div class="virtual-scroller overflow-x-auto mt-3">
-    {{ renderedNodes.length }}
     <div
       ref="wrapper"
       class="min-w-max-content"

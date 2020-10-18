@@ -4,6 +4,10 @@ module.exports = {
   prefix: '',
   important: false,
   separator: ':',
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+  },
   theme: {
     screens: {
       sm: '640px',
@@ -149,7 +153,6 @@ module.exports = {
       48: '12rem',
       56: '14rem',
       64: '16rem',
-      'max-content': 'max-content',
     },
     backgroundColor: (theme) => theme('colors'),
     backgroundImage: {

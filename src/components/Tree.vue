@@ -179,6 +179,7 @@ export default Vue.extend({
       const trees = await treeParser.traverseTree(nodeEvaluators, { payload });
 
       this.traversedTrees = trees;
+      this.traversedTrees.forEach((root) => { root.__visible = true; });
       treeParser.setCurrentTree(this.traversedTrees);
     },
   },
