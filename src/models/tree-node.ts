@@ -10,6 +10,8 @@ interface AddedProperties {
     __yPosition?: number;
     __nodeIndex?: number;
     __virtualVisible?: boolean;
+    __depth?: number;
+    __parentId?: string | number;
 }
 
 interface INodeObject {

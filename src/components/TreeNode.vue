@@ -6,10 +6,19 @@ import TreeExpandArrow from '@/components/TreeExpandArrow.vue';
 import TreeFolderIcon from '@/components/TreeFolderIcon.vue';
 import { IFullTreeOptions } from '@/models/tree-options';
 import evaluateNodeState from '@/functions/evaluate-node-state';
+import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
 
 const renderSubtree = (h: CreateElement, context: any) => {
   const { props, listeners, scopedSlots } = context;
   const nodesToRender = getNodesToRender(props);
+
+  //   @ts-ignore
+  //   const test = <TreeVirtualScroller items={nodesToRender} item-size={32}>
+  //     <template v-slot="{item}">
+  //         {{ item }}
+  //     </template>
+  //   </TreeVirtualScroller>;
+  //   console.log(test);
 
   return nodesToRender.reduce((acc, node) => {
     const treeNode = <TreeNode

@@ -14,31 +14,31 @@
       />
     </template>
 
-    <tree-virtual-scroller
+    <!-- <tree-virtual-scroller
       :nodes="renderedTrees"
+    > -->
+    <tree-root
+      v-for="root in renderedTrees"
+      :key="root.id"
+      :root="root"
+      :options="treeOptions"
+      @arrow-click="($event) => $emit('arrow-click', $event)"
     >
-      <tree-root
-        v-for="root in renderedTrees"
-        :key="root.id"
-        :root="root"
-        :options="treeOptions"
-        @arrow-click="($event) => $emit('arrow-click', $event)"
-      >
-        <template #prependLabel="nodeData">
-          <slot
-            name="prependLabel"
-            :data="nodeData"
-          />
-        </template>
+      <template #prependLabel="nodeData">
+        <slot
+          name="prependLabel"
+          :data="nodeData"
+        />
+      </template>
 
-        <template #appendLabel="nodeData">
-          <slot
-            name="appendLabel"
-            :data="nodeData"
-          />
-        </template>
-      </tree-root>
-    </tree-virtual-scroller>
+      <template #appendLabel="nodeData">
+        <slot
+          name="appendLabel"
+          :data="nodeData"
+        />
+      </template>
+    </tree-root>
+    <!-- </tree-virtual-scroller> -->
   </pvt-vertical-accordion>
 </template>
 
@@ -49,7 +49,7 @@ import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-op
 import PvtVerticalAccordion from '@/components/support/PvtVerticalAccordion.vue';
 
 import TreeRoot from '@/components/TreeRoot.vue';
-import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
+// import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
 import TreeComplements from '@/components/TreeComplements.vue';
 
 import treeObserver from '@/services/tree-observer';
@@ -83,7 +83,7 @@ export default Vue.extend({
     TreeRoot,
     TreeComplements,
     PvtVerticalAccordion,
-    TreeVirtualScroller,
+    // TreeVirtualScroller,
   },
   props: {
     data: {
@@ -137,9 +137,10 @@ export default Vue.extend({
   },
   watch: {
     data: {
-      handler(treeData: ITreeData) {
+      async handler(treeData: ITreeData) {
         fullTree = cloneDeep(treeData.trees);
         fullTree.forEach((root) => { root.__visible = true; });
+        // fullTree = await treeParser.traverseTree([(n: IProcessedTreeNode) => {n.pa}], { });
         this.traversedTrees = cloneDeep(fullTree);
         treeParser.setFullTree(fullTree);
         treeParser.setCurrentTree(this.traversedTrees);
