@@ -5,9 +5,6 @@
     :dir="props.dir"
     @click="() => listeners.click && listeners.click()"
   />
-  <!-- <div>
-    {{ listeners.click }}
-  </div> -->
 </template>
 
 <script lang="tsx">

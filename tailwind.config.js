@@ -334,10 +334,12 @@ module.exports = {
       ...theme('spacing'),
       ...negative(theme('spacing')),
     }),
-    maxHeight: {
+    maxHeight: (theme, { breakpoints }) => ({
       full: '100%',
       screen: '100vh',
-    },
+      ...theme('spacing'),
+      ...breakpoints(theme('screens')),
+    }),
     maxWidth: (theme, { breakpoints }) => ({
       none: 'none',
       xs: '20rem',

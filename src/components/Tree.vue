@@ -1,11 +1,13 @@
 <template>
   <pvt-vertical-accordion
+    ref="wrapper"
     v-model="collapsed"
     :title="accordionTitle"
-    class="tree mx-2"
+    class="tree mx-2 overflow-y-auto"
   >
     <template #expandedBeforeChevron>
       <tree-complements
+        ref="complements"
         :roots="roots"
         :options="treeOptions"
         class="max-w-md"
@@ -14,13 +16,9 @@
       />
     </template>
 
-    <!-- <tree-virtual-scroller
-      :nodes="renderedTrees"
-    > -->
     <tree-root
-      v-for="root in renderedTrees"
-      :key="root.id"
-      :root="root"
+      :tree-height="treeHeight"
+      :roots="renderedTrees"
       :options="treeOptions"
       @arrow-click="($event) => $emit('arrow-click', $event)"
     >
@@ -38,7 +36,6 @@
         />
       </template>
     </tree-root>
-    <!-- </tree-virtual-scroller> -->
   </pvt-vertical-accordion>
 </template>
 
@@ -49,7 +46,6 @@ import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-op
 import PvtVerticalAccordion from '@/components/support/PvtVerticalAccordion.vue';
 
 import TreeRoot from '@/components/TreeRoot.vue';
-// import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
 import TreeComplements from '@/components/TreeComplements.vue';
 
 import treeObserver from '@/services/tree-observer';
@@ -75,6 +71,7 @@ interface IData {
     selectedRootId: string | number;
     selectedRoot: IProcessedTreeNode | undefined;
     collapsed: boolean;
+    treeHeight: string;
 }
 
 export default Vue.extend({
@@ -102,6 +99,7 @@ export default Vue.extend({
       selectedRootId: '',
       selectedRoot: undefined,
       collapsed: false,
+      treeHeight: '0px',
     };
   },
   computed: {
@@ -125,22 +123,22 @@ export default Vue.extend({
     },
     renderedTrees(): IProcessedTreeNode[] {
       if (this.selectedRootId !== '') {
-        return this.traversedTrees.filter((root) => root.obj.id === this.selectedRootId);
+        return this.traversedTrees.filter((root) => root.id === this.selectedRootId);
       }
       return this.traversedTrees;
     },
     accordionTitle(): string {
       return this.selectedRoot
-        ? this.selectedRoot.obj.name || this.selectedRoot.obj.id.toString()
+        ? this.selectedRoot.obj.name || this.selectedRoot.id.toString()
         : '';
     },
+
   },
   watch: {
     data: {
       async handler(treeData: ITreeData) {
         fullTree = cloneDeep(treeData.trees);
         fullTree.forEach((root) => { root.__visible = true; });
-        // fullTree = await treeParser.traverseTree([(n: IProcessedTreeNode) => {n.pa}], { });
         this.traversedTrees = cloneDeep(fullTree);
         treeParser.setFullTree(fullTree);
         treeParser.setCurrentTree(this.traversedTrees);
@@ -152,11 +150,17 @@ export default Vue.extend({
   created() {
     treeObserver.subscribe('performant-tree-traversal', this.traverseTreeAndReplace);
   },
+  async mounted() {
+    this.treeHeight = await this.getTreeHeight();
+    window.addEventListener('resize', async () => {
+      this.treeHeight = await this.getTreeHeight();
+    });
+  },
   methods: {
     onSelectRoot(id: string | number) {
       this.selectedRootId = id;
       this.selectedRoot = this.data.trees
-        .find((root) => root.obj.id === this.selectedRootId);
+        .find((root) => root.id === this.selectedRootId);
     },
     onSearch(term: string) {
       treeObserver.notify({
@@ -182,6 +186,19 @@ export default Vue.extend({
       this.traversedTrees = trees;
       this.traversedTrees.forEach((root) => { root.__visible = true; });
       treeParser.setCurrentTree(this.traversedTrees);
+    },
+    async getTreeHeight() {
+      await this.$nextTick();
+      if (this.$refs.wrapper && this.$refs.complements) {
+        const wrapper = (this.$refs.wrapper as Vue).$el;
+        const complements = (this.$refs.complements as Vue).$el;
+        console.log(wrapper.getBoundingClientRect());
+        console.log(wrapper);
+        console.log(complements.getBoundingClientRect());
+        console.log(complements);
+        return `${wrapper.clientHeight - complements.clientHeight}px`;
+      }
+      return '0px';
     },
   },
 });

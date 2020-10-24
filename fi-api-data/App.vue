@@ -22,7 +22,7 @@
     <tree
       :data="treeData"
       :options="options"
-      class="max-w-sm"
+      class="max-w-sm tree"
       @arrow-click="onarrowClick"
     />
   </div>
@@ -121,8 +121,8 @@ export default Vue.extend({
 
     parseNode(node: FiFolderNode | FiFileNode) {
       const treeNode: FiTreeNode = {
+        id: node.uzel_id,
         obj: {
-          id: node.uzel_id,
           name: this.getNodeName(node),
         },
         children: [],
@@ -156,3 +156,9 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="postcss" scoped>
+.tree {
+    height: calc(100vh - 120px)
+}
+</style>

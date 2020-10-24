@@ -8,7 +8,6 @@ const getAttribute = <T>(obj: T, attr: string): any => {
 };
 
 const itemNotInArray = <S>(lookup: any, array: Array<S>, comparionAttr: string): boolean => {
-  console.log(getAttribute(array[0], comparionAttr));
   return array.find(item => lookup === getAttribute(item, comparionAttr)) === undefined;
 };
 

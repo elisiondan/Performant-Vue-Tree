@@ -59,8 +59,8 @@ export default Vue.extend({
   computed: {
     selectOptions(): item[] {
       const options = this.roots.map((root) => ({
-        key: root.obj.id,
-        value: root.obj.name || root.obj.id.toString(),
+        key: root.id,
+        value: root.obj.name || root.id.toString(),
       }));
 
       options.unshift({

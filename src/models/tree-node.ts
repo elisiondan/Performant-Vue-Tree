@@ -11,15 +11,14 @@ interface AddedProperties {
     __nodeIndex?: number;
     __virtualVisible?: boolean;
     __depth?: number;
-    __parentId?: string | number;
 }
 
 interface INodeObject {
-    id: string | number;
     name?: string;
 }
 
 export default interface ITreeNode {
+    id: string | number;
     obj: INodeObject;
     children: ITreeNode[];
 }

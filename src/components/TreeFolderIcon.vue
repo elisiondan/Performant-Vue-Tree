@@ -26,6 +26,7 @@ export default Vue.extend({
     }
     /* @ts-ignore */
     return <div class="mr-1"><ClarityIcon size={16}
+            key="test"
             name="folder"
         /></div>;
   },

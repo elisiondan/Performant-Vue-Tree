@@ -81,7 +81,7 @@ const TreeNode: any = Vue.extend({
                     options={props.options}
                  />
                 <div class="label">
-                    <span domPropsInnerHTML={props.node.obj.name || props.node.obj.id}></span>
+                    <span domPropsInnerHTML={props.node.obj.name || props.node.id}></span>
                 </div>
             </div>
             {renderSubtree(h, context)}
