@@ -1,8 +1,20 @@
 type callback = (payload: any) => void;
 type id = string | number;
 
+/**
+ * The tree observer holds subscribers to a tree. When notified,
+ * the notification payload is send to all subscribers
+ * Generally, you should get by with notify only.
+ */
 interface ITreeObserver {
+    /**
+     * Subscribe a callback method that is executed with each notify
+     */
     subscribe(id: id, callback: callback): void;
+    /**
+     * Notify all subscribers about a new event
+     * @param payload any object that should be tailored-made for targeted evaluator
+     */
     notify(payload: any): void;
 }
 

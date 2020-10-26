@@ -51,7 +51,6 @@ import TreeComplements from '@/components/TreeComplements.vue';
 import treeObserver from '@/services/tree-observer';
 import { cloneDeep } from 'lodash';
 
-import JSONfn from 'json-fn';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
 import treeParser from '@/services/tree-parser';
@@ -132,8 +131,6 @@ export default Vue.extend({
         fullTree = cloneDeep(treeData.trees);
         fullTree.forEach((root) => { root.__visible = true; });
         this.traversedTrees = cloneDeep(fullTree);
-        treeParser.setFullTree(fullTree);
-        treeParser.setCurrentTree(this.traversedTrees);
       },
       deep: true,
       immediate: true,
@@ -158,12 +155,13 @@ export default Vue.extend({
       treeObserver.notify({
         searchTerm: term,
         removeUnmatched: true,
+        trees: fullTree,
       });
     },
 
     async traverseTreeAndReplace(payload: any) {
       const { nodeEvaluators } = this.treeOptions;
-      const currentTrees = payload?.nodeEvaluatorsData?.trees || this.traversedTrees;
+      const currentTrees = payload?.trees || this.traversedTrees;
 
       const newTrees = await treeParser.traverseTree(
         nodeEvaluators,
@@ -171,8 +169,6 @@ export default Vue.extend({
       );
 
       this.traversedTrees = newTrees;
-      this.traversedTrees.forEach((root) => { root.__visible = true; });
-      treeParser.setCurrentTree(this.traversedTrees);
     },
     async getTreeHeight() {
       await this.$nextTick();

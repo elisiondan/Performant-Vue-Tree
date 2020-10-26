@@ -1,20 +1,27 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable class-methods-use-this */
 import { INodeEvaluator } from '@/services/tree-traversal-service';
 import { IProcessedTreeNode } from '@/models/tree-node';
 
+/**
+ * evaluator options if the payload is targetted at this evaluator
+ */
 interface SearchOptions {
     searchTerm: string;
     removeUnmatched: boolean;
 }
 
 interface IMatchTermEvaluator {
+    /** Return true if node's name conforms to searched term */
     isMatch: (node: IProcessedTreeNode, regex: RegExp) => boolean;
+    /** Return true if current node's descendant is matched */
     doesLeadToMatched: (node: IProcessedTreeNode) => boolean;
+    /** return true if node's name is matched or leads to matched */
     shouldBeVisible: (node: IProcessedTreeNode, removeUnmatched: boolean) => boolean;
+    /** Mark node's children visibility attributes */
     markNodes: (node: IProcessedTreeNode,
         searchOptions: SearchOptions,
         isMatch: boolean) => IProcessedTreeNode;
+    /** Set visibility attribute to true for children */
     makeAllChildrenVisible: (node: IProcessedTreeNode) => IProcessedTreeNode;
 }
 
@@ -70,6 +77,10 @@ const matchTermEvaluator: INodeEvaluator & IMatchTermEvaluator = {
     node.__visible = this.shouldBeVisible(node, searchOptions.removeUnmatched);
     if (node.__matched) {
       this.makeAllChildrenVisible(node);
+    }
+
+    if (node.__leadsToMatched) {
+      node.__state = 'open';
     }
 
     return node;

@@ -91,6 +91,7 @@ export default Vue.extend({
     collapseAll() {
       treeObserver.notify({
         collapseAll: true,
+        rootsId: this.treeData.trees.map((tree) => tree.id),
       });
     },
     parseRootNode(node: FiBaseNode) {
