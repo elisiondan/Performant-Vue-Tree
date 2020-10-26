@@ -1,10 +1,10 @@
 <template>
   <div
     id="app"
-    class="mx-2"
+    class="mx-2 mt-2"
   >
     <button
-      class="bg-blue-700 hover:bg-blue-600 mb-2
+      class="bg-blue-700 hover:bg-blue-600 mb-2 mr-2
         text-white font-bold py-2 px-4 rounded inline-block"
       @click="expandAll"
     >

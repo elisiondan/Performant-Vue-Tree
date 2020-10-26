@@ -1,8 +1,9 @@
 <template>
   <tree-virtual-scroller
+    v-if="options.useVirtualScroller"
     :items="renderedTree"
     key-field="id"
-    :min-item-size="20.34"
+    :min-item-size="17.5"
     :style="{maxHeight: treeHeight}"
   >
     <template #default="{item}">
@@ -29,6 +30,31 @@
       </tree-node>
     </template>
   </tree-virtual-scroller>
+  <div v-else>
+    <tree-node
+      v-for="node in renderedTree"
+      :key="node.id"
+      :node="node"
+      :options="options"
+      :is-root="node.__depth === 0"
+      :depth="node.__depth"
+      @arrow-click="onarrowClick"
+    >
+      <template #prependLabel="data">
+        <slot
+          name="prependLabel"
+          :data="data"
+        />
+      </template>
+
+      <template #appendLabel="data">
+        <slot
+          name="appendLabel"
+          :data="data"
+        />
+      </template>
+    </tree-node>
+  </div>
 </template>
 
 <script lang="ts">
@@ -38,6 +64,8 @@ import TreeNode from '@/components/TreeNode.vue';
 import { IFullTreeOptions } from '@/models/tree-options';
 
 import isExpanded from '@/functions/tree/is-expanded';
+import isNodeVisible from '@/functions/tree/is-node-visible';
+import flattenTree from '@/functions/tree/flatten-tree';
 import NodeState from '@/enums/node-state';
 import setVisibilityEvaluator from '@/services/node-evaluators/set-visibility-evaluator';
 import treeParser from '@/services/tree-parser';
@@ -47,24 +75,6 @@ import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
 interface IData {
     renderedTree: IProcessedTreeNode[];
 }
-
-function flatten(node: IProcessedTreeNode, depth = 0, nodes: IProcessedTreeNode[] = []) {
-  nodes.push({
-    ...node,
-    __depth: depth,
-  });
-
-  node.children.forEach((n) => {
-    flatten(n, depth + 1, nodes);
-  });
-  return nodes;
-}
-
-function getRenderNodes(nodes: IProcessedTreeNode[]) {
-  return nodes.filter((n) => n.__visible && !n.__filtered);
-}
-
-let flattenTree: IProcessedTreeNode[] = [];
 
 export default Vue.extend({
   name: 'TreeWrapper',
@@ -95,12 +105,12 @@ export default Vue.extend({
     roots: {
       immediate: true,
       handler(newRoots: IProcessedTreeNode[]) {
-        flattenTree = [];
+        let flatTree: IProcessedTreeNode[] = [];
         newRoots.forEach((root) => {
-          flattenTree = [...flattenTree, ...flatten(root)];
+          flatTree = [...flatTree, ...flattenTree(root)];
         });
 
-        this.renderedTree = getRenderNodes(flattenTree);
+        this.renderedTree = this.getVisibleNodes(flatTree);
       },
     },
   },
@@ -108,40 +118,53 @@ export default Vue.extend({
     async onarrowClick(node: IProcessedTreeNode) {
       const expanded = isExpanded(node);
       if (expanded) {
-        node.__state = NodeState.CLOSED;
-        node.children = await treeParser.traverseTree([setVisibilityEvaluator], {
-          trees: node.children,
-          payload: { $_setVisibilityEvaluator: false },
-        });
+        this.handleExpandedNode(node);
       } else {
-        node.__state = NodeState.OPEN;
-        node.children.forEach((n) => { n.__visible = true; });
+        this.handleCollapsedNode(node);
       }
 
+      this.renderedTree = this.getNewRenderNodes(node);
+    },
+
+    async handleExpandedNode(node: IProcessedTreeNode) {
+      node.__state = NodeState.CLOSED;
+      node.children = await treeParser.traverseTree([setVisibilityEvaluator], {
+        trees: node.children,
+        payload: { $_setVisibilityEvaluator: false },
+      });
+    },
+
+    handleCollapsedNode(node: IProcessedTreeNode) {
+      node.__state = NodeState.OPEN;
+      node.children.forEach((n) => { n.__visible = true; });
+    },
+
+    getVisibleNodes(nodes: IProcessedTreeNode[]) {
+      return nodes.filter((node) => isNodeVisible(node));
+    },
+
+    getNewRenderNodes(node: IProcessedTreeNode) {
       let updatedNodes: IProcessedTreeNode[] = [];
-      const changingNodes = flatten(node, node.__depth);
+      const changingNodes = flattenTree(node, node.__depth);
 
       if (node.__state === NodeState.OPEN) {
         this.renderedTree.forEach((n) => {
           if (n.id !== node.id) {
             updatedNodes.push(n);
           } else {
-            updatedNodes = [...updatedNodes, ...getRenderNodes(changingNodes)];
+            updatedNodes = [...updatedNodes, ...this.getVisibleNodes(changingNodes)];
           }
         });
       }
 
       if (node.__state === NodeState.CLOSED) {
+        // Do not add root of the subtree, only descendants
         const childrenNodes = changingNodes.slice(1);
         updatedNodes = arrayDifference(this.renderedTree, 'id', childrenNodes, 'id');
       }
 
-      this.renderedTree = updatedNodes;
+      return updatedNodes;
     },
   },
 });
 </script>
-
-<style scoped>
-
-</style>

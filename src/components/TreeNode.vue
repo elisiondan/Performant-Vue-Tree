@@ -1,6 +1,6 @@
 <template>
   <div
-    class="transition-border"
+    class="transition-border min-h-5"
     :class="{
       'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot
     }"

@@ -1,6 +1,6 @@
 import { IProcessedTreeNode } from '@/models/tree-node';
 
-const getVisibleChildren = (object: IProcessedTreeNode) => (object.children.filter(
+const getVisibleChildren = (node: IProcessedTreeNode) => (node.children.filter(
   (child: IProcessedTreeNode) => child.__visible && !child.__filtered,
 ));
 

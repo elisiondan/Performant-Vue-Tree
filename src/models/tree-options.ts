@@ -4,6 +4,10 @@ import isExpandableNode from '@/functions/tree/is-expandable-node';
 
 type ITreeOptions = Partial<{
     isExpandable (node: ITreeNode): boolean;
+    virtualScrolling: {
+        useVirtualScrolling: boolean;
+        minItemSize: number;
+    };
     nodeEvaluators: INodeEvaluator[];
     matchTermEvaluator: {
         enabled: boolean;
@@ -21,6 +25,10 @@ export type IFullTreeOptions = Required<ITreeOptions>;
 
 export const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
+  virtualScrolling: {
+    useVirtualScrolling: false,
+    minItemSize: 17.5,
+  },
   nodeEvaluators: [],
   matchTermEvaluator: {
     enabled: true,

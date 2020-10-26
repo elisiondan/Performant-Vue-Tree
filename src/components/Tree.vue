@@ -181,13 +181,13 @@ export default Vue.extend({
     },
     async getTreeHeight() {
       await this.$nextTick();
+      if (!this.options.virtualScrolling?.useVirtualScrolling) {
+        return '100%';
+      }
+
       if (this.$refs.wrapper && this.$refs.complements) {
         const wrapper = (this.$refs.wrapper as Vue).$el;
         const complements = (this.$refs.complements as Vue).$el;
-        console.log(wrapper.getBoundingClientRect());
-        console.log(wrapper);
-        console.log(complements.getBoundingClientRect());
-        console.log(complements);
         return `${wrapper.clientHeight - complements.clientHeight}px`;
       }
       return '0px';
