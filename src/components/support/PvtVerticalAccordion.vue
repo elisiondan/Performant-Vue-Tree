@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import ClarityIcon from '@/components/ClarityIcon.vue';
+import ClarityIcon from '@/components/support/ClarityIcon.vue';
 
 export default Vue.extend({
   name: 'PvtVerticalAccordion',

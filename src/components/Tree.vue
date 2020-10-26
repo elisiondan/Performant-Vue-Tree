@@ -16,7 +16,7 @@
       />
     </template>
 
-    <tree-root
+    <tree-wrapper
       :tree-height="treeHeight"
       :roots="renderedTrees"
       :options="treeOptions"
@@ -35,7 +35,7 @@
           :data="nodeData"
         />
       </template>
-    </tree-root>
+    </tree-wrapper>
   </pvt-vertical-accordion>
 </template>
 
@@ -45,23 +45,16 @@ import ITreeData from '@/models/tree-data';
 import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-options';
 import PvtVerticalAccordion from '@/components/support/PvtVerticalAccordion.vue';
 
-import TreeRoot from '@/components/TreeRoot.vue';
+import TreeWrapper from '@/components/TreeWrapper.vue';
 import TreeComplements from '@/components/TreeComplements.vue';
 
 import treeObserver from '@/services/tree-observer';
 import { cloneDeep } from 'lodash';
-// import WorkerService from '@/services/worker-service';
-// import { IItraversalOutput, ITraversalInput } from '@/workers/tree-traversal-worker';
 
 import JSONfn from 'json-fn';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
-// import { INodeEvaluator } from '@/services/tree-traversal-service';
 import treeParser from '@/services/tree-parser';
-
-// const treeTraversalWorker = new WorkerService(
-//   new Worker('@/workers/tree-traversal-worker.ts', { type: 'module' }),
-// );
 
 let fullTree: IProcessedTreeNode[] = [];
 
@@ -77,10 +70,9 @@ interface IData {
 export default Vue.extend({
   name: 'Tree',
   components: {
-    TreeRoot,
+    TreeWrapper,
     TreeComplements,
     PvtVerticalAccordion,
-    // TreeVirtualScroller,
   },
   props: {
     data: {

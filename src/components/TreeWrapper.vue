@@ -1,51 +1,46 @@
 <template>
-  <div v-if="root.__visible && !root.__filtered">
-    <tree-virtual-scroller
-      v-if="renderedTree.length > 0"
-      class="flex-1"
-      :items="renderedTree"
-      key-field="id"
-      :item-size="32"
-    >
-      <template #default="{item}">
-        <tree-node
-          :node="item"
-          :options="options"
-          :is-root="item.obj.id === root.obj.id"
-          :depth="item.__depth"
-          @arrow-click="onarrowClick"
-        >
-          <template #prependLabel="data">
-            <slot
-              name="prependLabel"
-              :data="data"
-            />
-          </template>
+  <tree-virtual-scroller
+    :items="renderedTree"
+    key-field="id"
+    :min-item-size="20.34"
+    :style="{maxHeight: treeHeight}"
+  >
+    <template #default="{item}">
+      <tree-node
+        :node="item"
+        :options="options"
+        :is-root="item.__depth === 0"
+        :depth="item.__depth"
+        @arrow-click="onarrowClick"
+      >
+        <template #prependLabel="data">
+          <slot
+            name="prependLabel"
+            :data="data"
+          />
+        </template>
 
-          <template #appendLabel="data">
-            <slot
-              name="appendLabel"
-              :data="data"
-            />
-          </template>
-        </tree-node>
-      </template>
-    </tree-virtual-scroller>
-  </div>
+        <template #appendLabel="data">
+          <slot
+            name="appendLabel"
+            :data="data"
+          />
+        </template>
+      </tree-node>
+    </template>
+  </tree-virtual-scroller>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { IProcessedTreeNode } from '@/models/tree-node';
-import TreeNode from '@/components/TreeNod.vue';
+import TreeNode from '@/components/TreeNode.vue';
 import { IFullTreeOptions } from '@/models/tree-options';
 
-import isExpanded from '@/functions/is-expanded';
+import isExpanded from '@/functions/tree/is-expanded';
 import NodeState from '@/enums/node-state';
 import setVisibilityEvaluator from '@/services/node-evaluators/set-visibility-evaluator';
 import treeParser from '@/services/tree-parser';
-import isExpandableNode from '@/functions/is-expandable-node';
-import { cloneDeep } from 'lodash';
 import arrayDifference from '@/functions/array-difference';
 import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
 
@@ -86,6 +81,10 @@ export default Vue.extend({
       type: Object as PropType<IFullTreeOptions>,
       required: true,
     },
+    treeHeight: {
+      type: String,
+      required: true,
+    },
   },
   data(): IData {
     return {
@@ -100,22 +99,10 @@ export default Vue.extend({
         newRoots.forEach((root) => {
           flattenTree = [...flattenTree, ...flatten(root)];
         });
-        console.log('flattenTree');
 
-        // this.renderedTree = getRenderNodes(flattenTree);
-        this.renderedTree = flattenTree;
+        this.renderedTree = getRenderNodes(flattenTree);
       },
     },
-  },
-  created() {
-    flattenTree = [];
-    this.roots.forEach((root) => {
-      flattenTree = [...flattenTree, ...flatten(root)];
-    });
-    console.log('flattenTree');
-
-    // this.renderedTree = getRenderNodes(flattenTree);
-    this.renderedTree = flattenTree;
   },
   methods: {
     async onarrowClick(node: IProcessedTreeNode) {
@@ -149,7 +136,7 @@ export default Vue.extend({
         updatedNodes = arrayDifference(this.renderedTree, 'id', childrenNodes, 'id');
       }
 
-    //   this.renderedTree = updatedNodes;
+      this.renderedTree = updatedNodes;
     },
   },
 });

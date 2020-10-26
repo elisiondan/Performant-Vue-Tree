@@ -1,5 +1,5 @@
-import TreeProps from '@/components/TreeNode/props';
-import getVisibleChildren from '@/functions/get-visible-children';
+import TreeProps from '@/functions/tree/props';
+import getVisibleChildren from '@/functions/tree/get-visible-children';
 
 export default function (props: TreeProps) {
   const visibleChildren = getVisibleChildren(props.node);

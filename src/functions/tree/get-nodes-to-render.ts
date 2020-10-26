@@ -1,7 +1,7 @@
-import TreeProps from '@/components/TreeNode/props';
+import TreeProps from '@/functions/tree/props';
 import NodeState from '@/enums/node-state';
-import isExpandableNode from '@/functions/is-expandable-node';
-import getSubtree from '@/components/TreeNode/get-subtree';
+import isExpandableNode from '@/functions/tree/is-expandable-node';
+import getSubtree from '@/functions/tree/get-subtree';
 import { IProcessedTreeNode } from '@/models/tree-node';
 
 export default function (props: TreeProps) {

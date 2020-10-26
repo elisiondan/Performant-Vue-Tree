@@ -1,8 +1,8 @@
 <script lang="tsx">
 import Vue from 'vue';
-import ClarityIcon from '@/components/ClarityIcon.vue';
+import ClarityIcon from '@/components/support/ClarityIcon.vue';
 import { Prop } from 'vue/types/options.d';
-import isExpanded from '@/functions/is-expanded';
+import isExpanded from '@/functions/tree/is-expanded';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import { IFullTreeOptions } from '@/models/tree-options';
 

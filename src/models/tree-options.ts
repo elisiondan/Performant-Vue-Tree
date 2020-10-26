@@ -1,6 +1,6 @@
 import { INodeEvaluator } from '@/services/tree-traversal-service';
 import ITreeNode from '@/models/tree-node';
-import isExpandableNode from '@/functions/is-expandable-node';
+import isExpandableNode from '@/functions/tree/is-expandable-node';
 
 type ITreeOptions = Partial<{
     isExpandable (node: ITreeNode): boolean;
