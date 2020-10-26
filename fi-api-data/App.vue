@@ -68,10 +68,12 @@ export default Vue.extend({
   },
   computed: {
     options(): ITreeOptions {
-      return {
+      const options: ITreeOptions = {
         isExpandable(node: FiTreeNode) { return node.url !== '' || node.children.length > 0; },
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
       };
+
+      return options;
     },
   },
   async created() {
@@ -128,14 +130,6 @@ export default Vue.extend({
         children: [],
         url: this.getUrlForNode(node),
       };
-
-      //   if (isBaseNode(node)) {
-      //     treeNode.children = node.poduzly[0].poduzel.map((child) => this.parseNode(child));
-      //   }
-
-      //   if (isSubNode(node)) {
-      //     treeNode.children = node.poduzly.map((child) => this.parseNode(child.poduzel[0]));
-      //   }
 
       return treeNode;
     },

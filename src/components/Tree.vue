@@ -128,7 +128,7 @@ export default Vue.extend({
   },
   watch: {
     data: {
-      async handler(treeData: ITreeData) {
+      handler(treeData: ITreeData) {
         fullTree = cloneDeep(treeData.trees);
         fullTree.forEach((root) => { root.__visible = true; });
         this.traversedTrees = cloneDeep(fullTree);
@@ -158,24 +158,19 @@ export default Vue.extend({
       treeObserver.notify({
         searchTerm: term,
         removeUnmatched: true,
-        //   filterOptions: {
-        //     filters: [(node: IProcessedTreeNode) => node.obj.name === 'Koronavirus 2020'],
-        //   },
       });
     },
 
     async traverseTreeAndReplace(payload: any) {
-      if (payload.filterOptions && payload.filterOptions.filters) {
-        // eslint-disable-next-line no-param-reassign
-        payload.filterOptions.filters = payload.filterOptions.filters
-          .map((o: any) => JSONfn.stringify(o));
-      }
-
       const { nodeEvaluators } = this.treeOptions;
+      const currentTrees = payload?.nodeEvaluatorsData?.trees || this.traversedTrees;
 
-      const trees = await treeParser.traverseTree(nodeEvaluators, { payload });
+      const newTrees = await treeParser.traverseTree(
+        nodeEvaluators,
+        { trees: currentTrees, payload },
+      );
 
-      this.traversedTrees = trees;
+      this.traversedTrees = newTrees;
       this.traversedTrees.forEach((root) => { root.__visible = true; });
       treeParser.setCurrentTree(this.traversedTrees);
     },
