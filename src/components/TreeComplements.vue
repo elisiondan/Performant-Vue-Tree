@@ -9,14 +9,9 @@
     />
     <pvt-input
       v-if="options.matchTermEvaluator.enabled"
-      placeholder="Search tree"
+      placeholder="Vyhledat"
       @input="onSearchInput"
     />
-    <!-- <input
-      v-if="options.matchTermEvaluator.enabled"
-      class="border"
-      @input="onSearchInput"
-    > -->
   </div>
 </template>
 
@@ -52,7 +47,7 @@ export default Vue.extend({
     return {
       selectedRoot: {
         key: '',
-        value: 'All roots',
+        value: 'Zobrazit vše',
       },
     };
   },
@@ -65,7 +60,7 @@ export default Vue.extend({
 
       options.unshift({
         key: '',
-        value: 'All roots',
+        value: 'Zobrazit vše',
       });
 
       return options;

@@ -5,18 +5,18 @@
   >
     <button
       class="bg-blue-700 hover:bg-blue-600 mb-2 mr-2
-        text-white font-bold py-2 px-4 rounded inline-block"
+        text-white py-2 px-4 rounded inline-block"
       @click="expandAll"
     >
-      Expand all
+      Otevřít vše
     </button>
 
     <button
       class="bg-blue-700 hover:bg-blue-600 mb-2
-        text-white font-bold py-2 px-4 rounded inline-block"
+        text-white py-2 px-4 rounded inline-block"
       @click="collapseAll"
     >
-      Collapse all
+      Zavřít vše
     </button>
 
     <tree
