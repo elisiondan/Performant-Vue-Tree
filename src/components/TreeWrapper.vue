@@ -71,6 +71,8 @@ import setVisibilityEvaluator from '@/services/node-evaluators/set-visibility-ev
 import treeParser from '@/services/tree-parser';
 import arrayDifference from '@/functions/array-difference';
 import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
+import WaitTypes from '@/enums/wait-types';
+import loaderService from '@/services/loader-service';
 
 interface IData {
     renderedTree: IProcessedTreeNode[];
@@ -106,12 +108,14 @@ export default Vue.extend({
       immediate: true,
       handler(newRoots: IProcessedTreeNode[]) {
         console.log('flatten start');
+        loaderService.start(WaitTypes.FLATTENING_TREE);
         let flatTree: IProcessedTreeNode[] = [];
         newRoots.forEach((root) => {
           flatTree = [...flatTree, ...flattenTree(root)];
         });
 
         this.renderedTree = this.getVisibleNodes(flatTree);
+        loaderService.end(WaitTypes.FLATTENING_TREE);
         console.log('flatten end');
       },
     },
@@ -126,7 +130,9 @@ export default Vue.extend({
       }
 
       console.log('expanding begin');
+      loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
       this.renderedTree = this.getNewRenderNodes(node);
+      loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
       console.log('expanding end');
     },
 
@@ -160,6 +166,7 @@ export default Vue.extend({
           }
         });
       }
+      console.log('got here');
 
       if (node.__state === NodeState.CLOSED) {
         // Do not add root of the subtree, only descendants

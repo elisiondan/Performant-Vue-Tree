@@ -5,6 +5,13 @@
     :title="accordionTitle"
     class="tree mx-2 overflow-y-auto"
   >
+    <template
+      v-if="isWaitingForTreeProcessess"
+      #expandedBeforeContent
+    >
+      <loading-indicator />
+    </template>
+
     <template #expandedBeforeChevron>
       <tree-complements
         ref="complements"
@@ -20,6 +27,7 @@
       :tree-height="treeHeight"
       :roots="renderedTrees"
       :options="treeOptions"
+      class="eh"
       @arrow-click="($event) => $emit('arrow-click', $event)"
     >
       <template #prependLabel="nodeData">
@@ -54,6 +62,9 @@ import { cloneDeep } from 'lodash';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
 import treeParser from '@/services/tree-parser';
+import WaitTypes from '@/enums/wait-types';
+import loaderService from '@/services/loader-service';
+import LoadingIndicator from '@/components/support/LoadingIndicator.vue';
 
 let fullTree: IProcessedTreeNode[] = [];
 
@@ -72,6 +83,7 @@ export default Vue.extend({
     TreeWrapper,
     TreeComplements,
     PvtVerticalAccordion,
+    LoadingIndicator,
   },
   props: {
     data: {
@@ -94,6 +106,13 @@ export default Vue.extend({
     };
   },
   computed: {
+    isWaitingForTreeProcessess(): boolean {
+      return loaderService.is([
+        WaitTypes.TRAVERSING_TREE,
+        WaitTypes.FLATTENING_TREE,
+        WaitTypes.TOGGLING_NODE_STATE,
+      ]);
+    },
     treeOptions(): IFullTreeOptions {
       const options = {
         ...defaultOptions,
@@ -163,10 +182,15 @@ export default Vue.extend({
       const { nodeEvaluators } = this.treeOptions;
       const currentTrees = payload?.trees || this.traversedTrees;
 
+      console.log('traversal start');
+      loaderService.start(WaitTypes.TRAVERSING_TREE);
       const newTrees = await treeParser.traverseTree(
         nodeEvaluators,
         { trees: currentTrees, payload },
       );
+      loaderService.end(WaitTypes.TRAVERSING_TREE);
+
+      console.log('traversal end');
 
       this.traversedTrees = newTrees;
     },

@@ -44,7 +44,8 @@
     "promise-worker": "^2.0.1",
     "tailwindcss": "^1.8.2",
     "vue-virtual-scroller": "^1.0.10",
-    "vue-wait": "^1.4.8"
+    "vue-wait": "^1.4.8",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

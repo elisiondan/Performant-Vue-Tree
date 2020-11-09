@@ -15,7 +15,7 @@
       </div>
       <div class="collapsed-label">
         <!-- @slot Vertical title in collapsed state -->
-        <slot name="collapsed-label">
+        <slot name="collapsedLabel">
           <h2>{{ title }}</h2>
         </slot>
       </div>
@@ -25,8 +25,9 @@
       <div
         v-if="preserveHiddenContent"
         v-show="isCollapsed === false"
-        class="flex flex-col h-full"
+        class="flex flex-col h-full relative"
       >
+        <slot name="expandedBeforeContent" />
         <div class="flex w-full justify-between sticky top-0 bg-white z-10">
           <slot name="expandedBeforeChevron" />
           <div class="my-auto cursor-pointer">
