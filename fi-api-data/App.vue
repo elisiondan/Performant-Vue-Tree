@@ -40,6 +40,7 @@ import FiApiResponse from '~/models/fi-api-response';
 import FiTreeNode from './models/fi-tree-node';
 import FiBaseNode, { FiFileNode, FiFolderNode } from './models/fi-node';
 import trees from './fixtures/trees';
+import artificialTree from './fixtures/artificial-tree';
 import expandAllEvaluator from '~/services/expand-all-evaluator';
 import collapseAllEvaluator from '~/services/collapse-all-evaluator';
 
@@ -62,25 +63,31 @@ export default Vue.extend({
     return {
       fiData: null,
       treeData: {
-        trees,
+        trees: [],
       },
     };
   },
   computed: {
     options(): ITreeOptions {
       const options: ITreeOptions = {
-        isExpandable(node: FiTreeNode) { return node.url !== '' || node.children.length > 0; },
+        isExpandable(node: FiTreeNode) { return !!node.url || node.children.length > 0; },
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
+        virtualScrolling: {
+          useVirtualScrolling: true,
+          minItemSize: 17.5,
+        },
       };
 
       return options;
     },
   },
   async created() {
-    const parsedData = await this.fetchParsedData('/auth/do/mu');
-    this.fiData = parsedData;
+    // const parsedData = await this.fetchParsedData('/auth/do/mu');
+    // this.fiData = parsedData;
+    // console.warn(artificialTree());
     // this.treeData.trees = this.parseRootNode(parsedData.uzel[0]);
-    this.treeData.trees = trees;
+    this.treeData.trees = [artificialTree()];
+    // console.log(JSON.stringify(artificialTree()));
   },
   methods: {
     expandAll() {

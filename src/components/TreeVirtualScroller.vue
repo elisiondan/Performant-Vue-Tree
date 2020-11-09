@@ -3,7 +3,7 @@
     :items="items"
     :min-item-size="minItemSize"
     :key-field="keyField"
-    :buffer="600"
+    :buffer="800"
   >
     <template v-slot="{ item, index, active }">
       <dynamic-scroller-item

@@ -1,6 +1,6 @@
 <template>
   <tree-virtual-scroller
-    v-if="options.useVirtualScroller"
+    v-if="options.virtualScrolling.useVirtualScrolling"
     :items="renderedTree"
     key-field="id"
     :min-item-size="17.5"
@@ -105,12 +105,14 @@ export default Vue.extend({
     roots: {
       immediate: true,
       handler(newRoots: IProcessedTreeNode[]) {
+        console.log('flatten start');
         let flatTree: IProcessedTreeNode[] = [];
         newRoots.forEach((root) => {
           flatTree = [...flatTree, ...flattenTree(root)];
         });
 
         this.renderedTree = this.getVisibleNodes(flatTree);
+        console.log('flatten end');
       },
     },
   },
@@ -123,7 +125,9 @@ export default Vue.extend({
         this.handleCollapsedNode(node);
       }
 
+      console.log('expanding begin');
       this.renderedTree = this.getNewRenderNodes(node);
+      console.log('expanding end');
     },
 
     async handleExpandedNode(node: IProcessedTreeNode) {
