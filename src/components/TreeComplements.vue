@@ -20,7 +20,7 @@ import Vue, { PropType } from 'vue';
 import PvtSelect, { item } from '@/components/support/PvtSelect.vue';
 import PvtInput from '@/components/support/PvtInput.vue';
 import { IProcessedTreeNode } from '@/models/tree-node';
-import ITreeOptions from '@/models/tree-options';
+import { IFullTreeOptions } from '@/models/tree-options';
 import { debounce } from 'lodash';
 
 interface IData {
@@ -39,7 +39,7 @@ export default Vue.extend({
       required: true,
     },
     options: {
-      type: Object as PropType<ITreeOptions>,
+      type: Object as PropType<IFullTreeOptions>,
       required: true,
     },
   },
@@ -47,7 +47,7 @@ export default Vue.extend({
     return {
       selectedRoot: {
         key: '',
-        value: 'Zobrazit vše',
+        value: this.options.i18n.show_all,
       },
     };
   },
@@ -60,7 +60,7 @@ export default Vue.extend({
 
       options.unshift({
         key: '',
-        value: 'Zobrazit vše',
+        value: this.options.i18n.show_all,
       });
 
       return options;

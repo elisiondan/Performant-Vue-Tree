@@ -69,7 +69,6 @@ import flattenTree from '@/functions/tree/flatten-tree';
 import NodeState from '@/enums/node-state';
 import setVisibilityEvaluator from '@/services/node-evaluators/set-visibility-evaluator';
 import treeParser from '@/services/tree-parser';
-import arrayDifference from '@/functions/array-difference';
 import TreeVirtualScroller from '@/components/TreeVirtualScroller.vue';
 import WaitTypes from '@/enums/wait-types';
 import loaderService from '@/services/loader-service';
@@ -156,7 +155,6 @@ export default Vue.extend({
     getNewRenderNodes(node: IProcessedTreeNode) {
       const changingNodes = flattenTree(node, node.__depth, node.__index || 0)
         .filter((n) => n.__visible);
-      //   console.log(JSON.parse(JSON.stringify(changingNodes)));
 
       if (changingNodes[0].__index !== undefined) {
         if (node.__state === NodeState.CLOSED) {
@@ -166,8 +164,6 @@ export default Vue.extend({
           this.renderedTree.splice(changingNodes[0].__index + 1, 0, ...changingNodes.splice(1));
         }
       }
-
-      this.$forceUpdate();
     },
   },
 });

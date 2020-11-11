@@ -114,9 +114,9 @@ export default Vue.extend({
       ]);
     },
     treeOptions(): IFullTreeOptions {
-      const options = {
+      const options: IFullTreeOptions = {
         ...defaultOptions,
-        ...this.options,
+        ...(this.options as any),
       };
 
       if (options.matchTermEvaluator.enabled) {

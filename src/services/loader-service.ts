@@ -9,7 +9,7 @@ Vue.config.productionTip = false;
 
 const loader = new Vue({
   store: new Vuex.Store({}),
-  wait: new VueWait({ useVuex: false }),
+  wait: new VueWait({ useVuex: true }),
 });
 
 export default loader.$wait;
