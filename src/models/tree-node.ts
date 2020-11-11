@@ -10,6 +10,7 @@ interface AddedProperties {
     __yPosition?: number;
     __nodeIndex?: number;
     __virtualVisible?: boolean;
+    __index?: number;
     __depth?: number;
 }
 

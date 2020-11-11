@@ -22,7 +22,7 @@ function generateChildren(remainingDepth: number) {
     return node;
   }
 
-  const nonFoldersCount = 11000;
+  const nonFoldersCount = 600;
   const foldersCount = 17;
 
   for (let i = 0; i < foldersCount; i += 1) {

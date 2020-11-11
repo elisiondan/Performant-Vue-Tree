@@ -111,7 +111,7 @@ export default Vue.extend({
         loaderService.start(WaitTypes.FLATTENING_TREE);
         let flatTree: IProcessedTreeNode[] = [];
         newRoots.forEach((root) => {
-          flatTree = [...flatTree, ...flattenTree(root)];
+          flatTree = [...flatTree, ...flattenTree(root, 0, flatTree.length)];
         });
 
         this.renderedTree = this.getVisibleNodes(flatTree);
@@ -129,11 +129,11 @@ export default Vue.extend({
         this.handleCollapsedNode(node);
       }
 
-      console.log('expanding begin');
+      //   console.log('expanding begin');
       loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
-      this.renderedTree = this.getNewRenderNodes(node);
+      this.getNewRenderNodes(node);
       loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
-      console.log('expanding end');
+    //   console.log('expanding end');
     },
 
     async handleExpandedNode(node: IProcessedTreeNode) {
@@ -154,27 +154,20 @@ export default Vue.extend({
     },
 
     getNewRenderNodes(node: IProcessedTreeNode) {
-      let updatedNodes: IProcessedTreeNode[] = [];
-      const changingNodes = flattenTree(node, node.__depth);
+      const changingNodes = flattenTree(node, node.__depth, node.__index || 0)
+        .filter((n) => n.__visible);
+      //   console.log(JSON.parse(JSON.stringify(changingNodes)));
 
-      if (node.__state === NodeState.OPEN) {
-        this.renderedTree.forEach((n) => {
-          if (n.id !== node.id) {
-            updatedNodes.push(n);
-          } else {
-            updatedNodes = [...updatedNodes, ...this.getVisibleNodes(changingNodes)];
-          }
-        });
-      }
-      console.log('got here');
-
-      if (node.__state === NodeState.CLOSED) {
-        // Do not add root of the subtree, only descendants
-        const childrenNodes = changingNodes.slice(1);
-        updatedNodes = arrayDifference(this.renderedTree, 'id', childrenNodes, 'id');
+      if (changingNodes[0].__index !== undefined) {
+        if (node.__state === NodeState.CLOSED) {
+          // + 1 for leaving the root node untouched
+          this.renderedTree.splice(changingNodes[0].__index + 1, changingNodes.length - 1);
+        } else {
+          this.renderedTree.splice(changingNodes[0].__index + 1, 0, ...changingNodes.splice(1));
+        }
       }
 
-      return updatedNodes;
+      this.$forceUpdate();
     },
   },
 });
