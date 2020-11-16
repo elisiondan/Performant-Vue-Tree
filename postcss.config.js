@@ -15,7 +15,25 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 });
 
 const importSyntax = require('postcss-import')({
-  path: ['src/'], // Make src path root, to get rid of relative imports
+//   addModulesDirectories: ['node_modules'],
+//   path: ['node_modules/'],
+  skipDuplicates: false,
+  //   filter(path, ...args) {
+  //     console.warn(path);
+  //     console.warn(args);
+  //     return path;
+  //   },
+  resolve(id, basedir, importOptions) {
+    console.warn(id);
+    console.warn(basedir);
+    console.warn(importOptions);
+    return id;
+  },
+//   resolve(id, basedir, importOptions) {
+//     console.warn(importOptions.load());
+//     return basedir + id.split(1);
+//   },
+//   path: ['src/'], // Make src path root, to get rid of relative imports
 });
 
 const tailwindcss = require('tailwindcss');

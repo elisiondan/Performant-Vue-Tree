@@ -10,6 +10,8 @@ import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 import postCSS from 'rollup-plugin-postcss';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const postcssConfig = require('../postcss.config');
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs.readFileSync('./.browserslistrc')
   .toString()
@@ -36,14 +38,18 @@ const baseConfig = {
       'process.env.ES_BUILD': JSON.stringify('false'),
     },
     vue: {
-      css: false,
+      css: true,
       compileTemplate: true,
-    //   template: {
-    //     isProduction: true,
-    //   },
+      style: {
+        postcssPlugins: [...postcssConfig.plugins],
+      },
     },
+    /*
+    * Has to be used for processing postcss in general
+    * Does not resolve postcss in SFC. For that is vue.style.postcssPlugins
+    */
     postCSS: {
-      extract: true,
+      extract: false,
       plugins: [],
     },
     babel: {
@@ -95,12 +101,12 @@ if (!argv.format || argv.format === 'es') {
       exports: 'named',
     },
     plugins: [
+      postCSS(baseConfig.postCSS),
       replace({
         ...baseConfig.plugins.replace,
         'process.env.ES_BUILD': JSON.stringify('true'),
       }),
       ...baseConfig.plugins.preVue,
-      postCSS(baseConfig.postCSS),
       vue(baseConfig.plugins.vue),
       babel({
         ...baseConfig.plugins.babel,

@@ -106,7 +106,6 @@ export default Vue.extend({
 </script>
 
 <style lang="postcss" scoped>
-/* purgecss start ignore */
 .collapsed-panel {
   writing-mode: vertical-rl;
   text-orientation: mixed;
@@ -130,5 +129,4 @@ export default Vue.extend({
 .fade-enter {
     @apply opacity-0;
 }
-/* purgecss start ignore */
 </style>
