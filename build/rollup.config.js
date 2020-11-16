@@ -27,7 +27,7 @@ const baseConfig = {
   plugins: {
     preVue: [
       alias({
-        resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue', 'css'],
+        resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue', '.css'],
         entries: {
           '@': path.resolve(projectRoot, 'src'),
         },
@@ -83,7 +83,7 @@ const globals = {
   vue: 'Vue',
   lodash: 'lodash',
   'promise-worker': 'promiseWorker',
-  'json-fn': 'json-fn',
+  'json-fn': 'JSONfn',
   'vue-virtual-scroller': 'VueVirtualScroller',
   vuex: 'Vuex',
   'vue-wait': 'VueWait',
@@ -133,7 +133,7 @@ if (!argv.format || argv.format === 'cjs') {
       compact: true,
       file: 'dist/performant-vue-tree.ssr.js',
       format: 'cjs',
-      name: 'PerformantVueTree',
+      name: 'PerformantTree',
       exports: 'named',
       globals,
     },
@@ -163,7 +163,7 @@ if (!argv.format || argv.format === 'iife') {
       compact: true,
       file: 'dist/performant-vue-tree.min.js',
       format: 'iife',
-      name: 'PerformantVueTree',
+      name: 'PerformantTree',
       exports: 'named',
       globals,
     },
