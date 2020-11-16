@@ -58,6 +58,9 @@ const external = [
   'json-fn',
   '@clr/icons',
   '@clr/icons/shapes/all-shapes',
+  'vue-virtual-scroller',
+  'vuex',
+  'vue-wait',
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -67,8 +70,11 @@ const globals = {
   // eg. jquery: '$'
   vue: 'Vue',
   lodash: 'lodash',
-  'promise-worker': 'promise-worker',
+  'promise-worker': 'promiseWorker',
   'json-fn': 'json-fn',
+  'vue-virtual-scroller': 'VueVirtualScroller',
+  vuex: 'Vuex',
+  'vue-wait': 'VueWait',
 };
 
 // Customize configs for individual targets
