@@ -14,9 +14,9 @@ You can either register the component globally
 ```javascript
 // global plugin
 import Vue from 'vue'
-import performantTree from 'vue-performant-tree'
+import performantVueTree from 'vue-performant-tree'
 
-Vue.use(performantTree)
+Vue.use(performantVueTree)
 ```
 
 or import it separately where needed 
@@ -24,10 +24,10 @@ or import it separately where needed
 
 <script>
 import Vue from 'vue'
-import performantTree from 'vue-performant-tree'
+import performantVueTree from 'vue-performant-tree'
 
 export default Vue.extend({
-    components: { performantTree }
+    components: { performantVueTree }
     ...
 })
 ```
@@ -122,22 +122,22 @@ You expand or modify appearance of the tree component through available slots.
 - area in front of the node label (name if available, id otherwise)
 - given node is bound to the slot
 ```html
-<tree :data="treeData">
+<performant-vue-tree :data="treeData">
     <template #prependLabel="nodeData">
         ....
     </template>
-</tree>
+</performant-vue-tree>
 ```
 
 **appendLabel**
 - area behind node's label (name if available, id otherwise)
 - given node is bound to the slot
 ```html
-<tree :data="treeData">
+<performant-vue-tree :data="treeData">
     <template #appendLabel="nodeData">
         ....
     </template>
-</tree>
+</performant-vue-tree>
 ```
 
 
