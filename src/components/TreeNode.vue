@@ -25,7 +25,7 @@
 
       <div class="label">
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <span v-html="node.obj.name || node.id" />
+        <span v-html="node.name || node.id" />
       </div>
     </div>
   </div>

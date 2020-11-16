@@ -20,7 +20,7 @@
     </button>
 
     <tree
-      :data="treeData"
+      :trees="treeData"
       :options="options"
       class="max-w-sm tree"
       @arrow-click="onarrowClick"
@@ -62,9 +62,7 @@ export default Vue.extend({
   data(): IData {
     return {
       fiData: null,
-      treeData: {
-        trees: [],
-      },
+      treeData: [],
     };
   },
   computed: {
@@ -87,7 +85,7 @@ export default Vue.extend({
     // console.warn(artificialTree());
     // this.treeData.trees = this.parseRootNode(parsedData.uzel[0]);
     // this.treeData.trees = [artificialTree()];
-    this.treeData.trees = trees;
+    this.treeData = trees;
     // console.log(JSON.stringify(artificialTree()));
   },
   methods: {
@@ -99,7 +97,7 @@ export default Vue.extend({
     collapseAll() {
       treeObserver.notify({
         collapseAll: true,
-        rootsId: this.treeData.trees.map((tree) => tree.id),
+        rootsId: this.treeData.map((tree) => tree.id),
       });
     },
     parseRootNode(node: FiBaseNode) {
@@ -133,9 +131,7 @@ export default Vue.extend({
     parseNode(node: FiFolderNode | FiFileNode) {
       const treeNode: FiTreeNode = {
         id: node.uzel_id,
-        obj: {
-          name: this.getNodeName(node),
-        },
+        name: this.getNodeName(node),
         children: [],
         url: this.getUrlForNode(node),
       };

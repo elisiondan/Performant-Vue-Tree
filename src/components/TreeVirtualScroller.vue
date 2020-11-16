@@ -10,7 +10,7 @@
         :item="item"
         :active="active"
         :size-dependencies="[
-          item.obj.name,
+          item.name,
         ]"
         :data-index="index"
       >

@@ -33,15 +33,15 @@ const matchTermEvaluator: INodeEvaluator & IMatchTermEvaluator = {
 
     const regex = new RegExp(searchTerm, 'ig');
     const isMatch = this.isMatch(node, regex);
-    if (isMatch && node.obj.name) {
-      node.obj.name = node.obj.name.toString().replace(regex, '<span class="bg-yellow-400">$&</span>');
+    if (isMatch && node.name) {
+      node.name = node.name.toString().replace(regex, '<span class="bg-yellow-400">$&</span>');
     }
 
     this.markNodes(node, payload, isMatch);
   },
 
   isMatch(node: IProcessedTreeNode, regex: RegExp): boolean {
-    return !!node.obj.name && regex.test(node.obj.name);
+    return !!node.name && regex.test(node.name);
   },
 
   doesLeadToMatched(node: IProcessedTreeNode) {

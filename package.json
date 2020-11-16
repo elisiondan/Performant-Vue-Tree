@@ -1,33 +1,29 @@
 {
   "name": "performant-vue-tree",
   "version": "0.2.2",
+  "private": false,
   "description": "",
   "author": "Daniel Charvát",
-  "license": "MIT",
-  "private": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/elisiondan/Performant-Vue-Tree"
+  "scripts": {
+    "serve": "vue-cli-service serve ./fi-api-data/main.ts",
+    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint",
+    "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
+    "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
+    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
+    "docs:build": "vuepress build docs",
+    "docs:dev": "vuepress dev docs",
+    "vue:build": "vue-cli-service build ./fi-api-data/main.ts --modern"
   },
   "main": "dist/performant-vue-tree.ssr.js",
-  "browser": "dist/performant-vue-tree.esm.js",
   "module": "dist/performant-vue-tree.esm.js",
+  "browser": "dist/performant-vue-tree.esm.js",
   "unpkg": "dist/performant-vue-tree.min.js",
-  "types": "performant-vue-tree.d.ts",
   "files": [
     "dist/*",
     "performant-vue-tree.d.ts"
   ],
-  "scripts": {
-    "serve": "vue-cli-service serve ./fi-api-data/main.ts",
-    "vue:build": "vue-cli-service build ./fi-api-data/main.ts --modern",
-    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
-    "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
-    "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
-    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
-  },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@clr/icons": "^4.0.1",
@@ -74,6 +70,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-vue": "^6.2.2",
+    "loadash": "^1.0.0",
     "minimist": "^1.2.5",
     "postcss-import": "^12.0.1",
     "rollup": "^2.7.3",
@@ -83,16 +80,23 @@
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-vue": "^5.1.6",
-    "typescript": "~3.9.3",
+    "typescript": "^3.9.7",
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
+    "vuepress": "^1.7.1",
     "worker-plugin": "^5.0.0"
   },
   "peerDependencies": {
     "vue": "^2.6.11"
   },
+  "_id": "performant-vue-tree@0.1.0",
   "engines": {
     "node": ">=10"
   },
-  "_id": "performant-vue-tree@0.1.0"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elisiondan/Performant-Vue-Tree"
+  },
+  "types": "performant-vue-tree.d.ts"
 }

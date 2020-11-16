@@ -87,8 +87,8 @@ export default Vue.extend({
     LoadingIndicator,
   },
   props: {
-    data: {
-      type: Object as PropType<ITreeData>,
+    trees: {
+      type: Array as PropType<ITreeData>,
       required: true,
     },
     options: {
@@ -127,7 +127,7 @@ export default Vue.extend({
       return options;
     },
     roots(): IProcessedTreeNode[] {
-      return this.data.trees.map((root) => ({
+      return this.trees.map((root) => ({
         ...root,
         children: [],
       }));
@@ -140,15 +140,15 @@ export default Vue.extend({
     },
     accordionTitle(): string {
       return this.selectedRoot
-        ? this.selectedRoot.obj.name || this.selectedRoot.id.toString()
+        ? this.selectedRoot.name || this.selectedRoot.id.toString()
         : '';
     },
 
   },
   watch: {
-    data: {
+    trees: {
       handler(treeData: ITreeData) {
-        fullTree = cloneDeep(treeData.trees);
+        fullTree = cloneDeep(treeData);
         fullTree.forEach((root) => { root.__visible = true; });
         this.traversedTrees = cloneDeep(fullTree);
       },
@@ -168,7 +168,7 @@ export default Vue.extend({
   methods: {
     onSelectRoot(id: string | number) {
       this.selectedRootId = id;
-      this.selectedRoot = this.data.trees
+      this.selectedRoot = this.trees
         .find((root) => root.id === this.selectedRootId);
     },
     onSearch(term: string) {

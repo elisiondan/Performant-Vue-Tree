@@ -13,13 +13,9 @@ interface AddedProperties {
     __depth?: number;
 }
 
-interface INodeObject {
-    name?: string;
-}
-
 export default interface ITreeNode {
     id: string | number;
-    obj: INodeObject;
+    name?: string;
     children: ITreeNode[];
 }
 

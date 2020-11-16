@@ -1,8 +1,7 @@
-import ITreeNode from '@/models/tree-node';
+import { IProcessedTreeNode } from '@/models/tree-node';
 
 // TODO
 // eslint-disable-next-line arrow-body-style
-export default (node: ITreeNode): boolean => node.children.filter(() => {
-  // (child) => !child.filteredOut
-  return true;
-}).length > 0;
+export default (node: IProcessedTreeNode): boolean => node.children.some((child) => {
+  return !child.__filtered && child.__visible;
+});

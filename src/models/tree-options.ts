@@ -3,20 +3,30 @@ import ITreeNode from '@/models/tree-node';
 import isExpandableNode from '@/functions/tree/is-expandable-node';
 
 type ITreeOptions = Partial<{
+    /* Whether node can be expanded or is a leaf node */
     isExpandable (node: ITreeNode): boolean;
-    virtualScrolling: {
+    /* Virtual scrolling is crucial when using large number of nodes */
+    virtualScrolling: Partial<{
         useVirtualScrolling: boolean;
+        /* When enabled, you have to define the minimal node's height.
+           Does not matter if some are bigger */
         minItemSize: number;
-    };
+    }>;
+    /* Node evaluators executed during tree traversal. See TBD */
     nodeEvaluators: INodeEvaluator[];
-    matchTermEvaluator: {
+    /* Search by node name utility */
+    matchTermEvaluator: Partial<{
         enabled: boolean;
+        /* Classname appended to nodes that match the search term */
         highlightClass: string;
-    };
-    visual: {
-        showIconForFolders?: boolean;
-        showFolderBorders?: boolean;
-    };
+    }>;
+    /* Varisous visual options of the tree */
+    visual: Partial<{
+        /* Show icons for folders (i.e. nodes for which isExpandle is true) */
+        showIconForFolders: boolean;
+        /* Show left dotted line for folder's content */
+        showFolderBorders: boolean;
+    }>;
 }>;
 
 export default ITreeOptions;
@@ -27,7 +37,7 @@ export const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
   virtualScrolling: {
     useVirtualScrolling: false,
-    minItemSize: 17.5,
+    minItemSize: 0,
   },
   nodeEvaluators: [],
   matchTermEvaluator: {
