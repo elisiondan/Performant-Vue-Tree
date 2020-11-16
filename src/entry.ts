@@ -1,4 +1,5 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
+import '@/assets/css/main.css';
 
 // Import vue component
 import component from '@/components/Tree.vue';

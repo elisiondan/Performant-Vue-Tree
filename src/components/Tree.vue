@@ -3,7 +3,7 @@
     ref="wrapper"
     v-model="collapsed"
     :title="accordionTitle"
-    class="tree mx-2 overflow-y-auto"
+    class="tree h-full mx-2 overflow-y-auto"
   >
     <template
       v-if="isWaitingForTreeProcessess"
@@ -65,6 +65,7 @@ import treeParser from '@/services/tree-parser';
 import WaitTypes from '@/enums/wait-types';
 import loaderService from '@/services/loader-service';
 import LoadingIndicator from '@/components/support/LoadingIndicator.vue';
+import '@/assets/css/main.css';
 
 let fullTree: IProcessedTreeNode[] = [];
 

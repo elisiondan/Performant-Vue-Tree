@@ -40,7 +40,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style lang="postcss">
-
-</style>

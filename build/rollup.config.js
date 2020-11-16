@@ -8,6 +8,7 @@ import replace from '@rollup/plugin-replace';
 import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
+import postCSS from 'rollup-plugin-postcss';
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs.readFileSync('./.browserslistrc')
@@ -24,7 +25,7 @@ const baseConfig = {
   plugins: {
     preVue: [
       alias({
-        resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+        resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue', 'css'],
         entries: {
           '@': path.resolve(projectRoot, 'src'),
         },
@@ -35,10 +36,15 @@ const baseConfig = {
       'process.env.ES_BUILD': JSON.stringify('false'),
     },
     vue: {
-      css: true,
-      template: {
-        isProduction: true,
-      },
+      css: false,
+      compileTemplate: true,
+    //   template: {
+    //     isProduction: true,
+    //   },
+    },
+    postCSS: {
+      extract: true,
+      plugins: [],
     },
     babel: {
       exclude: 'node_modules/**',
@@ -94,6 +100,7 @@ if (!argv.format || argv.format === 'es') {
         'process.env.ES_BUILD': JSON.stringify('true'),
       }),
       ...baseConfig.plugins.preVue,
+      postCSS(baseConfig.postCSS),
       vue(baseConfig.plugins.vue),
       babel({
         ...baseConfig.plugins.babel,
@@ -127,6 +134,7 @@ if (!argv.format || argv.format === 'cjs') {
     plugins: [
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
+      postCSS(baseConfig.postCSS),
       vue({
         ...baseConfig.plugins.vue,
         template: {
@@ -156,6 +164,7 @@ if (!argv.format || argv.format === 'iife') {
     plugins: [
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
+      postCSS(baseConfig.postCSS),
       vue(baseConfig.plugins.vue),
       babel(baseConfig.plugins.babel),
       commonjs(),

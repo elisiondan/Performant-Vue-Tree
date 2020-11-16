@@ -2,6 +2,7 @@
   <clr-icon
     :shape="props.name"
     :size="props.size"
+    class="inline-block"
     :dir="props.dir"
     @click="() => listeners.click && listeners.click()"
   />

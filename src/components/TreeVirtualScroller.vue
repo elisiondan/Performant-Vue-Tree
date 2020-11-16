@@ -70,5 +70,4 @@ export default Vue.extend({
 /* purgecss start ignore */
 @import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 /* purgecss end ignore */
-
 </style>
