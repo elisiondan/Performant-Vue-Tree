@@ -11,7 +11,7 @@ Find the full documentation [here](https://elisiondan.github.io/Performant-Vue-T
 
 
 ## :tophat: Demo
-
+Check out the demo [here](https://codesandbox.io/s/performant-vue-tree-example-wukbl?file=/src/App.vue)
 
 ## :copyright: License
 
