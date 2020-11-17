@@ -24,6 +24,6 @@ module.exports = {
       },
     ]
   },
-  title: 'performant-vue-tree',
+  title: 'Perfomant Vue Tree',
   base: '/Performant-Vue-Tree/'
 }
