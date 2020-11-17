@@ -21,6 +21,7 @@ declare module 'vue/types/vue' {
   }
   interface Vue {
     $wait: VueWait;
+    emitTreeEvent: (name: string, args?: unknown) => void;
   }
 }
 

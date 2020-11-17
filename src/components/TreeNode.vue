@@ -13,20 +13,24 @@
         @click="onArrowClick"
       />
 
-      <slot
-        name="prependLabel"
-        :node="node"
-      />
+      <slot name="nodeContent">
+        <slot
+          name="nodePrependLabel"
+          :node="node"
+        />
 
-      <tree-folder-icon
-        :node="node"
-        :options="options"
-      />
+        <tree-folder-icon
+          :node="node"
+          :options="options"
+        />
 
-      <div class="label">
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <span v-html="node.name || node.id" />
-      </div>
+        <slot name="nodeLabel">
+          <div class="label">
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <span v-html="node.name || node.id" />
+          </div>
+        </slot>
+      </slot>
     </div>
   </div>
 </template>
@@ -44,6 +48,7 @@ interface IData {
 
 export default Vue.extend({
   name: 'TreeNode',
+  inject: ['emitTreeEvent'],
   components: {
     TreeExpandArrow,
     TreeFolderIcon,
@@ -68,6 +73,7 @@ export default Vue.extend({
   },
   methods: {
     async onArrowClick() {
+      this.emitTreeEvent('arrow-click', this.node);
       this.$emit('arrow-click', this.node);
     },
   },

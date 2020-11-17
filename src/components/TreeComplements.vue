@@ -29,6 +29,7 @@ interface IData {
 
 export default Vue.extend({
   name: 'TreeComplements',
+  inject: ['emitTreeEvent'],
   components: {
     PvtSelect,
     PvtInput,
@@ -46,7 +47,7 @@ export default Vue.extend({
   data(): IData {
     return {
       selectedRoot: {
-        key: '',
+        id: '',
         value: 'Zobrazit vše',
       },
     };
@@ -54,12 +55,12 @@ export default Vue.extend({
   computed: {
     selectOptions(): item[] {
       const options = this.roots.map((root) => ({
-        key: root.id,
+        id: root.id,
         value: root.name || root.id.toString(),
       }));
 
       options.unshift({
-        key: '',
+        id: '',
         value: 'Zobrazit vše',
       });
 
@@ -74,7 +75,8 @@ export default Vue.extend({
       150,
     ),
     onSelectedRoot(root: item) {
-      this.$emit('select-root', root.key);
+      this.emitTreeEvent('select-root', root.id);
+      this.$emit('select-root', root.id);
     },
   },
 });

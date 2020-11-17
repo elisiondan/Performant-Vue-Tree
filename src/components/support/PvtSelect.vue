@@ -30,13 +30,13 @@ import { Prop, PropOptions } from 'vue/types/options.d';
 
 type value = item | string;
 
-const isCompositeItem = (value: unknown): value is item => !!value && Object.prototype.hasOwnProperty.call(value, 'key');
+const isCompositeItem = (value: unknown): value is item => !!value && Object.prototype.hasOwnProperty.call(value, 'id');
 
 const areSimpleItems = (value: unknown[]): value is string[] => !!value[0] && typeof value[0] === 'string';
 const areCompositeItems = (value: unknown[]): value is item[] => isCompositeItem(value[0]);
 
 export type item = {
-  key: string | number;
+  id: string | number;
   value: string | number;
 };
 

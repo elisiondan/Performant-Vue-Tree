@@ -9,7 +9,9 @@
       v-if="isWaitingForTreeProcessess"
       #expandedBeforeContent
     >
-      <loading-indicator />
+      <slot name="loading">
+        <loading-indicator />
+      </slot>
     </template>
 
     <template #expandedBeforeChevron>
@@ -27,19 +29,24 @@
       :tree-height="treeHeight"
       :roots="renderedTrees"
       :options="treeOptions"
-      class="eh"
-      @arrow-click="($event) => $emit('arrow-click', $event)"
     >
-      <template #prependLabel="nodeData">
+      <template #nodeContent="nodeData">
         <slot
-          name="prependLabel"
+          name="nodeContent"
           :data="nodeData"
         />
       </template>
 
-      <template #appendLabel="nodeData">
+      <template #nodePrependLabel="nodeData">
         <slot
-          name="appendLabel"
+          name="nodePrependLabel"
+          :data="nodeData"
+        />
+      </template>
+
+      <template #nodeLabel="nodeData">
+        <slot
+          name="nodeLabel"
           :data="nodeData"
         />
       </template>
@@ -95,6 +102,11 @@ export default Vue.extend({
       type: Object as PropType<ITreeOptions>,
       default: () => defaultOptions,
     },
+  },
+  provide() {
+    return {
+      emitTreeEvent: (name: string, args?: unknown) => this.$emit(name, args),
+    };
   },
   data(): IData {
     return {

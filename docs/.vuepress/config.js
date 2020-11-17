@@ -1,5 +1,4 @@
 module.exports = {
-  dest: 'vuepress',
   serviceWorker: true,
   themeConfig: {
     sidebar: [
@@ -11,6 +10,16 @@ module.exports = {
         children: [
           '/guide/basic-usage',
           '/guide/options',
+          '/guide/slots',
+          '/guide/custom-node-properties',
+          '/guide/internal-node-properties',
+        ]
+      },
+      {
+        title: 'Advanced',
+        collapsable: false,
+        children: [
+          '/advanced/node-evaluators',
         ]
       },
     ]

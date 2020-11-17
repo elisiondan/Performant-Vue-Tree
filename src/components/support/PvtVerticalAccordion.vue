@@ -56,6 +56,7 @@ export default Vue.extend({
   components: {
     ClarityIcon,
   },
+  inject: ['emitTreeEvent'],
   props: {
     title: {
       type: String,
@@ -94,11 +95,11 @@ export default Vue.extend({
   },
   methods: {
     onCollapse() {
-      this.$emit('collapsed');
+      this.emitTreeEvent('accordion-collapsed');
       this.isCollapsed = true;
     },
     onExpand() {
-      this.$emit('expanded');
+      this.emitTreeEvent('accordion-expanded');
       this.isCollapsed = false;
     },
   },

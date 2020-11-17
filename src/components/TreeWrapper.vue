@@ -14,17 +14,24 @@
         :depth="item.__depth"
         @arrow-click="onarrowClick"
       >
-        <template #prependLabel="data">
+        <template #nodeContent="nodeData">
           <slot
-            name="prependLabel"
-            :data="data"
+            name="nodeContent"
+            :data="nodeData"
           />
         </template>
 
-        <template #appendLabel="data">
+        <template #nodePrependLabel="nodeData">
           <slot
-            name="appendLabel"
-            :data="data"
+            name="nodePrependLabel"
+            :data="nodeData"
+          />
+        </template>
+
+        <template #nodeLabel="nodeData">
+          <slot
+            name="nodeLabel"
+            :data="nodeData"
           />
         </template>
       </tree-node>
