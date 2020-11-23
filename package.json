@@ -14,7 +14,8 @@
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
-    "vue:build": "vue-cli-service build ./fi-api-data/main.ts --modern"
+    "build:example": "vue-cli-service build ./fi-api-data/main.ts --modern",
+    "run:example": "npm run build:example && npx http-serve ./dist"
   },
   "main": "dist/performant-vue-tree.ssr.js",
   "module": "dist/performant-vue-tree.esm.js",
@@ -25,7 +26,7 @@
     "performant-vue-tree.d.ts"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.11.2",
+    "@babel/runtime": "^7.12.5",
     "@clr/icons": "^4.0.1",
     "@fullhuman/postcss-purgecss": "^3.0.0",
     "@types/lodash": "^4.14.161",
@@ -47,7 +48,7 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-react-jsx": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-typescript": "^7.9.0",
     "@rollup/plugin-alias": "^2.2.0",
@@ -65,6 +66,7 @@
     "@vue/eslint-config-airbnb": "^5.0.2",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^1.0.3",
+    "babel-polyfill": "^6.26.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.7.2",
     "eslint-import-resolver-alias": "^1.1.2",

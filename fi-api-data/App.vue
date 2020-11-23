@@ -84,8 +84,8 @@ export default Vue.extend({
     // this.fiData = parsedData;
     // console.warn(artificialTree());
     // this.treeData.trees = this.parseRootNode(parsedData.uzel[0]);
-    // this.treeData.trees = [artificialTree()];
-    this.treeData = trees;
+    this.treeData = [artificialTree()];
+    // this.treeData = trees;
     // console.log(JSON.stringify(artificialTree()));
   },
   methods: {
