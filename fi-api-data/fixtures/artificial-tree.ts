@@ -22,8 +22,8 @@ function generateChildren(remainingDepth: number) {
     return node;
   }
 
-  const nonFoldersCount = 600;
-  const foldersCount = 17;
+  const nonFoldersCount = 2838;
+  const foldersCount = 20;
 
   for (let i = 0; i < foldersCount; i += 1) {
     node.children.push(

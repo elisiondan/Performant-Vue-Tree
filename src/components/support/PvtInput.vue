@@ -4,6 +4,7 @@
       v-model="inputValue"
       class="border border-gray-400 w-full px-2 leading-8"
       :placeholder="placeholder"
+      @change="$emit('change', inputValue)"
     >
   </div>
 </template>

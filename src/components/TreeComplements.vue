@@ -10,7 +10,7 @@
     <pvt-input
       v-if="options.matchTermEvaluator.enabled"
       placeholder="Vyhledat"
-      @input="onSearchInput"
+      @change="onSearch"
     />
   </div>
 </template>
@@ -21,7 +21,6 @@ import PvtSelect, { item } from '@/components/support/PvtSelect.vue';
 import PvtInput from '@/components/support/PvtInput.vue';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import { IFullTreeOptions } from '@/models/tree-options';
-import { debounce } from 'lodash';
 
 interface IData {
     selectedRoot: item;
@@ -67,12 +66,9 @@ export default Vue.extend({
     },
   },
   methods: {
-    onSearchInput: debounce(
-      function onSearch(this: Vue, term: string) {
-        this.$emit('search', term);
-      },
-      150,
-    ),
+    onSearch(term: string) {
+      this.$emit('search', term);
+    },
     onSelectedRoot(root: item) {
       this.$emit('select-root', root.key);
     },

@@ -41,6 +41,7 @@ const baseConfig = {
       },
     },
     babel: {
+      runtimeHelpers: true,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
     },
