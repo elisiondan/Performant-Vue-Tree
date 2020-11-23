@@ -2,6 +2,7 @@ name: CI
 on: [push, pull_request]
 jobs:
   execute:
+    runs-on: ubuntu-20.04
     env: 
       INPUT_TOKEN: ''
     steps:
