@@ -7,6 +7,7 @@ interface AddedProperties {
     __leadsToMatched?: boolean;
     __matched?: boolean;
     __depth?: number;
+    __index?: number;
 }
 
 export default interface ITreeNode {

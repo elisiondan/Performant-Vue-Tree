@@ -19,6 +19,8 @@
       Zavřít vše
     </button>
 
+    <input class="border">
+
     <tree
       :trees="treeData"
       :options="options"

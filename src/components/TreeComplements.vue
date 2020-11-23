@@ -10,7 +10,7 @@
     <pvt-input
       v-if="options.matchTermEvaluator.enabled"
       placeholder="Vyhledat"
-      @input="onSearchInput"
+      @change="onSearch"
     />
   </div>
 </template>
@@ -20,8 +20,7 @@ import Vue, { PropType } from 'vue';
 import PvtSelect, { item } from '@/components/support/PvtSelect.vue';
 import PvtInput from '@/components/support/PvtInput.vue';
 import { IProcessedTreeNode } from '@/models/tree-node';
-import ITreeOptions from '@/models/tree-options';
-import { debounce } from 'lodash';
+import { IFullTreeOptions } from '@/models/tree-options';
 
 interface IData {
     selectedRoot: item;
@@ -40,7 +39,7 @@ export default Vue.extend({
       required: true,
     },
     options: {
-      type: Object as PropType<ITreeOptions>,
+      type: Object as PropType<IFullTreeOptions>,
       required: true,
     },
   },
@@ -48,32 +47,29 @@ export default Vue.extend({
     return {
       selectedRoot: {
         id: '',
-        value: 'Zobrazit vše',
+        value: this.options.i18n.show_all,
       },
     };
   },
   computed: {
     selectOptions(): item[] {
-      const options = this.roots.map((root) => ({
+      const options: item[] = this.roots.map((root) => ({
         id: root.id,
         value: root.name || root.id.toString(),
       }));
 
       options.unshift({
         id: '',
-        value: 'Zobrazit vše',
+        value: this.options.i18n.show_all,
       });
 
       return options;
     },
   },
   methods: {
-    onSearchInput: debounce(
-      function onSearch(this: Vue, term: string) {
-        this.$emit('search', term);
-      },
-      150,
-    ),
+    onSearch(term: string) {
+      this.$emit('search', term);
+    },
     onSelectedRoot(root: item) {
       this.emitTreeEvent('select-root', root.id);
       this.$emit('select-root', root.id);

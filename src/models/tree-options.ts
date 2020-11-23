@@ -2,36 +2,42 @@ import { INodeEvaluator } from '@/services/tree-traversal-service';
 import ITreeNode from '@/models/tree-node';
 import isExpandableNode from '@/functions/tree/is-expandable-node';
 
-type ITreeOptions = Partial<{
-    /* Whether node can be expanded or is a leaf node */
+type RecursivePartial<T> = {
+    [P in keyof T]?: T[P] extends Function ? T[P] : RecursivePartial<T[P]>;
+};
+
+type RecursiveRequired<T> = Required<{
+    [P in keyof T]: T[P] extends Function ? T[P] : Partial<T[P]>;
+}>;
+
+export type IFullTreeOptions = {
     isExpandable (node: ITreeNode): boolean;
     /* Virtual scrolling is crucial when using large number of nodes */
-    virtualScrolling: Partial<{
+    virtualScrolling: {
         useVirtualScrolling: boolean;
         /* When enabled, you have to define the minimal node's height.
            Does not matter if some are bigger */
         minItemSize: number;
-    }>;
+    };
     /* Node evaluators executed during tree traversal. See TBD */
     nodeEvaluators: INodeEvaluator[];
     /* Search by node name utility */
-    matchTermEvaluator: Partial<{
+    matchTermEvaluator: {
         enabled: boolean;
         /* Classname appended to nodes that match the search term */
         highlightClass: string;
-    }>;
-    /* Varisous visual options of the tree */
-    visual: Partial<{
-        /* Show icons for folders (i.e. nodes for which isExpandle is true) */
+    };
+    visual: {
         showIconForFolders: boolean;
-        /* Show left dotted line for folder's content */
         showFolderBorders: boolean;
-    }>;
-}>;
+    };
+    i18n: {
+        show_all: string;
+    };
+};
 
+type ITreeOptions = RecursivePartial<IFullTreeOptions>;
 export default ITreeOptions;
-
-export type IFullTreeOptions = Required<ITreeOptions>;
 
 export const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
@@ -47,5 +53,8 @@ export const defaultOptions: IFullTreeOptions = {
   visual: {
     showIconForFolders: true,
     showFolderBorders: true,
+  },
+  i18n: {
+    show_all: 'Zobrazit vše',
   },
 };
