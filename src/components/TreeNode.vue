@@ -1,10 +1,12 @@
 <template>
   <div
-    class="transition-border min-h-5"
+    class="transition-border min-h-5 focus:outline-none"
     :class="{
       'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot
     }"
     :style="{paddingLeft: `${0.5 * depth}rem`, marginLeft: `${0.5 * depth}rem`}"
+    tabindex="0"
+    @keyup.enter="onArrowClick"
   >
     <div class="mt-1 transition-bg leading-tight flex flex-auto items-center cursor-pointer ">
       <tree-expand-arrow

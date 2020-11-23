@@ -1,9 +1,16 @@
 <template>
   <dynamic-scroller
+    v-if="options.virtualScrolling.enableVariableSize"
     :items="items"
-    :min-item-size="minItemSize"
-    :key-field="keyField"
-    :buffer="800"
+    :min-item-size="options.virtualScrolling.itemSize"
+    :key-field="options.virtualScrolling.vueVirtualScrollerOptions.keyField"
+    :direction="options.virtualScrolling.vueVirtualScrollerOptions.direction"
+    :buffer="options.virtualScrolling.vueVirtualScrollerOptions.buffer"
+    :size-field="options.virtualScrolling.vueVirtualScrollerOptions.sizeFiled"
+    :type-field="options.virtualScrolling.vueVirtualScrollerOptions.typeField"
+    :page-mode="options.virtualScrolling.vueVirtualScrollerOptions.pageMode"
+    :prerender="options.virtualScrolling.vueVirtualScrollerOptions.prerender"
+    :emit-update="options.virtualScrolling.vueVirtualScrollerOptions.emitUpdate"
   >
     <template v-slot="{ item, index, active }">
       <dynamic-scroller-item
@@ -29,16 +36,41 @@
       </dynamic-scroller-item>
     </template>
   </dynamic-scroller>
+  <recycle-scroller
+    v-else
+    v-slot="{ item }"
+    :items="items"
+    :item-size="options.virtualScrolling.itemSize"
+    :key-field="options.virtualScrolling.vueVirtualScrollerOptions.keyField"
+    :direction="options.virtualScrolling.vueVirtualScrollerOptions.direction"
+    :buffer="options.virtualScrolling.vueVirtualScrollerOptions.buffer"
+    :size-field="options.virtualScrolling.vueVirtualScrollerOptions.sizeFiled"
+    :type-field="options.virtualScrolling.vueVirtualScrollerOptions.typeField"
+    :page-mode="options.virtualScrolling.vueVirtualScrollerOptions.pageMode"
+    :prerender="options.virtualScrolling.vueVirtualScrollerOptions.prerender"
+    :emit-update="options.virtualScrolling.vueVirtualScrollerOptions.emitUpdate"
+  >
+    <!--
+         @slot default scoped slot<br>
+         <b>SCOPED SLOT VARIABLES</b> <br>
+          1. `item` - Current item being iterated over<br>
+        -->
+    <slot
+      :item="item"
+    />
+  </recycle-scroller>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
+import { IFullTreeOptions } from '@/models/tree-options';
+import Vue, { PropType } from 'vue';
+import { DynamicScroller, DynamicScrollerItem, RecycleScroller } from 'vue-virtual-scroller';
 
 export default Vue.extend({
   name: 'RcDynamicScroller',
   components: {
     DynamicScroller,
     DynamicScrollerItem,
+    RecycleScroller,
   },
   props: {
     /**
@@ -48,18 +80,8 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
-    /**
-     * Minimal item height, to simplify dynamic height calculations
-     */
-    minItemSize: {
-      type: Number,
-      required: true,
-    },
-    /**
-     * Name of the field uniquely identifying each item (preferably some ID)
-     */
-    keyField: {
-      type: String,
+    options: {
+      type: Object as PropType<IFullTreeOptions>,
       required: true,
     },
   },

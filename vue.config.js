@@ -7,6 +7,7 @@ const WorkerPlugin = require('worker-plugin');
 module.exports = {
   runtimeCompiler: true,
   assetsDir: 'spa',
+  outputDir: 'example',
   devServer: {
     proxy: {
       '/api': {

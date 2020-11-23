@@ -6,18 +6,22 @@ type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends Function ? T[P] : RecursivePartial<T[P]>;
 };
 
-type RecursiveRequired<T> = Required<{
-    [P in keyof T]: T[P] extends Function ? T[P] : Partial<T[P]>;
-}>;
-
 export type IFullTreeOptions = {
     isExpandable (node: ITreeNode): boolean;
     /* Virtual scrolling is crucial when using large number of nodes */
     virtualScrolling: {
         useVirtualScrolling: boolean;
-        /* When enabled, you have to define the minimal node's height.
+        /* When enabled, you have to define the node's height.
+           If variable size mode is enabled, provide minimal height of each item.
            Does not matter if some are bigger */
-        minItemSize: number;
+        itemSize: number;
+        /* When enabled, each item can have variable height.
+           May have impact on performance */
+        enableVariableSize: boolean;
+        /** Refer to @link https://github.com/Akryum/vue-virtual-scroller for available options.
+         * You should not define here 'items', 'itemSize' and 'minItemSize'
+         */
+        vueVirtualScrollerOptions: object;
     };
     /* Node evaluators executed during tree traversal. See TBD */
     nodeEvaluators: INodeEvaluator[];
@@ -43,7 +47,18 @@ export const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
   virtualScrolling: {
     useVirtualScrolling: false,
-    minItemSize: 0,
+    itemSize: 0,
+    enableVariableSize: false,
+    vueVirtualScrollerOptions: {
+      buffer: 1000,
+      direction: 'vertical',
+      sizeField: 'size',
+      typeField: 'type',
+      pageMode: false,
+      prerender: 0,
+      emitUpdate: false,
+      keyField: 'id',
+    },
   },
   nodeEvaluators: [],
   matchTermEvaluator: {

@@ -19,7 +19,6 @@
         ref="complements"
         :roots="roots"
         :options="treeOptions"
-        class="max-w-md"
         @search="onSearch"
         @select-root="onSelectRoot"
       />
@@ -64,7 +63,7 @@ import TreeWrapper from '@/components/TreeWrapper.vue';
 import TreeComplements from '@/components/TreeComplements.vue';
 
 import treeObserver from '@/services/tree-observer';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 
 import { IProcessedTreeNode } from '@/models/tree-node';
 import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator';
@@ -127,10 +126,7 @@ export default Vue.extend({
       ]);
     },
     treeOptions(): IFullTreeOptions {
-      const options: IFullTreeOptions = {
-        ...defaultOptions,
-        ...(this.options as any),
-      };
+      const options: IFullTreeOptions = merge(defaultOptions, this.options);
 
       if (options.matchTermEvaluator.enabled) {
         options.nodeEvaluators.push(MatchTermEvaluator);

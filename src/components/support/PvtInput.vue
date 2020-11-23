@@ -32,7 +32,7 @@ export default Vue.extend({
   },
   computed: {
     inputValue: {
-      get(): string { return this.value; },
+      get(): string { return this.localValue; },
       set(value: string): void {
         this.localValue = value;
         this.$emit('input', value);

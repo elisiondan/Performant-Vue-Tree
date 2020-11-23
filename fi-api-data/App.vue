@@ -19,8 +19,6 @@
       Zavřít vše
     </button>
 
-    <input class="border">
-
     <tree
       :trees="treeData"
       :options="options"
@@ -74,7 +72,8 @@ export default Vue.extend({
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
         virtualScrolling: {
           useVirtualScrolling: true,
-          minItemSize: 17.5,
+          itemSize: 24,
+          enableVariableSize: false,
         },
       };
 
@@ -84,11 +83,9 @@ export default Vue.extend({
   async created() {
     // const parsedData = await this.fetchParsedData('/auth/do/mu');
     // this.fiData = parsedData;
-    // console.warn(artificialTree());
     // this.treeData.trees = this.parseRootNode(parsedData.uzel[0]);
     this.treeData = [artificialTree()];
     // this.treeData = trees;
-    // console.log(JSON.stringify(artificialTree()));
   },
   methods: {
     expandAll() {

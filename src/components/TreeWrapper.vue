@@ -2,8 +2,7 @@
   <tree-virtual-scroller
     v-if="options.virtualScrolling.useVirtualScrolling"
     :items="renderedTree"
-    key-field="id"
-    :min-item-size="17.5"
+    :options="options"
     :style="{maxHeight: treeHeight}"
   >
     <template #default="{item}">
