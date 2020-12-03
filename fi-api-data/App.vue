@@ -159,6 +159,6 @@ export default Vue.extend({
 
 <style lang="postcss" scoped>
 .tree {
-    height: calc(100vh - 120px)
+    /* height: calc(100vh - 120px) */
 }
 </style>

@@ -5,6 +5,7 @@ const flattenTree = (
   depth = 0,
   index: number,
   nodes: IProcessedTreeNode[] = [],
+  isExpandableNode: (node: IProcessedTreeNode) => boolean,
 ) => {
   nodes.push({
     ...node,
@@ -13,8 +14,12 @@ const flattenTree = (
   });
 
   node.children.forEach((n, i) => {
-    flattenTree(n, depth + 1, index + i + 1, nodes);
+    flattenTree(n, depth + 1, index + i + 1, nodes, isExpandableNode);
   });
+
+  node.children = node.children
+    .sort((a, b) => (+isExpandableNode(b)) - (+isExpandableNode(a)));
+
   return nodes;
 };
 

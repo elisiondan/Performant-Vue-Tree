@@ -122,10 +122,15 @@ export default Vue.extend({
         let flatTree: IProcessedTreeNode[] = [];
         if (this.options.virtualScrolling.useVirtualScrolling) {
           newRoots.forEach((root) => {
-            flatTree = [...flatTree, ...flattenTree(root, 0, flatTree.length)];
+            flatTree = [
+              ...flatTree,
+              ...flattenTree(root, 0, flatTree.length, [], this.isExpandableNode),
+            ];
           });
         } else {
-          flatTree = newRoots.map((root) => { root.__depth = 0; return root; });
+          flatTree = newRoots
+            .map((root) => { root.__depth = 0; return root; })
+            .sort((a, b) => (+this.isExpandableNode(b)) - (+this.isExpandableNode(a)));
         }
 
         this.renderedTree = this.getVisibleNodes(flatTree);
@@ -167,6 +172,8 @@ export default Vue.extend({
       node.__state = NodeState.OPEN;
       loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
       node.children = await this.options.getChildren(node);
+      node.children = node.children
+        .sort((a, b) => (+this.isExpandableNode(b)) - (+this.isExpandableNode(a)));
       loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
       console.log(node);
       node.children.forEach((n) => { n.__visible = true; });
@@ -177,7 +184,11 @@ export default Vue.extend({
     },
 
     getNewRenderNodes(node: IProcessedTreeNode) {
-      const changingNodes = flattenTree(node, node.__depth, node.__index || 0)
+      const changingNodes = flattenTree(node,
+        node.__depth,
+        node.__index || 0,
+        [],
+        this.isExpandableNode)
         .filter((n) => n.__visible);
 
       if (changingNodes[0].__index !== undefined) {
@@ -188,6 +199,10 @@ export default Vue.extend({
           this.renderedTree.splice(changingNodes[0].__index + 1, 0, ...changingNodes.splice(1));
         }
       }
+    },
+
+    isExpandableNode(node: IProcessedTreeNode) {
+      return this.options.isExpandable(node);
     },
   },
 });
