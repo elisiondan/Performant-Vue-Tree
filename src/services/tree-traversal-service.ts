@@ -1,8 +1,5 @@
 import TreeNode from '@/models/tree-node';
-
-export interface INodeEvaluator {
-  handleNode(node: TreeNode, payload?: any): void;
-}
+import { INodeEvaluator } from '@/models/node-evaluator';
 
 /**
  * TreeTraversalService is responsible for traversing tree and

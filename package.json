@@ -6,7 +6,7 @@
   "author": "Daniel Charvát",
   "scripts": {
     "serve": "vue-cli-service serve ./fi-api-data/main.ts",
-    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run emit-declarations",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
@@ -15,7 +15,8 @@
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
     "build:example": "vue-cli-service build ./fi-api-data/main.ts --modern",
-    "run:example": "npm run build:example && npx http-serve ./dist"
+    "run:example": "npm run build:example && npx http-serve ./dist",
+    "emit-declarations": "tsc -p ./tsconfig.build.json --emitDeclarationOnly"
   },
   "main": "dist/performant-vue-tree.ssr.js",
   "module": "dist/performant-vue-tree.esm.js",

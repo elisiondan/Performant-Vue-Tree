@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { INodeEvaluator } from '@/services/tree-traversal-service';
+import { INodeEvaluator } from '@/models/node-evaluator';
+
 import { IProcessedTreeNode } from '@/models/tree-node';
 
 /**

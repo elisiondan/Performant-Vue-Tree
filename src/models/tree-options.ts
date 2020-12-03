@@ -1,7 +1,5 @@
-import { INodeEvaluator } from '@/services/tree-traversal-service';
 import ITreeNode from '@/models/tree-node';
-import isExpandableNode from '@/functions/tree/is-expandable-node';
-import getNodeChildren from '@/functions/tree/get-node-children';
+import { INodeEvaluator } from '@/models/node-evaluator';
 
 type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends Function ? T[P] : RecursivePartial<T[P]>;
@@ -46,35 +44,3 @@ export type IFullTreeOptions = {
 
 type ITreeOptions = RecursivePartial<IFullTreeOptions>;
 export default ITreeOptions;
-
-export const defaultOptions: IFullTreeOptions = {
-  isExpandable: isExpandableNode,
-  getChildren: getNodeChildren,
-  virtualScrolling: {
-    useVirtualScrolling: false,
-    itemSize: 0,
-    enableVariableSize: false,
-    vueVirtualScrollerOptions: {
-      buffer: 1000,
-      direction: 'vertical',
-      sizeField: 'size',
-      typeField: 'type',
-      pageMode: false,
-      prerender: 0,
-      emitUpdate: false,
-      keyField: 'id',
-    },
-  },
-  nodeEvaluators: [],
-  matchTermEvaluator: {
-    enabled: true,
-    highlightClass: 'bg-yellow-400',
-  },
-  visual: {
-    showIconForFolders: true,
-    showFolderBorders: true,
-  },
-  i18n: {
-    show_all: 'Zobrazit vše',
-  },
-};

@@ -56,7 +56,8 @@
 <script lang='ts'>
 import Vue, { PropType } from 'vue';
 import ITreeData from '@/models/tree-data';
-import ITreeOptions, { IFullTreeOptions, defaultOptions } from '@/models/tree-options';
+import ITreeOptions, { IFullTreeOptions } from '@/models/tree-options';
+import defaultOptions from '@/defaults/default-tree-options';
 import PvtVerticalAccordion from '@/components/support/PvtVerticalAccordion.vue';
 
 import TreeWrapper from '@/components/TreeWrapper.vue';

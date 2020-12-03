@@ -2,7 +2,7 @@ import { IProcessedTreeNode } from '@/models/tree-node';
 import { IItraversalOutput, ITraversalInput } from '@/workers/tree-traversal-worker';
 import JSONfn from 'json-fn';
 import WorkerService from '@/services/worker-service';
-import { INodeEvaluator } from '@/services/tree-traversal-service';
+import { INodeEvaluator } from '@/models/node-evaluator';
 
 const treeTraversalWorker = new WorkerService(
   new Worker('@/workers/tree-traversal-worker.ts', { type: 'module' }),
