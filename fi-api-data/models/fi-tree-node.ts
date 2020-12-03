@@ -1,5 +1,5 @@
-import ITreeNode from '@/models/tree-node';
+import { IProcessedTreeNode } from '@/models/tree-node';
 
-export default interface IFiTreeNode extends ITreeNode {
+export default interface IFiTreeNode extends IProcessedTreeNode {
     url: string;
 }

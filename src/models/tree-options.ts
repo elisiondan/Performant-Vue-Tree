@@ -1,6 +1,7 @@
 import { INodeEvaluator } from '@/services/tree-traversal-service';
 import ITreeNode from '@/models/tree-node';
 import isExpandableNode from '@/functions/tree/is-expandable-node';
+import getNodeChildren from '@/functions/tree/get-node-children';
 
 type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends Function ? T[P] : RecursivePartial<T[P]>;
@@ -8,6 +9,9 @@ type RecursivePartial<T> = {
 
 export type IFullTreeOptions = {
     isExpandable (node: ITreeNode): boolean;
+    /* Getter for node children, is awaited.
+     * Useful when you need to retreive children asynchronously */
+    getChildren (node: ITreeNode): ITreeNode[] | Promise<ITreeNode[]>;
     /* Virtual scrolling is crucial when using large number of nodes */
     virtualScrolling: {
         useVirtualScrolling: boolean;
@@ -45,6 +49,7 @@ export default ITreeOptions;
 
 export const defaultOptions: IFullTreeOptions = {
   isExpandable: isExpandableNode,
+  getChildren: getNodeChildren,
   virtualScrolling: {
     useVirtualScrolling: false,
     itemSize: 0,

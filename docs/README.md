@@ -1,7 +1,7 @@
 ---
 home: true
 heroText: Performant Vue Tree
-tagline: Right choice for vizualization of large tree structures
+tagline: The right choice for vizualization of large tree structures
 actionText: Get Started →
 actionLink: /introduction
 features:

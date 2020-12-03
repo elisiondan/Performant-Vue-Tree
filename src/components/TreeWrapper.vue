@@ -108,6 +108,11 @@ export default Vue.extend({
       renderedTree: [],
     };
   },
+  computed: {
+    isVirtualScrollerEnabled(): boolean {
+      return this.options.virtualScrolling.useVirtualScrolling;
+    },
+  },
   watch: {
     roots: {
       immediate: true,
@@ -115,9 +120,13 @@ export default Vue.extend({
         console.log('flatten start');
         loaderService.start(WaitTypes.FLATTENING_TREE);
         let flatTree: IProcessedTreeNode[] = [];
-        newRoots.forEach((root) => {
-          flatTree = [...flatTree, ...flattenTree(root, 0, flatTree.length)];
-        });
+        if (this.options.virtualScrolling.useVirtualScrolling) {
+          newRoots.forEach((root) => {
+            flatTree = [...flatTree, ...flattenTree(root, 0, flatTree.length)];
+          });
+        } else {
+          flatTree = newRoots.map((root) => { root.__depth = 0; return root; });
+        }
 
         this.renderedTree = this.getVisibleNodes(flatTree);
         loaderService.end(WaitTypes.FLATTENING_TREE);
@@ -129,16 +138,21 @@ export default Vue.extend({
     async onarrowClick(node: IProcessedTreeNode) {
       const expanded = isExpanded(node);
       if (expanded) {
-        this.handleExpandedNode(node);
+        await this.handleExpandedNode(node);
       } else {
-        this.handleCollapsedNode(node);
+        await this.handleCollapsedNode(node);
       }
 
-      //   console.log('expanding begin');
-      loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
-      this.getNewRenderNodes(node);
-      loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
-    //   console.log('expanding end');
+      if (this.isVirtualScrollerEnabled) {
+        console.log('expanding begin');
+        loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
+        this.getNewRenderNodes(node);
+        loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
+        console.log('expanding end');
+      } else {
+        // Since mutating nodes directly, we have to manually re-render
+        this.$forceUpdate();
+      }
     },
 
     async handleExpandedNode(node: IProcessedTreeNode) {
@@ -149,8 +163,12 @@ export default Vue.extend({
       });
     },
 
-    handleCollapsedNode(node: IProcessedTreeNode) {
+    async handleCollapsedNode(node: IProcessedTreeNode) {
       node.__state = NodeState.OPEN;
+      loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
+      node.children = await this.options.getChildren(node);
+      loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
+      console.log(node);
       node.children.forEach((n) => { n.__visible = true; });
     },
 

@@ -23,7 +23,6 @@
       :trees="treeData"
       :options="options"
       class="max-w-sm tree"
-      @arrow-click="onarrowClick"
     />
   </div>
 </template>
@@ -69,11 +68,12 @@ export default Vue.extend({
     options(): ITreeOptions {
       const options: ITreeOptions = {
         isExpandable(node: FiTreeNode) { return !!node.url || node.children.length > 0; },
+        getChildren: this.onarrowClick,
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
         virtualScrolling: {
-          useVirtualScrolling: true,
-          itemSize: 24,
-          enableVariableSize: false,
+          useVirtualScrolling: false,
+        //   itemSize: 24,
+        //   enableVariableSize: true,
         },
       };
 
@@ -81,10 +81,10 @@ export default Vue.extend({
     },
   },
   async created() {
-    // const parsedData = await this.fetchParsedData('/auth/do/mu');
-    // this.fiData = parsedData;
-    // this.treeData.trees = this.parseRootNode(parsedData.uzel[0]);
-    this.treeData = [artificialTree()];
+    const parsedData = await this.fetchParsedData('/auth/do/mu');
+    this.fiData = parsedData;
+    this.treeData = this.parseRootNode(parsedData.uzel[0]);
+    // this.treeData = [artificialTree()];
     // this.treeData = trees;
   },
   methods: {
@@ -133,6 +133,7 @@ export default Vue.extend({
         name: this.getNodeName(node),
         children: [],
         url: this.getUrlForNode(node),
+        __visible: true,
       };
 
       return treeNode;
@@ -145,11 +146,12 @@ export default Vue.extend({
     },
 
     async onarrowClick(item: FiTreeNode) {
-      if (item.url) {
-        // const parsedData = await this.fetchParsedData(item.url);
+      if (item.url && item.children.length === 0) {
+        const parsedData = await this.fetchParsedData(item.url);
         // eslint-disable-next-line no-param-reassign
-        // item.children = this.parseRootNode(parsedData.uzel[0]);
+        item.children = this.parseRootNode(parsedData.uzel[0]);
       }
+      return item.children;
     },
   },
 });

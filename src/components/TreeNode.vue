@@ -1,5 +1,6 @@
 <template>
   <div
+    :id="node.id"
     class="transition-border min-h-5 focus:outline-none"
     :class="{
       'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot
@@ -34,6 +35,32 @@
         </slot>
       </slot>
     </div>
+    <!-- {{ isExpanded(node) }} {{ node.__state === 'open' }} -->
+    <template v-if="isRecursive && isExpanded(node)">
+      <tree-node
+        v-for="child in node.children"
+        :key="child.id"
+        :node="child"
+        :options="options"
+        :is-root="false"
+        :depth="depth + 1"
+        @arrow-click="onArrowClick"
+      >
+        <template #prependLabel="data">
+          <slot
+            name="prependLabel"
+            :data="data"
+          />
+        </template>
+
+        <template #appendLabel="data">
+          <slot
+            name="appendLabel"
+            :data="data"
+          />
+        </template>
+      </tree-node>
+    </template>
   </div>
 </template>
 
@@ -43,12 +70,13 @@ import { IProcessedTreeNode } from '@/models/tree-node';
 import TreeExpandArrow from '@/components/TreeExpandArrow.vue';
 import TreeFolderIcon from '@/components/TreeFolderIcon.vue';
 import { IFullTreeOptions } from '@/models/tree-options';
+import isExpanded from '@/functions/tree/is-expanded';
 
 interface IData {
     nodesToRender: IProcessedTreeNode[];
 }
 
-export default Vue.extend({
+const TreeNode = Vue.extend({
   name: 'TreeNode',
   inject: ['emitTreeEvent'],
   components: {
@@ -73,11 +101,21 @@ export default Vue.extend({
       required: true,
     },
   },
+  computed: {
+    isRecursive(): boolean {
+      return !this.options.virtualScrolling.useVirtualScrolling;
+    },
+  },
   methods: {
-    async onArrowClick() {
-      this.emitTreeEvent('arrow-click', this.node);
-      this.$emit('arrow-click', this.node);
+    onArrowClick(node?: IProcessedTreeNode) {
+      this.emitTreeEvent('arrow-click', node || this.node);
+      this.$emit('arrow-click', node || this.node);
+    },
+    isExpanded(node: IProcessedTreeNode) {
+      return isExpanded(node);
     },
   },
 });
+
+export default TreeNode;
 </script>
