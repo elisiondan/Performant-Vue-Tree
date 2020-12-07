@@ -81,10 +81,10 @@ export default Vue.extend({
     },
   },
   async created() {
-    const parsedData = await this.fetchParsedData('/auth/do/mu');
-    this.fiData = parsedData;
-    this.treeData = this.parseRootNode(parsedData.uzel[0]);
-    // this.treeData = [artificialTree()];
+    // const parsedData = await this.fetchParsedData('/auth/do/mu');
+    // this.fiData = parsedData;
+    // this.treeData = this.parseRootNode(parsedData.uzel[0]);
+    this.treeData = [artificialTree()];
     // this.treeData = trees;
   },
   methods: {
@@ -159,6 +159,6 @@ export default Vue.extend({
 
 <style lang="postcss" scoped>
 .tree {
-    /* height: calc(100vh - 120px) */
+    height: calc(100vh - 120px);
 }
 </style>

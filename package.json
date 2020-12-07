@@ -15,7 +15,7 @@
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
     "build:example": "vue-cli-service build ./fi-api-data/main.ts --modern",
-    "run:example": "npm run build:example && npx http-serve ./dist",
+    "run:example": "npm run build:example && npx http-serve ./example",
     "post-build-scripts": "npm run emit-declarations && node scripts/copy-public-api.js",
     "emit-declarations": "tsc -p ./tsconfig.build.json --emitDeclarationOnly"
   },
