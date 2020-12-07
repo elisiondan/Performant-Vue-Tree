@@ -175,7 +175,6 @@ export default Vue.extend({
       node.children = node.children
         .sort((a, b) => (+this.isExpandableNode(b)) - (+this.isExpandableNode(a)));
       loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
-      console.log(node);
       node.children.forEach((n) => { n.__visible = true; });
     },
 

@@ -9,6 +9,10 @@ import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 import postCSS from 'rollup-plugin-postcss';
+// import webWorkerLoader from 'rollup-plugin-web-worker-loader';
+// import webWorkerLoader2 from '@qintx/rollup-plugin-web-worker-loader';
+// import OMT from '@surma/rollup-plugin-off-main-thread';
+// import workerInline from 'rollup-plugin-worker-inline';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const postcssConfig = require('../postcss.config');
@@ -23,7 +27,7 @@ const argv = minimist(process.argv.slice(2));
 const projectRoot = path.resolve(__dirname, '..');
 
 const baseConfig = {
-  input: 'src/entry.ts',
+  input: 'src/performant-vue-tree.ts',
   plugins: {
     preVue: [
       alias({
@@ -56,6 +60,9 @@ const baseConfig = {
       runtimeHelpers: true,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+    },
+    webWorkerLoader: {
+
     },
   },
 };
@@ -97,17 +104,24 @@ if (!argv.format || argv.format === 'es') {
     ...baseConfig,
     external,
     output: {
-      file: 'dist/performant-vue-tree.esm.js',
+    //   file: 'dist/performant-vue-tree.esm.js',
+      dir: 'dist',
       format: 'esm',
       exports: 'named',
     },
     plugins: [
+    //   OMT({
+    //     useEval: true,
+    //   }),
+    //   workerInline(),
       postCSS(baseConfig.postCSS),
       replace({
         ...baseConfig.plugins.replace,
         'process.env.ES_BUILD': JSON.stringify('true'),
       }),
       ...baseConfig.plugins.preVue,
+      //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
+      //   webWorkerLoader2(),
       vue(baseConfig.plugins.vue),
       babel({
         ...baseConfig.plugins.babel,
@@ -141,6 +155,7 @@ if (!argv.format || argv.format === 'cjs') {
     plugins: [
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
+      //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
       postCSS(baseConfig.postCSS),
       vue({
         ...baseConfig.plugins.vue,
@@ -171,6 +186,7 @@ if (!argv.format || argv.format === 'iife') {
     plugins: [
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
+      //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
       postCSS(baseConfig.postCSS),
       vue(baseConfig.plugins.vue),
       babel(baseConfig.plugins.babel),

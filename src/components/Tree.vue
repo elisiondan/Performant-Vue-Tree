@@ -202,7 +202,7 @@ export default Vue.extend({
 
       console.log('traversal end');
 
-      this.traversedTrees = newTrees;
+    //   this.traversedTrees = newTrees;
     },
     async getTreeHeight() {
       await this.$nextTick();
