@@ -71,8 +71,8 @@ export default Vue.extend({
         getChildren: this.onarrowClick,
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
         virtualScrolling: {
-          useVirtualScrolling: false,
-        //   itemSize: 24,
+          useVirtualScrolling: true,
+          itemSize: 24,
         //   enableVariableSize: true,
         },
       };
