@@ -28,9 +28,11 @@
         class="flex flex-col h-full relative"
       >
         <slot name="expandedBeforeContent" />
-        <div class="flex w-full justify-between sticky top-0 bg-white z-10">
+        <div
+          class="flex w-full justify-between sticky top-0 bg-white z-10 border-b border-gray-400"
+        >
           <slot name="expandedBeforeChevron" />
-          <div class="my-auto cursor-pointer">
+          <div class="my-auto cursor-pointer flex">
             <clarity-icon
               class="inline-flex"
               name="angle-double"

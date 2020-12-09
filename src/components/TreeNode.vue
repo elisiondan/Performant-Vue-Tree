@@ -3,13 +3,17 @@
     :id="node.id"
     class="transition-border min-h-5 focus:outline-none"
     :class="{
-      'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot
+      'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot,
+      'pb-1': isExpanded(node)
     }"
-    :style="{paddingLeft: `${0.5 * depth}rem`, marginLeft: `${0.5 * depth}rem`}"
+    :style="{paddingLeft: !isRoot ? '75rem' : '', marginLeft: !isRoot ? '.5rem' : ''}"
     tabindex="0"
     @keyup.enter="onArrowClick"
   >
-    <div class="mt-1 transition-bg leading-tight flex flex-auto items-center cursor-pointer ">
+    <div
+      class="py-3 md:py-1 transition-bg leading-tight
+            flex flex-auto items-center cursor-pointer"
+    >
       <tree-expand-arrow
         :node="node"
         :options="options"
@@ -22,7 +26,7 @@
           :node="node"
         />
 
-        <tree-folder-icon
+        <tree-node-icon
           :node="node"
           :options="options"
         />
@@ -68,7 +72,7 @@
 import Vue, { PropType } from 'vue';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import TreeExpandArrow from '@/components/TreeExpandArrow.vue';
-import TreeFolderIcon from '@/components/TreeFolderIcon.vue';
+import TreeNodeIcon from '@/components/TreeNodeIcon.vue';
 import { IFullTreeOptions } from '@/models/tree-options';
 import isExpanded from '@/functions/tree/is-expanded';
 
@@ -81,7 +85,7 @@ const TreeNode = Vue.extend({
   inject: ['emitTreeEvent'],
   components: {
     TreeExpandArrow,
-    TreeFolderIcon,
+    TreeNodeIcon,
   },
   props: {
     node: {

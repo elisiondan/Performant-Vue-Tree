@@ -27,11 +27,11 @@ export default Vue.extend({
 
     const dir = isExpanded(props.node) ? 'down' : 'right';
 
-    return <div onClick={() => onClick()}>
+    return <div onClick={() => onClick()} class="mr-1">
         {/* @ts-ignore */}
         <ClarityIcon dir={dir}
             name="angle"
-            size={18}
+            size={20}
         />
     </div>;
   },

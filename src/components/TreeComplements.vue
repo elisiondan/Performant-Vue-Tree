@@ -1,8 +1,8 @@
 <template>
-  <div class="border-b border-gray-400 py-3 w-full mr-4 md:flex">
+  <div class="py-3 w-full mr-4 md:flex">
     <pvt-select
       v-model="selectedRoot"
-      class="mb-2 md:mr-4"
+      class="mb-2 md:mr-4 md:mb-0"
       placeholder="Select root"
       :items="selectOptions"
       @input="onSelectedRoot"

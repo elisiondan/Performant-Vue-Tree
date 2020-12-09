@@ -6,7 +6,7 @@ import { IFullTreeOptions } from '@/models/tree-options';
 import { IProcessedTreeNode } from '@/models/tree-node';
 
 export default Vue.extend({
-  name: 'TreeFolderIcon',
+  name: 'TreeNodeIcon',
   functional: true,
   props: {
     node: {
@@ -20,14 +20,13 @@ export default Vue.extend({
   },
   render(h, { props }) {
     const isNotFolder = !props.options.isExpandable(props.node);
+    const iconName = isNotFolder ? 'file' : 'folder';
+    let classes = 'mr-2';
+    classes += isNotFolder ? ' ml-1' : '';
 
-    if (props.options.visual.showIconForFolders === false || isNotFolder) {
-      return <div/>;
-    }
     /* @ts-ignore */
-    return <div class="mr-1"><ClarityIcon size={16}
-            key="test"
-            name="folder"
+    return <div class={classes}><ClarityIcon size={16}
+            name={iconName}
         /></div>;
   },
 });

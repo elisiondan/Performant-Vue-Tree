@@ -3,7 +3,7 @@
     ref="wrapper"
     v-model="collapsed"
     :title="accordionTitle"
-    class="tree h-full mx-2 overflow-y-auto"
+    class="tree h-full overflow-y-auto xxl:text-lg"
   >
     <template
       v-if="isWaitingForTreeProcessess"
@@ -28,6 +28,7 @@
       :tree-height="treeHeight"
       :roots="renderedTrees"
       :options="treeOptions"
+      class="mt-2 md:mt-4"
     >
       <template #nodeContent="nodeData">
         <slot
