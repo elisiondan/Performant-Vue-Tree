@@ -11,7 +11,7 @@ import minimist from 'minimist';
 import postCSS from 'rollup-plugin-postcss';
 // import webWorkerLoader from 'rollup-plugin-web-worker-loader';
 // import webWorkerLoader2 from '@qintx/rollup-plugin-web-worker-loader';
-// import OMT from '@surma/rollup-plugin-off-main-thread';
+import OMT from '@surma/rollup-plugin-off-main-thread';
 // import workerInline from 'rollup-plugin-worker-inline';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -110,10 +110,11 @@ if (!argv.format || argv.format === 'es') {
       exports: 'named',
     },
     plugins: [
-    //   OMT({
-    //     useEval: true,
-    //   }),
-    //   workerInline(),
+      OMT({
+        useEval: true,
+        format: 'esm',
+      }),
+      //   workerInline(),
       postCSS(baseConfig.postCSS),
       replace({
         ...baseConfig.plugins.replace,

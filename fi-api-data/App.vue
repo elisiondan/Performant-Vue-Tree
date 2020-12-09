@@ -53,6 +53,9 @@ type Node = FiFolderNode | FiFileNode;
 const isFileNode = (i: Node): i is FiFileNode => Object.prototype.hasOwnProperty.call(i, 'objekty');
 const isFolderNode = (i: Node): i is FiFolderNode => !isFileNode(i);
 
+const w = new Worker('../dist/tree-traversal-worker-100ca184', { type: 'module' });
+console.warn(w);
+
 export default Vue.extend({
   name: 'App',
   components: {
