@@ -10,7 +10,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'LoadingIndicator',
+  name: 'PvtLoadingIndicator',
   props: {
     size: {
       type: Number,

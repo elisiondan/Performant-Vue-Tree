@@ -1,6 +1,6 @@
 <script lang="tsx">
 import Vue from 'vue';
-import ClarityIcon from '@/components/support/ClarityIcon.vue';
+import PvtClarityIcon from '@/components/support/PvtClarityIcon.vue';
 import { Prop } from 'vue/types/options.d';
 import isExpanded from '@/functions/tree/is-expanded';
 import { IProcessedTreeNode } from '@/models/tree-node';
@@ -29,7 +29,7 @@ export default Vue.extend({
 
     return <div onClick={() => onClick()} class="mr-1">
         {/* @ts-ignore */}
-        <ClarityIcon dir={dir}
+        <PvtClarityIcon dir={dir}
             name="angle"
             size={20}
         />

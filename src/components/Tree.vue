@@ -10,7 +10,7 @@
       #expandedBeforeContent
     >
       <slot name="loading">
-        <loading-indicator />
+        <pvt-loading-indicator />
       </slot>
     </template>
 
@@ -72,7 +72,7 @@ import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator'
 import treeParser from '@/services/tree-parser';
 import WaitTypes from '@/enums/wait-types';
 import loaderService from '@/services/loader-service';
-import LoadingIndicator from '@/components/support/LoadingIndicator.vue';
+import PvtLoadingIndicator from '@/components/support/PvtLoadingIndicator.vue';
 import '@/assets/css/main.css';
 
 let fullTree: IProcessedTreeNode[] = [];
@@ -92,7 +92,7 @@ export default Vue.extend({
     TreeWrapper,
     TreeComplements,
     PvtVerticalAccordion,
-    LoadingIndicator,
+    PvtLoadingIndicator,
   },
   props: {
     trees: {

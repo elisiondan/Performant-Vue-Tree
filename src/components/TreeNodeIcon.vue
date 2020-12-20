@@ -1,6 +1,6 @@
 <script lang="tsx">
 import Vue from 'vue';
-import ClarityIcon from '@/components/support/ClarityIcon.vue';
+import PvtClarityIcon from '@/components/support/PvtClarityIcon.vue';
 import { Prop } from 'vue/types/options.d';
 import { IFullTreeOptions } from '@/models/tree-options';
 import { IProcessedTreeNode } from '@/models/tree-node';
@@ -25,7 +25,7 @@ export default Vue.extend({
     classes += isNotFolder ? ' ml-1' : '';
 
     /* @ts-ignore */
-    return <div class={classes}><ClarityIcon size={16}
+    return <div class={classes}><PvtClarityIcon size={16}
             name={iconName}
         /></div>;
   },

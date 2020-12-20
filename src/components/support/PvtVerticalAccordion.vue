@@ -33,7 +33,7 @@
         >
           <slot name="expandedBeforeChevron" />
           <div class="my-auto cursor-pointer flex">
-            <clarity-icon
+            <pvt-clarity-icon
               class="inline-flex"
               name="angle-double"
               :dir="expandDirection === 'right' ? 'left' : 'right'"
@@ -51,12 +51,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import ClarityIcon from '@/components/support/ClarityIcon.vue';
+import PvtClarityIcon from '@/components/support/PvtClarityIcon.vue';
 
 export default Vue.extend({
   name: 'PvtVerticalAccordion',
   components: {
-    ClarityIcon,
+    PvtClarityIcon,
   },
   inject: ['emitTreeEvent'],
   props: {
