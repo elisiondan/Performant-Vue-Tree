@@ -10,10 +10,14 @@
           :size="20"
           name="angle-double"
           :dir="expandDirection"
+          data-test="pvt-va-expand-arrow"
           @click="onExpand"
         />
       </div>
-      <div class="collapsed-label">
+      <div
+        class="collapsed-label"
+        data-test="pvt-va-collapsed-label"
+      >
         <!-- @slot Vertical title in collapsed state -->
         <slot name="collapsedLabel">
           <h2>{{ title }}</h2>
@@ -36,7 +40,7 @@
             <pvt-clarity-icon
               class="inline-flex"
               name="angle-double"
-              data-test="expand-arrow"
+              data-test="pvt-va-collapse-arrow"
               :dir="expandDirection === 'right' ? 'left' : 'right'"
               :size="20"
               @click="onCollapse"
