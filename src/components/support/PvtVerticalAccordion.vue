@@ -6,7 +6,7 @@
       :class="{'text-gray-500': disabled}"
     >
       <div class="collapsed-chevron mt-3 mb-4 mx-auto cursor-pointer">
-        <clarity-icon
+        <pvt-clarity-icon
           :size="20"
           name="angle-double"
           :dir="expandDirection"
@@ -36,6 +36,7 @@
             <pvt-clarity-icon
               class="inline-flex"
               name="angle-double"
+              data-test="expand-arrow"
               :dir="expandDirection === 'right' ? 'left' : 'right'"
               :size="20"
               @click="onCollapse"
@@ -74,8 +75,8 @@ export default Vue.extend({
     },
     expandDirection: {
       type: String,
-      validator: (val: string) => ['left', 'right'].includes(val),
       default: 'right',
+      validator: (val: string) => ['left', 'right'].includes(val),
     },
     disabled: {
       type: Boolean,

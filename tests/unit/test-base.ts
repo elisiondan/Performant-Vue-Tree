@@ -3,6 +3,14 @@ import {
   ThisTypedMountOptions,
 } from '@vue/test-utils';
 
+const transitionStub = () => ({
+  // @ts-ignore
+  render(h) {
+  // @ts-ignore
+    return this.$options._renderChildren;
+  },
+});
+
 const localVue = createLocalVue();
 
 export const shallowMountWithMocks = (
@@ -10,9 +18,18 @@ export const shallowMountWithMocks = (
   options: ThisTypedShallowMountOptions<Vue> = {},
 ) => shallowMount(component, {
   localVue,
+  stubs: {
+    'clr-icon': {
+      template: '<div class="clr-icon"></div>',
+    },
+    transition: transitionStub(),
+  },
   mocks: {
     $t: (key: string) => key,
     $tc: (key: string) => key,
+  },
+  provide: {
+    emitTreeEvent: () => {},
   },
   ...options,
 });
@@ -22,9 +39,18 @@ export const mountWithMocks = (
   options: ThisTypedMountOptions<Vue> = {},
 ) => mount(component, {
   localVue,
+  stubs: {
+    'clr-icon': {
+      template: '<div class="clr-icon"></div>',
+    },
+    transition: transitionStub(),
+  },
   mocks: {
     $t: (key: string) => key,
     $tc: (key: string) => key,
+  },
+  provide: {
+    emitTreeEvent: () => {},
   },
   ...options,
 });
