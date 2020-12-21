@@ -39,6 +39,8 @@ export type IFullTreeOptions = {
     };
     i18n: {
         show_all: string;
+        term_search: string;
+        select_root: string;
     };
 };
 

@@ -28,8 +28,8 @@ jobs:
       run: npm ci
     - name: Run linter
       run: npm run lint
-    # - name: Run unit tests
-    #   run: npm run test    
+    - name: Run unit tests
+      run: npm run test    
     - name: Build project
       run: npm run build:example
     # - name: Publish to npm 

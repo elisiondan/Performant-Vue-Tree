@@ -193,15 +193,12 @@ export default Vue.extend({
       const { nodeEvaluators } = this.treeOptions;
       const currentTrees = payload?.trees || this.traversedTrees;
 
-      console.log('traversal start');
       loaderService.start(WaitTypes.TRAVERSING_TREE);
       const newTrees = await treeParser.traverseTree(
         nodeEvaluators,
         { trees: currentTrees, payload },
       );
       loaderService.end(WaitTypes.TRAVERSING_TREE);
-
-      console.log('traversal end');
 
       this.traversedTrees = newTrees;
     },

@@ -3,13 +3,15 @@
     <pvt-select
       v-model="selectedRoot"
       class="mb-2 md:mr-4 md:mb-0"
-      placeholder="Select root"
+      :placeholder="options.i18n.select_root"
       :items="selectOptions"
+      data-test="tree-complements-select-root"
       @input="onSelectedRoot"
     />
     <pvt-input
       v-if="options.matchTermEvaluator.enabled"
-      placeholder="Vyhledat"
+      :placeholder="options.i18n.term_search"
+      data-test="tree-complements-search"
       @change="onSearch"
     />
   </div>
