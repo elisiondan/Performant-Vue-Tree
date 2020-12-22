@@ -1,5 +1,5 @@
 import PvtInput from '@/components/support/PvtInput.vue';
-import { shallowMountWithMocks } from '@/utils/test-base';
+import { shallowMountWithMocks } from '../test-base';
 
 describe('PvtInput.vue', () => {
   it('should render value passed as prop', () => {

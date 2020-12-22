@@ -13,6 +13,6 @@ module.exports = {
     '/node_modules/',
   ],
   setupFiles: [
-    '<rootDir>/tests/unit/config/setup-globaljs.js',
+    '<rootDir>/tests/unit/config/setup-globals.js',
   ],
 };

@@ -31,6 +31,8 @@ const defaultOptions: IFullTreeOptions = {
   },
   i18n: {
     show_all: 'Zobrazit vše',
+    term_search: 'Vyhledat',
+    select_root: 'Vybrat strom',
   },
 };
 

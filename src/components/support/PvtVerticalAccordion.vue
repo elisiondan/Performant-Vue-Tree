@@ -6,14 +6,18 @@
       :class="{'text-gray-500': disabled}"
     >
       <div class="collapsed-chevron mt-3 mb-4 mx-auto cursor-pointer">
-        <clarity-icon
+        <pvt-clarity-icon
           :size="20"
           name="angle-double"
           :dir="expandDirection"
+          data-test="pvt-va-expand-arrow"
           @click="onExpand"
         />
       </div>
-      <div class="collapsed-label">
+      <div
+        class="collapsed-label"
+        data-test="pvt-va-collapsed-label"
+      >
         <!-- @slot Vertical title in collapsed state -->
         <slot name="collapsedLabel">
           <h2>{{ title }}</h2>
@@ -36,6 +40,7 @@
             <pvt-clarity-icon
               class="inline-flex"
               name="angle-double"
+              data-test="pvt-va-collapse-arrow"
               :dir="expandDirection === 'right' ? 'left' : 'right'"
               :size="20"
               @click="onCollapse"
@@ -74,8 +79,8 @@ export default Vue.extend({
     },
     expandDirection: {
       type: String,
-      validator: (val: string) => ['left', 'right'].includes(val),
       default: 'right',
+      validator: (val: string) => ['left', 'right'].includes(val),
     },
     disabled: {
       type: Boolean,
