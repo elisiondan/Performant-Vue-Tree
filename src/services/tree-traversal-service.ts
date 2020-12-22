@@ -6,7 +6,7 @@ import { INodeEvaluator } from '@/models/node-evaluator';
  * applying all node handles on each node
  * with passed evaluation data
  */
-export default {
+export default class TreeTraversalService {
   /**
   * Traverse all nodes in all trees
   * @param allTrees trees to traverse
@@ -22,7 +22,7 @@ export default {
       this.traverseTree(tree, nodeHandlers, nodeEvaluatorsData, topToBottom);
     });
     return allTrees;
-  },
+  }
 
   /**
   * Traverse all descendants of given node
@@ -31,7 +31,7 @@ export default {
   * @param nodeEvaluatorsData data for node evaluators
   * @param topToBottom start from root and traverse down the tree
   */
-  traverseTree(node: TreeNode,
+  public traverseTree(node: TreeNode,
     nodeHandlers: INodeEvaluator[],
     nodeEvaluatorsData: any,
     topToBottom?: boolean) {
@@ -51,5 +51,5 @@ export default {
         handler.handleNode(node, nodeEvaluatorsData);
       });
     }
-  },
-};
+  }
+}

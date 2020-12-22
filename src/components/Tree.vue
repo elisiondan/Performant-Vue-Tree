@@ -200,7 +200,9 @@ export default Vue.extend({
       );
       loaderService.end(WaitTypes.TRAVERSING_TREE);
 
-    //   this.traversedTrees = newTrees;
+      console.log('traversal end');
+
+      this.traversedTrees = newTrees;
     },
     async getTreeHeight() {
       await this.$nextTick();
