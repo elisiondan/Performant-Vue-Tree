@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    class="mx-2 mt-2"
+    class="mx-4 my-4"
   >
     <button
       class="bg-blue-700 hover:bg-blue-600 mb-2 mr-2
@@ -22,7 +22,7 @@
     <tree
       :trees="treeData"
       :options="options"
-      class="max-w-sm tree"
+      class="max-w-sm xxl:max-w-lg tree"
     />
   </div>
 </template>
@@ -72,8 +72,8 @@ export default Vue.extend({
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
         virtualScrolling: {
           useVirtualScrolling: false,
-        //   itemSize: 24,
-        //   enableVariableSize: true,
+          itemSize: 24,
+          enableVariableSize: true,
         },
       };
 
@@ -159,6 +159,6 @@ export default Vue.extend({
 
 <style lang="postcss" scoped>
 .tree {
-    /* height: calc(100vh - 120px) */
+    /* height: calc(100vh - 120px); */
 }
 </style>

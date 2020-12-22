@@ -15,7 +15,7 @@ import '@clr/icons/shapes/all-shapes';
 // import '@clr/icons/clr-icons.min.css';
 
 export default Vue.extend({
-  name: 'ClarityIcon',
+  name: 'PvtClarityIcon',
   functional: true,
   props: {
     /**

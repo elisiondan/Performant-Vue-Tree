@@ -1,4 +1,4 @@
-import TreeProps from '@/functions/tree/props';
+import TreeProps from '@/models/props';
 import NodeState from '@/enums/node-state';
 import isExpandableNode from '@/functions/tree/is-expandable-node';
 import getSubtree from '@/functions/tree/get-subtree';

@@ -2,6 +2,7 @@
   <div class="absolute h-full w-full z-50 opacity-75 bg-white ">
     <div
       class="loader border-solid border-blue-700 border-t-4 border-r-4 m-auto mt-16"
+      data-test="pvt-loading-indicator"
       :style="{width: `${size}px`, height: `${size}px`}"
     />
   </div>
@@ -10,7 +11,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'LoadingIndicator',
+  name: 'PvtLoadingIndicator',
   props: {
     size: {
       type: Number,

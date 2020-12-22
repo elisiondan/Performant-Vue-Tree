@@ -4,13 +4,15 @@
     :items="renderedTree"
     :options="options"
     :style="{maxHeight: treeHeight}"
+    data-test="virtual-tree-wrapper"
   >
     <template #default="{item}">
       <tree-node
+        v-if="item"
         :node="item"
         :options="options"
         :is-root="item.__depth === 0"
-        :depth="item.__depth"
+        data-test="virtual-tree-wrapper-node"
         @arrow-click="onarrowClick"
       >
         <template #nodeContent="nodeData">
@@ -36,14 +38,17 @@
       </tree-node>
     </template>
   </tree-virtual-scroller>
-  <div v-else>
+  <div
+    v-else
+    data-test="tree-wrapper"
+  >
     <tree-node
       v-for="node in renderedTree"
       :key="node.id"
       :node="node"
       :options="options"
       :is-root="node.__depth === 0"
-      :depth="node.__depth"
+      data-test="tree-wrapper-node"
       @arrow-click="onarrowClick"
     >
       <template #prependLabel="data">
@@ -117,25 +122,23 @@ export default Vue.extend({
     roots: {
       immediate: true,
       handler(newRoots: IProcessedTreeNode[]) {
-        console.log('flatten start');
         loaderService.start(WaitTypes.FLATTENING_TREE);
-        let flatTree: IProcessedTreeNode[] = [];
+        let processedTree: IProcessedTreeNode[] = [];
         if (this.options.virtualScrolling.useVirtualScrolling) {
           newRoots.forEach((root) => {
-            flatTree = [
-              ...flatTree,
-              ...flattenTree(root, 0, flatTree.length, [], this.isExpandableNode),
+            processedTree = [
+              ...processedTree,
+              ...flattenTree(root, 0, processedTree.length, [], this.isExpandableNode),
             ];
           });
         } else {
-          flatTree = newRoots
+          processedTree = newRoots
             .map((root) => { root.__depth = 0; return root; })
             .sort((a, b) => (+this.isExpandableNode(b)) - (+this.isExpandableNode(a)));
         }
 
-        this.renderedTree = this.getVisibleNodes(flatTree);
+        this.renderedTree = this.getVisibleNodes(processedTree);
         loaderService.end(WaitTypes.FLATTENING_TREE);
-        console.log('flatten end');
       },
     },
   },
@@ -149,13 +152,11 @@ export default Vue.extend({
       }
 
       if (this.isVirtualScrollerEnabled) {
-        console.log('expanding begin');
         loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
         this.getNewRenderNodes(node);
         loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
-        console.log('expanding end');
       } else {
-        // Since mutating nodes directly, we have to manually re-render
+        // Since we are mutating nodes directly, we have to manually re-render
         this.$forceUpdate();
       }
     },

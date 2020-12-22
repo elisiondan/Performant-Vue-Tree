@@ -3,14 +3,14 @@
     ref="wrapper"
     v-model="collapsed"
     :title="accordionTitle"
-    class="tree h-full mx-2 overflow-y-auto"
+    class="tree h-full overflow-y-auto xxl:text-lg"
   >
     <template
       v-if="isWaitingForTreeProcessess"
       #expandedBeforeContent
     >
       <slot name="loading">
-        <loading-indicator />
+        <pvt-loading-indicator />
       </slot>
     </template>
 
@@ -28,6 +28,7 @@
       :tree-height="treeHeight"
       :roots="renderedTrees"
       :options="treeOptions"
+      class="mt-2 md:mt-4"
     >
       <template #nodeContent="nodeData">
         <slot
@@ -71,7 +72,7 @@ import MatchTermEvaluator from '@/services/node-evaluators/match-term-evaluator'
 import treeParser from '@/services/tree-parser';
 import WaitTypes from '@/enums/wait-types';
 import loaderService from '@/services/loader-service';
-import LoadingIndicator from '@/components/support/LoadingIndicator.vue';
+import PvtLoadingIndicator from '@/components/support/PvtLoadingIndicator.vue';
 import '@/assets/css/main.css';
 
 let fullTree: IProcessedTreeNode[] = [];
@@ -91,7 +92,7 @@ export default Vue.extend({
     TreeWrapper,
     TreeComplements,
     PvtVerticalAccordion,
-    LoadingIndicator,
+    PvtLoadingIndicator,
   },
   props: {
     trees: {
@@ -192,15 +193,12 @@ export default Vue.extend({
       const { nodeEvaluators } = this.treeOptions;
       const currentTrees = payload?.trees || this.traversedTrees;
 
-      console.log('traversal start');
       loaderService.start(WaitTypes.TRAVERSING_TREE);
       const newTrees = await treeParser.traverseTree(
         nodeEvaluators,
         { trees: currentTrees, payload },
       );
       loaderService.end(WaitTypes.TRAVERSING_TREE);
-
-      console.log('traversal end');
 
     //   this.traversedTrees = newTrees;
     },

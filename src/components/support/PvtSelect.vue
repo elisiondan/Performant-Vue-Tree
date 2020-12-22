@@ -3,12 +3,14 @@
     <div
       v-if="!selectedLabel"
       class="absolute text-gray-600 pl-3"
+      data-test="pvt-select-placeholder"
     >
       {{ placeholder }}
     </div>
     <select
       class="appearance-none w-full border-1/2 border-gray-300
         bg-transparent outline-none text-md px-2 leading-8"
+      data-test="pvt-select-input"
       :value="selectedLabel"
       :disabled="disabled"
       @input="onInput"
@@ -17,6 +19,7 @@
         v-for="label in labels"
         :key="label"
         class="px-2 py-1"
+        data-test="pvt-select-option"
       >
         {{ label }}
       </option>
@@ -50,10 +53,6 @@ export default Vue.extend({
     items: {
       type: Array as Prop<string[] | item[]>,
       default: () => [],
-    },
-    bordered: {
-      type: Boolean,
-      default: false,
     },
     placeholder: {
       type: String,
