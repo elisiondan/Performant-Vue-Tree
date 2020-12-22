@@ -4,6 +4,7 @@
       v-model="inputValue"
       class="border border-gray-400 w-full px-2 leading-8"
       :placeholder="placeholder"
+      data-test="pvt-input-field"
       @change="$emit('change', inputValue)"
     >
   </div>
@@ -27,7 +28,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      localValue: '',
+      localValue: this.value,
     };
   },
   computed: {

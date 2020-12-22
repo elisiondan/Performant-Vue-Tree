@@ -1,4 +1,4 @@
-import TreeProps from '@/functions/tree/props';
+import TreeProps from '@/models/props';
 import getVisibleChildren from '@/functions/tree/get-visible-children';
 
 export default function (props: TreeProps) {

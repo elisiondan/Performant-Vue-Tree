@@ -1,12 +1,13 @@
 <template>
   <div
     :id="node.id"
+    data-test="tree-node"
     class="transition-border min-h-5 focus:outline-none"
     :class="{
       'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot,
       'pb-1': isExpanded(node)
     }"
-    :style="{paddingLeft: !isRoot ? '75rem' : '', marginLeft: !isRoot ? '.5rem' : ''}"
+    :style="{paddingLeft: !isRoot ? '.75rem' : '', marginLeft: !isRoot ? '.5rem' : ''}"
     tabindex="0"
     @keyup.enter="onArrowClick"
   >
@@ -20,7 +21,10 @@
         @click="onArrowClick"
       />
 
-      <slot name="nodeContent">
+      <slot
+        name="nodeContent"
+        :node="node"
+      >
         <slot
           name="nodePrependLabel"
           :node="node"
@@ -39,7 +43,6 @@
         </slot>
       </slot>
     </div>
-    <!-- {{ isExpanded(node) }} {{ node.__state === 'open' }} -->
     <template v-if="isRecursive && isExpanded(node)">
       <tree-node
         v-for="child in node.children"
@@ -47,19 +50,31 @@
         :node="child"
         :options="options"
         :is-root="false"
-        :depth="depth + 1"
+        data-test="tree-node"
         @arrow-click="onArrowClick"
       >
-        <template #prependLabel="data">
+        <template
+          v-if="$slots.nodeContent"
+          #nodeContent
+          :node="node"
+        />
+
+        <template
+          v-if="!$slots.nodeContent"
+          #nodePrependLabel="data"
+        >
           <slot
-            name="prependLabel"
+            name="nodePrependLabel"
             :data="data"
           />
         </template>
 
-        <template #appendLabel="data">
+        <template
+          v-if="!$slots.nodeContent"
+          #appendLabel="data"
+        >
           <slot
-            name="appendLabel"
+            name="nodeLabel"
             :data="data"
           />
         </template>
@@ -99,10 +114,6 @@ const TreeNode = Vue.extend({
     isRoot: {
       type: Boolean,
       default: false,
-    },
-    depth: {
-      type: Number,
-      required: true,
     },
   },
   computed: {
