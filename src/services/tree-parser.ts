@@ -126,7 +126,7 @@ class TreeParser {
   public async traverseTree(nodeEvaluators: INodeEvaluator[], data?: {
         trees? : IProcessedTreeNode[];
         payload?: any;
-    }) {
+    }): Promise<IProcessedTreeNode[]> {
     const trees = (data && data.trees) || [];
 
     worker.postMessage({
@@ -139,6 +139,7 @@ class TreeParser {
       worker.onmessage = function (e) {
         console.warn(`Received: ${e.data}`);
       };
+      resolve(trees);
     });
 
     // const result = await treeTraversalWorker.postMessage({

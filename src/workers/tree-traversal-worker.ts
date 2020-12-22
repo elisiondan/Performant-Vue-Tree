@@ -9,7 +9,8 @@ import { INodeEvaluator } from '@/models/node-evaluator';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import JSONfn from 'json-fn';
 
-const treeTraversalService = new TreeTraversalService();
+// const treeTraversalService = new TreeTraversalService();
+const treeTraversalService = TreeTraversalService;
 
 export interface ITraversalInput {
   trees: IProcessedTreeNode[];
