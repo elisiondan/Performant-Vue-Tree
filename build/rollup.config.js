@@ -13,6 +13,7 @@ import postCSS from 'rollup-plugin-postcss';
 // import webWorkerLoader2 from '@qintx/rollup-plugin-web-worker-loader';
 import OMT from '@surma/rollup-plugin-off-main-thread';
 // import workerInline from 'rollup-plugin-worker-inline';
+import webWorkerLoader from 'rollup-plugin-web-worker-loader';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const postcssConfig = require('../postcss.config');
@@ -106,13 +107,20 @@ if (!argv.format || argv.format === 'es') {
     output: {
     //   file: 'dist/performant-vue-tree.esm.js',
       dir: 'dist',
-      format: 'esm',
+      format: 'iife',
       exports: 'named',
     },
     plugins: [
-      OMT({
-        useEval: true,
-        format: 'esm',
+    //   OMT({
+    //     useEval: true,
+    //     format: 'esm',
+    //   }),
+      webWorkerLoader({
+        // pattern: '.*-worker.*',
+        extensions: ['ts'],
+        targetPlatform: 'browser',
+        inline: true,
+        sourcemap: true,
       }),
       //   workerInline(),
       postCSS(baseConfig.postCSS),
@@ -172,35 +180,35 @@ if (!argv.format || argv.format === 'cjs') {
   buildFormats.push(umdConfig);
 }
 
-if (!argv.format || argv.format === 'iife') {
-  const unpkgConfig = {
-    ...baseConfig,
-    external,
-    output: {
-      compact: true,
-      file: 'dist/performant-vue-tree.min.js',
-      format: 'iife',
-      name: 'PerformantTree',
-      exports: 'named',
-      globals,
-    },
-    plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
-      postCSS(baseConfig.postCSS),
-      vue(baseConfig.plugins.vue),
-      babel(baseConfig.plugins.babel),
-      commonjs(),
-      terser({
-        output: {
-          ecma: 5,
-        },
-      }),
-    ],
-  };
-  buildFormats.push(unpkgConfig);
-}
+// if (!argv.format || argv.format === 'iife') {
+//   const unpkgConfig = {
+//     ...baseConfig,
+//     external,
+//     output: {
+//       compact: true,
+//       file: 'dist/performant-vue-tree.min.js',
+//       format: 'iife',
+//       name: 'PerformantTree',
+//       exports: 'named',
+//       globals,
+//     },
+//     plugins: [
+//       replace(baseConfig.plugins.replace),
+//       ...baseConfig.plugins.preVue,
+//       //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
+//       postCSS(baseConfig.postCSS),
+//       vue(baseConfig.plugins.vue),
+//       babel(baseConfig.plugins.babel),
+//       commonjs(),
+//       terser({
+//         output: {
+//           ecma: 5,
+//         },
+//       }),
+//     ],
+//   };
+//   buildFormats.push(unpkgConfig);
+// }
 
 // Export config
 export default buildFormats;
