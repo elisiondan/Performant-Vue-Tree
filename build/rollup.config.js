@@ -122,6 +122,7 @@ if (!argv.format || argv.format === 'es') {
         ],
       }),
       commonjs(),
+      terser(),
     ],
   };
   buildFormats.push(esConfig);
@@ -152,6 +153,7 @@ if (!argv.format || argv.format === 'cjs') {
       }),
       babel(baseConfig.plugins.babel),
       commonjs(),
+      terser(),
     ],
   };
   buildFormats.push(umdConfig);
@@ -176,11 +178,7 @@ if (!argv.format || argv.format === 'iife') {
       vue(baseConfig.plugins.vue),
       babel(baseConfig.plugins.babel),
       commonjs(),
-      terser({
-        output: {
-          ecma: 5,
-        },
-      }),
+      terser(),
     ],
   };
   buildFormats.push(unpkgConfig);

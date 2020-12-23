@@ -1,5 +1,6 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
 import '@/assets/css/main.css';
+import treeObserver from '@/services/tree-observer';
 
 // Import vue component
 import component from '@/components/Tree.vue';
@@ -18,6 +19,7 @@ const install: InstallFunction = function installPerformantVueTree(Vue: typeof _
   if (install.installed) return;
   install.installed = true;
   Vue.component('PerformantVueTree', component);
+  Vue.prototype.$treeObserver = treeObserver;
 };
 
 // Create module definition for Vue.use()
