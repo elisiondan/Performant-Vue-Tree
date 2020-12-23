@@ -10,5 +10,4 @@ async function copyPublicApi() {
     console.error(error);
   }
 }
-
 copyPublicApi();

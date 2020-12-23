@@ -1,12 +1,5 @@
 import PromiseWorker from 'promise-worker';
-/**
- * @description
- * Usage:
- * ```
- * const worker = new WorkerService(new Worker('@/workers/my-worker.ts', { type: 'module' }));
- * const result = await worker.postMessage('test');
- * ```
- */
+
 export default class WorkerService {
   promiseWorker: PromiseWorker;
 
@@ -28,7 +21,7 @@ export default class WorkerService {
    */
   async postMessage<T>(data: any): Promise<T> {
     try {
-      const result = this.promiseWorker.postMessage(data);
+      const result = await this.promiseWorker.postMessage(data);
       return result;
     } catch (e) {
       throw new Error(e);

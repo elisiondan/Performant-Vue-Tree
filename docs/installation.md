@@ -18,6 +18,11 @@ You may include performant-vue-tree directly via script tags.
 npm install performant-vue-tree
 ``` 
 
+Then the underlying worker script has to be copied to the public path. To do so, run following script
+```sh
+node node_modules/performant-vue-tree/dist/init-worker.js 
+```
+
 Then you can either register the component globally 
 
 ```javascript

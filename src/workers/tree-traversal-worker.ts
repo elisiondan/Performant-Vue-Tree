@@ -5,9 +5,9 @@
 
 import registerWorker from 'promise-worker/register';
 import TreeTraversalService from '@/services/tree-traversal-service';
-import { INodeEvaluator } from '@/models/node-evaluator';
 import { IProcessedTreeNode } from '@/models/tree-node';
 import JSONfn from 'json-fn';
+import { INodeEvaluator } from '@/models/node-evaluator';
 
 const treeTraversalService = new TreeTraversalService();
 
@@ -23,10 +23,10 @@ export default registerWorker((data) => {
   const { trees } = data;
   const topToBottom = data.topToBottom || false;
   const nodeEvaluators: INodeEvaluator[] = (data.nodeEvaluators || []).map((e: string) => JSONfn.parse(e));
-  const nodeEvaluatorsData: any = data.nodeEvaluatorsData
+  const { nodeEvaluatorsData } = data;
 
   const traversedTrees = treeTraversalService
     .traverseAllTrees(trees, nodeEvaluators, nodeEvaluatorsData, topToBottom);
 
-  return traversedTrees
+  return traversedTrees;
 });

@@ -13,10 +13,10 @@ const treeTraversalWorker = new WorkerService(
  * worker for off-main-thread calculations.
  */
 class TreeParser {
-  public traverseTree(nodeEvaluators: INodeEvaluator[], data?: {
+  public async traverseTree(nodeEvaluators: INodeEvaluator[], data?: {
         trees? : IProcessedTreeNode[];
         payload?: any;
-    }) {
+    }): Promise<IProcessedTreeNode[]> {
     const trees = (data && data.trees) || [];
 
     return treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({

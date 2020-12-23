@@ -6,7 +6,9 @@
   "author": "Daniel Charvát",
   "scripts": {
     "serve": "vue-cli-service serve ./fi-api-data/main.ts",
-    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run post-build-scripts",
+    "build": "npm run build-tree && npm run build-worker",
+    "build-tree": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run post-build-scripts",
+    "build-worker": "rollup --config build/worker-rollup.config.js",
     "test": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
     "lint": "vue-cli-service lint",
@@ -17,7 +19,7 @@
     "docs:dev": "vuepress dev docs",
     "build:example": "vue-cli-service build ./fi-api-data/main.ts --modern",
     "run:example": "npm run build:example && npx http-serve ./example",
-    "post-build-scripts": "npm run emit-declarations && node scripts/copy-public-api.js",
+    "post-build-scripts": "npm run emit-declarations && node scripts/index.js",
     "emit-declarations": "tsc -p ./tsconfig.build.json --emitDeclarationOnly"
   },
   "main": "dist/performant-vue-tree.ssr.js",
@@ -57,6 +59,7 @@
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.2",
+    "@rollup/plugin-typescript": "^8.1.0",
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",

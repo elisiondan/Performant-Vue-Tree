@@ -1,4 +1,3 @@
-// rollup.config.js
 import fs from 'fs';
 import path from 'path';
 import vue from 'rollup-plugin-vue';
@@ -9,6 +8,7 @@ import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 import postCSS from 'rollup-plugin-postcss';
+import transformWorkerPath from './rollup-plugins/transform-worker-path';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const postcssConfig = require('../postcss.config');
@@ -107,6 +107,7 @@ if (!argv.format || argv.format === 'es') {
         ...baseConfig.plugins.replace,
         'process.env.ES_BUILD': JSON.stringify('true'),
       }),
+      transformWorkerPath(),
       ...baseConfig.plugins.preVue,
       vue(baseConfig.plugins.vue),
       babel({
