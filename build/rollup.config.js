@@ -8,7 +8,6 @@ import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 import postCSS from 'rollup-plugin-postcss';
-import OMT from '@surma/rollup-plugin-off-main-thread';
 import transformWorkerPath from './rollup-plugins/transform-worker-path';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

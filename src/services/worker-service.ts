@@ -22,7 +22,6 @@ export default class WorkerService {
   async postMessage<T>(data: any): Promise<T> {
     try {
       const result = await this.promiseWorker.postMessage(data);
-      console.error(result);
       return result;
     } catch (e) {
       throw new Error(e);

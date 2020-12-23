@@ -3,12 +3,10 @@ import { IItraversalOutput, ITraversalInput } from '@/workers/tree-traversal-wor
 import JSONfn from 'json-fn';
 import WorkerService from '@/services/worker-service';
 import { INodeEvaluator } from '@/models/node-evaluator';
-// import TestWorker from './test-worker';
 
 const treeTraversalWorker = new WorkerService(
   new Worker('@/workers/tree-traversal-worker.ts', { type: 'module' }),
 );
-console.warn(treeTraversalWorker);
 
 /**
  * The TreeParser is responsible for triggering the tree traversal
@@ -21,13 +19,11 @@ class TreeParser {
     }): Promise<IProcessedTreeNode[]> {
     const trees = (data && data.trees) || [];
 
-    const a = await treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({
+    return treeTraversalWorker.postMessage<IItraversalOutput<IProcessedTreeNode>>({
       trees,
       nodeEvaluators: nodeEvaluators.map((e) => JSONfn.stringify(e)),
       nodeEvaluatorsData: (data && data.payload) || {},
     } as ITraversalInput);
-
-    return a;
   }
 }
 
