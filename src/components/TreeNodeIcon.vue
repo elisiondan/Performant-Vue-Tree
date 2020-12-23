@@ -19,10 +19,10 @@ export default Vue.extend({
     },
   },
   render(h, { props }) {
-    const isNotFolder = !props.options.isExpandable(props.node);
-    const iconName = isNotFolder ? 'file' : 'folder';
+    const isFolder = props.options.isExpandable(props.node);
+    const iconName = isFolder ? 'folder' : 'file';
     let classes = 'mr-2';
-    classes += isNotFolder ? ' ml-1' : '';
+    classes += !isFolder ? ' ml-1' : '';
 
     /* @ts-ignore */
     return <div class={classes}><PvtClarityIcon size={16}

@@ -1,4 +1,3 @@
-// rollup.config.js
 import fs from 'fs';
 import path from 'path';
 import vue from 'rollup-plugin-vue';
@@ -9,11 +8,8 @@ import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 import postCSS from 'rollup-plugin-postcss';
-// import webWorkerLoader from 'rollup-plugin-web-worker-loader';
-// import webWorkerLoader2 from '@qintx/rollup-plugin-web-worker-loader';
 import OMT from '@surma/rollup-plugin-off-main-thread';
-// import workerInline from 'rollup-plugin-worker-inline';
-import webWorkerLoader from 'rollup-plugin-web-worker-loader';
+import transformWorkerPath from './rollup-plugins/transform-worker-path';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const postcssConfig = require('../postcss.config');
@@ -28,7 +24,7 @@ const argv = minimist(process.argv.slice(2));
 const projectRoot = path.resolve(__dirname, '..');
 
 const baseConfig = {
-  input: 'src/performant-vue-tree.ts',
+  input: 'src/entry.ts',
   plugins: {
     preVue: [
       alias({
@@ -61,9 +57,6 @@ const baseConfig = {
       runtimeHelpers: true,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
-    },
-    webWorkerLoader: {
-
     },
   },
 };
@@ -105,32 +98,18 @@ if (!argv.format || argv.format === 'es') {
     ...baseConfig,
     external,
     output: {
-    //   file: 'dist/performant-vue-tree.esm.js',
-      dir: 'dist',
-      format: 'iife',
+      file: 'dist/performant-vue-tree.esm.js',
+      format: 'esm',
       exports: 'named',
     },
     plugins: [
-    //   OMT({
-    //     useEval: true,
-    //     format: 'esm',
-    //   }),
-      webWorkerLoader({
-        // pattern: '.*-worker.*',
-        extensions: ['ts'],
-        targetPlatform: 'browser',
-        inline: true,
-        sourcemap: true,
-      }),
-      //   workerInline(),
       postCSS(baseConfig.postCSS),
       replace({
         ...baseConfig.plugins.replace,
         'process.env.ES_BUILD': JSON.stringify('true'),
       }),
+      transformWorkerPath(),
       ...baseConfig.plugins.preVue,
-      //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
-      //   webWorkerLoader2(),
       vue(baseConfig.plugins.vue),
       babel({
         ...baseConfig.plugins.babel,
@@ -164,7 +143,6 @@ if (!argv.format || argv.format === 'cjs') {
     plugins: [
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
-      //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
       postCSS(baseConfig.postCSS),
       vue({
         ...baseConfig.plugins.vue,
@@ -180,35 +158,34 @@ if (!argv.format || argv.format === 'cjs') {
   buildFormats.push(umdConfig);
 }
 
-// if (!argv.format || argv.format === 'iife') {
-//   const unpkgConfig = {
-//     ...baseConfig,
-//     external,
-//     output: {
-//       compact: true,
-//       file: 'dist/performant-vue-tree.min.js',
-//       format: 'iife',
-//       name: 'PerformantTree',
-//       exports: 'named',
-//       globals,
-//     },
-//     plugins: [
-//       replace(baseConfig.plugins.replace),
-//       ...baseConfig.plugins.preVue,
-//       //   webWorkerLoader(baseConfig.plugins.webWorkerLoader),
-//       postCSS(baseConfig.postCSS),
-//       vue(baseConfig.plugins.vue),
-//       babel(baseConfig.plugins.babel),
-//       commonjs(),
-//       terser({
-//         output: {
-//           ecma: 5,
-//         },
-//       }),
-//     ],
-//   };
-//   buildFormats.push(unpkgConfig);
-// }
+if (!argv.format || argv.format === 'iife') {
+  const unpkgConfig = {
+    ...baseConfig,
+    external,
+    output: {
+      compact: true,
+      file: 'dist/performant-vue-tree.min.js',
+      format: 'iife',
+      name: 'PerformantTree',
+      exports: 'named',
+      globals,
+    },
+    plugins: [
+      replace(baseConfig.plugins.replace),
+      ...baseConfig.plugins.preVue,
+      postCSS(baseConfig.postCSS),
+      vue(baseConfig.plugins.vue),
+      babel(baseConfig.plugins.babel),
+      commonjs(),
+      terser({
+        output: {
+          ecma: 5,
+        },
+      }),
+    ],
+  };
+  buildFormats.push(unpkgConfig);
+}
 
 // Export config
 export default buildFormats;
