@@ -11,7 +11,7 @@ const esbrowserslist = fs.readFileSync('./.browserslistrc')
   .filter((entry) => entry && entry.substring(0, 2) !== 'ie');
 
 const config = {
-  input: 'src/services/tree-traversal-worker.ts',
+  input: 'src/workers/tree-traversal-worker.ts',
   output: {
     file: 'dist/tree-traversal-worker.js',
     name: 'tree-traversal-worker',
