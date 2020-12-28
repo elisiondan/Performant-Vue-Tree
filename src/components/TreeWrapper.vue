@@ -5,6 +5,7 @@
     :options="options"
     :style="{maxHeight: treeHeight}"
     data-test="virtual-tree-wrapper"
+    class="tree-wrapper"
   >
     <template #default="{item}">
       <tree-node
@@ -40,6 +41,7 @@
   </tree-virtual-scroller>
   <div
     v-else
+    class="tree-wrapper"
     data-test="tree-wrapper"
   >
     <tree-node

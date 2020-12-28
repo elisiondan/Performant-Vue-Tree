@@ -21,7 +21,7 @@ export default Vue.extend({
   render(h, { props }) {
     const isFolder = props.options.isExpandable(props.node);
     const iconName = isFolder ? 'folder' : 'file';
-    let classes = 'mr-2';
+    let classes = 'tree-node-icon mr-2';
     classes += !isFolder ? ' ml-1' : '';
 
     /* @ts-ignore */

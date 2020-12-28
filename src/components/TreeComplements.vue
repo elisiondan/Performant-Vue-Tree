@@ -1,8 +1,8 @@
 <template>
-  <div class="py-3 w-full mr-4 md:flex">
+  <div class="tree-complements py-3 w-full mr-4 md:flex">
     <pvt-select
       v-model="selectedRoot"
-      class="mb-2 md:mr-4 md:mb-0"
+      class="root-select mb-2 md:mr-4 md:mb-0"
       :placeholder="options.i18n.select_root"
       :items="selectOptions"
       data-test="tree-complements-select-root"
@@ -11,7 +11,7 @@
     <pvt-input
       v-if="options.matchTermEvaluator.enabled"
       :placeholder="options.i18n.term_search"
-      data-test="tree-complements-search"
+      data-test="tree-search tree-complements-search"
       @change="onSearch"
     />
   </div>

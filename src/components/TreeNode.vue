@@ -2,7 +2,7 @@
   <div
     :id="node.id"
     data-test="tree-node"
-    class="transition-border min-h-5 focus:outline-none"
+    class="tree-node transition-border min-h-5 focus:outline-none"
     :class="{
       'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot,
       'pb-1': isExpanded(node)
@@ -12,7 +12,7 @@
     @keyup.enter="onArrowClick"
   >
     <div
-      class="py-3 md:py-1 transition-bg leading-tight
+      class="tree-node-content py-3 md:py-1 transition-bg leading-tight
             flex flex-auto items-center cursor-pointer"
     >
       <tree-expand-arrow
@@ -31,6 +31,7 @@
         />
 
         <tree-node-icon
+          class="tree-node-icon"
           :node="node"
           :options="options"
         />

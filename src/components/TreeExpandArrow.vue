@@ -27,7 +27,7 @@ export default Vue.extend({
 
     const dir = isExpanded(props.node) ? 'down' : 'right';
 
-    return <div onClick={() => onClick()} class="mr-1">
+    return <div onClick={() => onClick()} class="tree-expand mr-1">
         {/* @ts-ignore */}
         <PvtClarityIcon dir={dir}
             name="angle"

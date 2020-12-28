@@ -10,7 +10,7 @@
       #expandedBeforeContent
     >
       <slot name="loading">
-        <pvt-loading-indicator />
+        <pvt-loading-indicator class="loading-indicator" />
       </slot>
     </template>
 
@@ -28,7 +28,7 @@
       :tree-height="treeHeight"
       :roots="renderedTrees"
       :options="treeOptions"
-      class="mt-2 md:mt-4"
+      class="tree-wrapper mt-2 md:mt-4"
     >
       <template #nodeContent="nodeData">
         <slot
