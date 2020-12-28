@@ -4,6 +4,7 @@ import fs from 'fs';
 import babel from 'rollup-plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import { terser } from 'rollup-plugin-terser';
 
 const esbrowserslist = fs.readFileSync('./.browserslistrc')
   .toString()
@@ -35,6 +36,7 @@ const config = {
     nodeResolve(),
     typescript(),
     commonjs({ transformMixedEsModules: true }),
+    terser(),
   ],
 };
 

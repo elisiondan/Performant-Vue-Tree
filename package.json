@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vue-cli-service serve ./fi-api-data/main.ts",
     "build": "npm run build-tree && npm run build-worker",
-    "build-tree": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run post-build-scripts",
+    "build-tree": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run postinstall",
     "build-worker": "rollup --config build/worker-rollup.config.js",
     "test": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
@@ -19,7 +19,7 @@
     "docs:dev": "vuepress dev docs",
     "build:example": "vue-cli-service build ./fi-api-data/main.ts --modern",
     "run:example": "npm run build:example && npx http-serve ./example",
-    "post-build-scripts": "npm run emit-declarations && node scripts/index.js",
+    "postinstall": "npm run emit-declarations && node scripts/index.js",
     "emit-declarations": "tsc -p ./tsconfig.build.json --emitDeclarationOnly"
   },
   "main": "dist/performant-vue-tree.ssr.js",
@@ -85,7 +85,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^3.1.8",
-    "rollup-plugin-terser": "^5.3.0",
+    "rollup-plugin-terser": "^5.3.1",
     "rollup-plugin-vue": "^5.1.6",
     "typescript": "^3.9.7",
     "vue": "^2.6.11",
