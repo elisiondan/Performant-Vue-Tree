@@ -1,4 +1,3 @@
-import NodeState from '@/enums/node-state';
 import isNodeVisible from '@/functions/tree/is-node-visible';
 import root from '../fixtures/root';
 

@@ -5,7 +5,7 @@ import {
 
 const transitionStub = () => ({
   // @ts-ignore
-  render(h) {
+  render(h) { // eslint-disable-line
   // @ts-ignore
     return this.$options._renderChildren;
   },

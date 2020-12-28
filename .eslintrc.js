@@ -25,6 +25,7 @@ module.exports = {
     'no-param-reassign': 'off',
     '@typescript-eslint/camelcase': 'off',
     quotes: [1, 'single'],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
   },
   overrides: [
     {
