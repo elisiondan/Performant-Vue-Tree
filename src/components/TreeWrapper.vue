@@ -13,8 +13,10 @@
         :node="item"
         :options="options"
         :is-root="item.__depth === 0"
+        :active-node-id="activeNodeId"
         data-test="virtual-tree-wrapper-node"
-        @arrow-click="onarrowClick"
+        @arrow-click="onArrowClick"
+        @node-click="onNodeClick"
       >
         <template #nodeContent="nodeData">
           <slot
@@ -50,8 +52,10 @@
       :node="node"
       :options="options"
       :is-root="node.__depth === 0"
+      :active-node-id="activeNodeId"
       data-test="tree-wrapper-node"
-      @arrow-click="onarrowClick"
+      @arrow-click="onArrowClick"
+      @node-click="onNodeClick"
     >
       <template #prependLabel="data">
         <slot
@@ -88,6 +92,7 @@ import loaderService from '@/services/loader-service';
 
 interface IData {
     renderedTree: IProcessedTreeNode[];
+    activeNodeId: string | number;
 }
 
 export default Vue.extend({
@@ -113,6 +118,7 @@ export default Vue.extend({
   data(): IData {
     return {
       renderedTree: [],
+      activeNodeId: '',
     };
   },
   computed: {
@@ -145,7 +151,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    async onarrowClick(node: IProcessedTreeNode) {
+    async onArrowClick(node: IProcessedTreeNode) {
       const expanded = isExpanded(node);
       if (expanded) {
         await this.handleExpandedNode(node);
@@ -161,6 +167,10 @@ export default Vue.extend({
         // Since we are mutating nodes directly, we have to manually re-render
         this.$forceUpdate();
       }
+    },
+
+    onNodeClick(node: IProcessedTreeNode) {
+      this.activeNodeId = node.id;
     },
 
     async handleExpandedNode(node: IProcessedTreeNode) {
