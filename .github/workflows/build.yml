@@ -32,6 +32,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
+      with:
+          path: |
+            node_modules
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('./yarn.lock') }}
     - name: Run linter
       run: npm run lint
     - name: Run unit tests
