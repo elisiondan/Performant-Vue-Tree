@@ -1,6 +1,7 @@
 <template>
   <dynamic-scroller
     v-if="options.virtualScrolling.enableVariableSize"
+    class="virtual-scroller"
     :items="items"
     :min-item-size="options.virtualScrolling.itemSize"
     :key-field="options.virtualScrolling.vueVirtualScrollerOptions.keyField"
@@ -39,6 +40,7 @@
   <recycle-scroller
     v-else
     v-slot="{ item }"
+    class="virtual-scroller"
     :items="items"
     :item-size="options.virtualScrolling.itemSize"
     :key-field="options.virtualScrolling.vueVirtualScrollerOptions.keyField"

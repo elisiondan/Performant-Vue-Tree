@@ -2,23 +2,27 @@
   <div
     :id="node.id"
     data-test="tree-node"
-    class="transition-border min-h-5 focus:outline-none"
+    class="tree-node transition-border min-h-5 focus:outline-none"
     :class="{
       'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot,
-      'pb-1': isExpanded(node)
+      'pb-1': isExpanded(node),
     }"
     :style="{paddingLeft: !isRoot ? '.75rem' : '', marginLeft: !isRoot ? '.5rem' : ''}"
     tabindex="0"
-    @keyup.enter="onArrowClick"
+    @keyup.enter.stop="onCurrentNodeArrowClick"
+    @click.stop="onCurrentNodeClick"
   >
     <div
-      class="py-3 md:py-1 transition-bg leading-tight
-            flex flex-auto items-center cursor-pointer"
+      class="tree-node-content py-3 md:py-1 transition-bg leading-tight
+            flex flex-auto items-center cursor-pointer "
+      :class="{
+        'bg-indigo-200': isActive(node)
+      }"
     >
       <tree-expand-arrow
         :node="node"
         :options="options"
-        @click="onArrowClick"
+        @click="onCurrentNodeArrowClick"
       />
 
       <slot
@@ -31,6 +35,7 @@
         />
 
         <tree-node-icon
+          class="tree-node-icon"
           :node="node"
           :options="options"
         />
@@ -50,8 +55,10 @@
         :node="child"
         :options="options"
         :is-root="false"
+        :active-node-id="activeNodeId"
         data-test="tree-node"
         @arrow-click="onArrowClick"
+        @node-click="onNodeClick"
       >
         <template
           v-if="$slots.nodeContent"
@@ -115,6 +122,10 @@ const TreeNode = Vue.extend({
       type: Boolean,
       default: false,
     },
+    activeNodeId: {
+      type: [String, Number],
+      default: '',
+    },
   },
   computed: {
     isRecursive(): boolean {
@@ -122,12 +133,26 @@ const TreeNode = Vue.extend({
     },
   },
   methods: {
-    onArrowClick(node?: IProcessedTreeNode) {
-      this.emitTreeEvent('arrow-click', node || this.node);
-      this.$emit('arrow-click', node || this.node);
+    onCurrentNodeArrowClick(e: Event) {
+      e.stopPropagation();
+      this.emitTreeEvent('arrow-click', this.node);
+      this.$emit('arrow-click', this.node);
+    },
+    onArrowClick(node: IProcessedTreeNode) {
+      this.$emit('arrow-click', node);
+    },
+    onCurrentNodeClick() {
+      this.emitTreeEvent('node-click', this.node);
+      this.$emit('node-click', this.node);
+    },
+    onNodeClick(node: IProcessedTreeNode) {
+      this.$emit('node-click', node);
     },
     isExpanded(node: IProcessedTreeNode) {
       return isExpanded(node);
+    },
+    isActive(node: IProcessedTreeNode) {
+      return node.id === this.activeNodeId;
     },
   },
 });
