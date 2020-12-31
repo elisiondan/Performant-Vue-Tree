@@ -27,7 +27,7 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
     - name: Install dependencies
-      run: npm ci
+      run: npm install
 
   lint-and-test:
     needs: [prepare]
