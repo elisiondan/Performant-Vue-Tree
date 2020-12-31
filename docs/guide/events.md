@@ -1,4 +1,5 @@
 # Events
+The component emits various events. You may listen to these and perform any additional action.
 
 ## arrow-click
 - emitted when arrow next to the node is clicked

@@ -7,7 +7,7 @@ interface IExpandAllOptions {
     rootsId: number[];
 }
 
-const expandAllEvaluator: INodeEvaluator = {
+const collapseAllEvaluator: INodeEvaluator = {
   handleNode(node: IProcessedTreeNode, payload: IExpandAllOptions): void {
     if (payload.collapseAll && payload.rootsId) {
       // eslint-disable-next-line no-param-reassign
@@ -19,4 +19,4 @@ const expandAllEvaluator: INodeEvaluator = {
   },
 };
 
-export default expandAllEvaluator;
+export default collapseAllEvaluator;

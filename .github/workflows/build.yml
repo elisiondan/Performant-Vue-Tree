@@ -1,10 +1,9 @@
-name: CI
+name: Validate and build
 on: [push, pull_request]
+
 jobs:
-  execute:
+  prepare:
     runs-on: ubuntu-20.04
-    env: 
-      INPUT_TOKEN: ''
     steps:
     - name: Set work folder permissions    
       run: pwd && sudo chown -R $USER:$USER ./
@@ -14,26 +13,65 @@ jobs:
       with:
         node-version: 14.x
     - name: Cache node modules
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       env:
         cache-name: cache-node-modules
       with:
-        path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+        # path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+        path: |
+            node_modules
+            **/node_modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
     - name: Install dependencies
-      run: npm ci
+      run: npm install
+
+  lint-and-test:
+    needs: [prepare]
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: |
+            node_modules
+            **/node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
     - name: Run linter
       run: npm run lint
     - name: Run unit tests
       run: npm run test    
-    - name: Build project
-      run: npm run build:example
-    # - name: Publish to npm 
-    #   uses: JS-DevTools/npm-publish@v1
-    #   if: github.ref == 'refs/heads/master'
-    #   with:
-    #     token: ${{ secrets.NPM_AUTH_TOKEN }}
+
+  publish-docs:
+    needs: [prepare, lint-and-test]
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: |
+            node_modules
+            **/node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+    - name: Build documentation
+      run: npm run docs:build
+    - name: Publish documentation
+      uses: crazy-max/ghaction-github-pages@v1
+      if: github.ref == 'refs/heads/master'
+      with: 
+        target_branch: gh-pages
+        build_dir: docs/.vuepress/dist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish-to-npm:
+    needs: [publish-docs]
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Publish to npm 
+      uses: JS-DevTools/npm-publish@v1
+      if: github.ref == 'refs/heads/master'
+      with:
+        token: ${{ secrets.NPM_AUTH_TOKEN }}

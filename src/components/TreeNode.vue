@@ -27,20 +27,28 @@
 
       <slot
         name="nodeContent"
-        :node="node"
+        :nodeData="node"
       >
         <slot
           name="nodePrependLabel"
-          :node="node"
+          :nodeData="node"
         />
 
-        <tree-node-icon
-          class="tree-node-icon"
-          :node="node"
-          :options="options"
-        />
+        <slot
+          name="nodeIcon"
+          :nodeData="node"
+        >
+          <tree-node-icon
+            class="tree-node-icon"
+            :node="node"
+            :options="options"
+          />
+        </slot>
 
-        <slot name="nodeLabel">
+        <slot
+          name="nodeLabel"
+          :nodeData="node"
+        >
           <div class="label">
             <!-- eslint-disable-next-line vue/no-v-html -->
             <span v-html="node.name || node.id" />
@@ -63,26 +71,24 @@
         <template
           v-if="$slots.nodeContent"
           #nodeContent
-          :node="node"
+          :nodeData="node"
         />
 
         <template
           v-if="!$slots.nodeContent"
-          #nodePrependLabel="data"
         >
           <slot
             name="nodePrependLabel"
-            :data="data"
+            :nodeData="node"
           />
         </template>
 
         <template
           v-if="!$slots.nodeContent"
-          #appendLabel="data"
         >
           <slot
             name="nodeLabel"
-            :data="data"
+            :nodeData="node"
           />
         </template>
       </tree-node>

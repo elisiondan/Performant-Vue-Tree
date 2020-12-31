@@ -18,24 +18,24 @@
         @arrow-click="onArrowClick"
         @node-click="onNodeClick"
       >
-        <template #nodeContent="nodeData">
+        <template #nodeContent="{nodeData}">
           <slot
             name="nodeContent"
-            :data="nodeData"
+            :nodeData="nodeData"
           />
         </template>
 
-        <template #nodePrependLabel="nodeData">
+        <template #nodePrependLabel="{nodeData}">
           <slot
             name="nodePrependLabel"
-            :data="nodeData"
+            :nodeData="nodeData"
           />
         </template>
 
-        <template #nodeLabel="nodeData">
+        <template #nodeLabel="{nodeData}">
           <slot
             name="nodeLabel"
-            :data="nodeData"
+            :nodeData="nodeData"
           />
         </template>
       </tree-node>
@@ -57,17 +57,24 @@
       @arrow-click="onArrowClick"
       @node-click="onNodeClick"
     >
-      <template #prependLabel="data">
+      <template #nodeContent="{nodeData}">
         <slot
-          name="prependLabel"
-          :data="data"
+          name="nodeContent"
+          :nodeData="nodeData"
         />
       </template>
 
-      <template #appendLabel="data">
+      <template #nodePrependLabel="{nodeData}">
         <slot
-          name="appendLabel"
-          :data="data"
+          name="nodePrependLabel"
+          :nodeData="nodeData"
+        />
+      </template>
+
+      <template #nodeLabel="{nodeData}">
+        <slot
+          name="nodeLabel"
+          :nodeData="nodeData"
         />
       </template>
     </tree-node>

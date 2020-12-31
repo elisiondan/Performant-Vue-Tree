@@ -3,15 +3,13 @@ The tree component accepts two composite props - data (required) and options (op
 
 ## Data prop
 The `data` prop conforms to the following interface. 
-If you use Typescript, you can reference it directly through 
+<!-- If you use Typescript, you can reference it directly through  -->
 
-TBD: Export interfaces properly
-`import ITreeData from 'vue-performant-tree/src/models/tree-data`.
+<!-- TBD: Export interfaces properly
+`import ITreeData from 'vue-performant-tree/src/models/tree-data`. -->
 
 ```javascript
-interface ITreeData {
-    trees: ITreeNode[];
-}
+type ITreeData = ITreeNode[];
 ```
 
 ```javascript

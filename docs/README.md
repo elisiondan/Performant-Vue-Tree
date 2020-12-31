@@ -6,7 +6,7 @@ actionText: Get Started →
 actionLink: /introduction
 features:
 - title: Lighting fast
-  details: Usage of web workers and virtual scrolling to handle tens thousands of nodes.
+  details: Boosted by web workers and virtual scrolling to handle tens thousands of nodes.
 - title: Widely configurable
   details: Almost everything can be modified, both functional and visual aspects.
 - title: Built with typescript
