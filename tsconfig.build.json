@@ -1,6 +1,15 @@
 {
     "extends": "./tsconfig.json",
     "include": [
-        "src/models/*.ts",
+        // "src/models/*.ts",
+        "src/public-types/index.ts"
     ],
+    // "files": ["src/public-types/*.d.ts"],
+    "compilerOptions": {
+        // "outFile": "src/public-types/declarations.d.ts",
+        "plugins": [
+          { "transform": "typescript-transform-paths" },
+          { "transform": "typescript-transform-paths", "afterDeclarations": true },
+        ],
+      },
 }

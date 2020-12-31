@@ -6,7 +6,7 @@
   "author": "Daniel Charvát",
   "scripts": {
     "serve": "vue-cli-service serve ./fi-api-data/main.ts",
-    "build": "npm run build-tree && npm run build-worker",
+    "build": "rimraf dist && npm run build-tree && npm run build-worker",
     "build-tree": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run postinstall",
     "build-worker": "rollup --config build/worker-rollup.config.js",
     "test": "vue-cli-service test:unit",
@@ -20,9 +20,11 @@
     "build:example": "vue-cli-service build ./fi-api-data/main.ts --modern",
     "run:example": "npm run build:example && npx http-serve ./example",
     "postinstall": "npm run emit-declarations && node scripts/index.js",
-    "emit-declarations": "tsc -p ./tsconfig.build.json --emitDeclarationOnly"
+    "emit-declarations": "ttsc -p ./tsconfig.build.json --emitDeclarationOnly",
+    "bundle-types": "rollup --config build/types-rollup.config.js"
   },
   "main": "dist/performant-vue-tree.ssr.js",
+  "types": "dist/index.d.ts",
   "module": "dist/performant-vue-tree.esm.js",
   "browser": "dist/performant-vue-tree.esm.js",
   "unpkg": "dist/performant-vue-tree.min.js",
@@ -43,6 +45,7 @@
     "json-fn": "^1.1.1",
     "lodash": "^4.17.20",
     "promise-worker": "^2.0.1",
+    "rimraf": "^3.0.2",
     "tailwindcss": "^1.8.2",
     "vue-virtual-scroller": "^1.0.10",
     "vue-wait": "^1.4.8",
@@ -83,11 +86,16 @@
     "postcss-import": "^12.0.1",
     "rollup": "^2.7.3",
     "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-dts": "^2.0.1",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-terser": "^5.3.1",
+    "rollup-plugin-typescript2": "^0.29.0",
     "rollup-plugin-vue": "^5.1.6",
+    "tslib": "^2.0.3",
+    "ttypescript": "^1.5.12",
     "typescript": "^3.9.7",
+    "typescript-transform-paths": "^2.1.0",
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
     "vuepress": "^1.7.1",
@@ -104,6 +112,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/elisiondan/Performant-Vue-Tree"
-  },
-  "types": "performant-vue-tree.d.ts"
+  }
 }

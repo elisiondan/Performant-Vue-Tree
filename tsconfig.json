@@ -19,7 +19,7 @@
       "webpack-env",
       "jest",
       "node",
-      "vue"
+      "vue",
     ],
     "paths": {
       "@/*": [
