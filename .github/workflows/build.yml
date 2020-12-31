@@ -30,10 +30,10 @@ jobs:
       run: npm run lint
     - name: Run unit tests
       run: npm run test    
-    - name: Build project
-      run: npm run build:example
-    # - name: Publish to npm 
-    #   uses: JS-DevTools/npm-publish@v1
-    #   if: github.ref == 'refs/heads/master'
-    #   with:
-    #     token: ${{ secrets.NPM_AUTH_TOKEN }}
+    - name: Publish documentation
+      run: npm run docs:deploy
+    - name: Publish to npm 
+      uses: JS-DevTools/npm-publish@v1
+      if: github.ref == 'refs/heads/master'
+      with:
+        token: ${{ secrets.NPM_AUTH_TOKEN }}
