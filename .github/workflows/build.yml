@@ -1,37 +1,29 @@
 name: CI
 on: [push, pull_request]
-jobs:
-  execute:
+
+# on:
+#   push:
+#     branches:
+#     - main
+#   pull_request:
+#     branches:
+#     - main
+
+defaults:
     runs-on: ubuntu-20.04
-    env: 
-      INPUT_TOKEN: ''
+
+jobs:
+  publish-docs:
     steps:
-    - name: Set work folder permissions    
-      run: pwd && sudo chown -R $USER:$USER ./
-    - uses: actions/checkout@v2
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.4
-      with:
-        node-version: 14.x
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-    - name: Install dependencies
-      run: npm ci
-    - name: Run linter
-      run: npm run lint
-    - name: Run unit tests
-      run: npm run test    
     - name: Publish documentation
-      run: npm run docs:deploy
+      uses: crazy-max/ghaction-github-pages@v1
+      with: 
+        target_branch: gh-pages
+        build_dir: docs/.vuepress/dist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish-to-npm:
+    steps:
     - name: Publish to npm 
       uses: JS-DevTools/npm-publish@v1
       if: github.ref == 'refs/heads/master'
