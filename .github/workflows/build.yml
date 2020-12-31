@@ -27,6 +27,7 @@ jobs:
       run: npm ci
 
   lint:
+    needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
     - name: Run linter
@@ -35,6 +36,7 @@ jobs:
       run: npm run test    
 
   publish-docs:
+    needs: [prepare, lint]
     runs-on: ubuntu-20.04
     steps:
     - name: Publish documentation
