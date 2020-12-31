@@ -22,6 +22,7 @@
         @search="onSearch"
         @select-root="onSelectRoot"
       />
+      <slot name="expandedBeforeChevron" />
     </template>
 
     <tree-wrapper
@@ -30,24 +31,24 @@
       :options="treeOptions"
       class="tree-wrapper mt-2 md:mt-4"
     >
-      <template #nodeContent="nodeData">
+      <template #nodeContent="{nodeData}">
         <slot
           name="nodeContent"
-          :data="nodeData"
+          :nodeData="nodeData"
         />
       </template>
 
-      <template #nodePrependLabel="nodeData">
+      <template #nodePrependLabel="{nodeData}">
         <slot
           name="nodePrependLabel"
-          :data="nodeData"
+          :nodeData="nodeData"
         />
       </template>
 
-      <template #nodeLabel="nodeData">
+      <template #nodeLabel="{nodeData}">
         <slot
           name="nodeLabel"
-          :data="nodeData"
+          :nodeData="nodeData"
         />
       </template>
     </tree-wrapper>

@@ -33,9 +33,14 @@ export type IFullTreeOptions = {
         /* Classname appended to nodes that match the search term */
         highlightClass: string;
     };
+    /* Varisous visual options of the tree */
     visual: {
+        /* Show icons for folders (i.e. nodes for which isExpandle is true) */
         showIconForFolders: boolean;
+        /* Show left dotted line for folder's content */
         showFolderBorders: boolean;
+        /* When enabled, there is utility to hide and show the tree */
+        useTreeVisibilityToggle: boolean;
     };
     i18n: {
         show_all: string;

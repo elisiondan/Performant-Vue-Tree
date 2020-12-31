@@ -1,19 +1,29 @@
 # Options
-The options prop is optional if you would like to override some of the default options. Again, if you use Typescript, you may import the interface directly: `import ITreeOptions from 'vue-performant-tree/src/models/tree-options`.
+The options prop is optional if you would like to override some of the default options. 
+<!-- Again, if you use Typescript, you may import the interface directly: `import ITreeOptions from 'vue-performant-tree/src/models/tree-options`. -->
 
-
-The options prop is optional. You may override some of the default options or all of them. If you use TypeScript, you may import the interface directly: TBD
 
 ```javascript
 {
     /* Whether node can be expanded or is a leaf node */
     isExpandable (node: ITreeNode): boolean;
+    /* Getter for node children, is awaited.
+     * Useful when you need to retreive children asynchronously */
+    getChildren (node: ITreeNode): ITreeNode[] | Promise<ITreeNode[]>;
     /* Virtual scrolling is crucial when using large number of nodes */
     virtualScrolling: {
         useVirtualScrolling: boolean;
-        /* When enabled, you have to define the minimal node's height. 
+        /* When enabled, you have to define the node's height.
+           If variable size mode is enabled, provide minimal height of each item.
            Does not matter if some are bigger */
-        minItemSize: number;
+        itemSize: number;
+        /* When enabled, each item can have variable height.
+           May have impact on performance */
+        enableVariableSize: boolean;
+        /** Refer to @link https://github.com/Akryum/vue-virtual-scroller for available options.
+         * You should not define here 'items', 'itemSize' and 'minItemSize'
+         */
+        vueVirtualScrollerOptions: object;
     };
     /* Node evaluators executed during tree traversal. See TBD */
     nodeEvaluators: INodeEvaluator[];
@@ -29,6 +39,13 @@ The options prop is optional. You may override some of the default options or al
         showIconForFolders: boolean;
         /* Show left dotted line for folder's content */
         showFolderBorders: boolean;
+        /* When enabled, there is utility to hide and show the tree */
+        useTreeVisibilityToggle: boolean;
+    };
+    i18n: {
+        show_all: string;
+        term_search: string;
+        select_root: string;
     };
 }
 ```
@@ -40,9 +57,21 @@ The options prop is optional. You may override some of the default options or al
   isExpandable: node.children.some((child) => {
     return !child.__filtered && child.__visible;
   }),
-  virtualScrolling: {
+  getChildren: (node) => node.children;,
+ virtualScrolling: {
     useVirtualScrolling: false,
-    minItemSize: 0,
+    itemSize: 0,
+    enableVariableSize: false,
+    vueVirtualScrollerOptions: {
+      buffer: 1000,
+      direction: 'vertical',
+      sizeField: 'size',
+      typeField: 'type',
+      pageMode: false,
+      prerender: 0,
+      emitUpdate: false,
+      keyField: 'id',
+    },
   },
   nodeEvaluators: [],
   matchTermEvaluator: {
@@ -52,6 +81,12 @@ The options prop is optional. You may override some of the default options or al
   visual: {
     showIconForFolders: true,
     showFolderBorders: true,
+    useTreeVisibilityToggle: true,
+  },
+  i18n: {
+    show_all: 'Show all',
+    term_search: 'Search',
+    select_root: 'Select root',
   },
 };
 ```

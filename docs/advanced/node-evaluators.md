@@ -11,13 +11,13 @@ import { IProcessedTreeNode } from 'vue-performant-tree/src/models/tree-node'; /
 handleNode(node: IProcessedTreeNode, payload: any): void
 ```
 
-In short, the `handleNode` method received the given node and any kind of payload that is sent through the [treeObserver](/advanced/tree-observer). Beware that the payload may contain data targetted for at other evaluators, so it is **responsibility of each evaluator to check whether the data are for them**.
+In short, the `handleNode` method receives the given node and any kind of payload that is sent by the [treeObserver](/advanced/tree-traversal). Beware that the payload may contain data targeted for at other evaluators, so it is **responsibility of each evaluator to check whether the data are for them**.
 
-An examplatory implementation of an evaluator that expands each node with children could look like this.
+An exemplary implementation of an evaluator that expands each node with children could look like this.
 ```javascript
 // expand-all-evaluator.ts
-import { INodeEvaluator } from 'vue-performant-tree/src/services/tree-traversal-service'; // TBD
-import { IProcessedTreeNode } from 'vue-performant-tree/src/models/tree-node'; // TBD
+import { INodeEvaluator } from 'performant-vue-tree/dist/models/node-evaluator';
+import { IProcessedTreeNode } from 'performant-vue-tree/dist/models/tree-node';
 
 interface IExpandAllOptions {
     expandAll?: boolean;
@@ -27,20 +27,20 @@ const expandAllEvaluator: INodeEvaluator = {
   handleNode(node: IProcessedTreeNode, payload: IExpandAllOptions): void {
     if (payload.expandAll) {
       node.__state = 'open';
+      node.__visible = true;
     }
   },
 };
 
 export default expandAllEvaluator;
+
 ```
+Do note the we check whether the `expandAll` on *payload* argument is **true** (it would have been false if undefined). When it is, setting the type of payload enabled suggestions and type checking later in the code. Naturally, this is not precise, because we do not know upfront it's truly the given type. Ideally, it should be set to unknown and only then resolved whether it's the required type or not. The scale of type checking is up to you.
 
-Do note the we check whether the `expandAll` on *payload* argument is **true** (it would have been false if undefined). We set the type of payload for typechecking. Naturally, this is not precise, because we do not know upfront it's truly given type. Ideally, it should be set to unknown and only then resolved whether it's the required type or not. The scale of typechecking is up to you.
+The `__state` attribute is an artificially added attribute for internal purposes. However, you may reassign it manually if you need to override the state programmatically. See [additional node attributes](/guide/internal-node-attributes) for details.
 
-The `__state` attribute is an artificially added attribute for internal purposes. However, you may reassign it manually if you need to override the state programatically. See [additional node atributes](/guide/internal-node-atributes) for details.
-
-
-** Note on classes **
-Beware that you cannot use classes that would implement the `handleNode` method. The methods in classes exist only on their prototype and as such cannot be serialized and passed to the service workers. See this [blog post](https://localazy.com/blog/how-to-pass-function-to-web-workers) for a dive in.
+**Note about ES6 classes**
+Beware that you cannot use classes that would implement the `handleNode` method. The methods in classes exist only on their prototype and as such cannot be serialized and passed to the service workers. See this [blog post](https://localazy.com/blog/how-to-pass-function-to-web-workers) for a more details.
 
 ## Registering node evaluator
 Once created, you need to add node evaluators to the tree [options](/guide/options). 

@@ -28,11 +28,12 @@ const defaultOptions: IFullTreeOptions = {
   visual: {
     showIconForFolders: true,
     showFolderBorders: true,
+    useTreeVisibilityToggle: true,
   },
   i18n: {
-    show_all: 'Zobrazit vše',
-    term_search: 'Vyhledat',
-    select_root: 'Vybrat strom',
+    show_all: 'Show all',
+    term_search: 'Search',
+    select_root: 'Select root',
   },
 };
 

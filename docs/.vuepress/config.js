@@ -11,6 +11,7 @@ module.exports = {
           '/guide/basic-usage',
           '/guide/options',
           '/guide/slots',
+          '/guide/events',
           '/guide/custom-node-properties',
           '/guide/internal-node-properties',
         ]
@@ -20,6 +21,7 @@ module.exports = {
         collapsable: false,
         children: [
           '/advanced/node-evaluators',
+          '/advanced/tree-traversal',
         ]
       },
     ]

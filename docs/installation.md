@@ -4,13 +4,13 @@
 
 - Vue.js `2.0.0`+
 
-## Direct Download / CDN
+<!-- ## Direct Download / CDN
 You may include performant-vue-tree directly via script tags.
 
 ```html    
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
-```
+``` -->
 
 ## NPM
     
@@ -18,7 +18,7 @@ You may include performant-vue-tree directly via script tags.
 npm install performant-vue-tree
 ``` 
 
-Then the underlying worker script has to be copied to the public path. To do so, run following script
+Then the underlying worker script has to be copied to the public path. To do so, run the following script
 ```sh
 node node_modules/performant-vue-tree/dist/init-worker.js 
 ```

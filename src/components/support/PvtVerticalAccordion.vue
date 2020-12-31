@@ -1,9 +1,8 @@
 <template>
   <div>
     <div
-      v-if="isCollapsed"
+      v-if="isCollapsed && !disabled"
       class="flex w-8 h-full collapsed-panel"
-      :class="{'text-gray-500': disabled}"
     >
       <div class="collapsed-chevron mt-3 mb-4 mx-auto cursor-pointer">
         <pvt-clarity-icon
@@ -27,8 +26,8 @@
 
     <transition name="fade">
       <div
-        v-if="preserveHiddenContent"
-        v-show="isCollapsed === false"
+        v-if="preserveHiddenContent || !disabled"
+        v-show="isCollapsed === false || !disabled"
         class="flex flex-col h-full relative"
       >
         <slot name="expandedBeforeContent" />
@@ -36,7 +35,10 @@
           class="flex w-full justify-between sticky top-0 bg-white z-10 border-b border-gray-400"
         >
           <slot name="expandedBeforeChevron" />
-          <div class="my-auto cursor-pointer flex">
+          <div
+            v-if="!disabled"
+            class="my-auto cursor-pointer flex"
+          >
             <pvt-clarity-icon
               class="inline-flex"
               name="angle-double"
