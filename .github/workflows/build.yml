@@ -33,10 +33,9 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
       with:
+          key: ${{ runner.os }}-build-
           path: |
-            node_modules
-            **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            ~/.npm
     - name: Run linter
       run: npm run lint
     - name: Run unit tests
