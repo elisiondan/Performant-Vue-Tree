@@ -60,16 +60,17 @@ jobs:
       run: npm run docs:build
     - name: Publish documentation
       uses: crazy-max/ghaction-github-pages@v1
+      if: github.ref == 'refs/heads/master'
       with: 
         target_branch: gh-pages
         build_dir: docs/.vuepress/dist
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # publish-to-npm:
-  #   runs-on: ubuntu-20.04
-  #   steps:
-  #   - name: Publish to npm 
-  #     uses: JS-DevTools/npm-publish@v1
-  #     if: github.ref == 'refs/heads/master'
-  #     with:
-  #       token: ${{ secrets.NPM_AUTH_TOKEN }}
+  publish-to-npm:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Publish to npm 
+      uses: JS-DevTools/npm-publish@v1
+      if: github.ref == 'refs/heads/master'
+      with:
+        token: ${{ secrets.NPM_AUTH_TOKEN }}
