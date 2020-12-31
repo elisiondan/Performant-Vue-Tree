@@ -33,11 +33,9 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
       with:
-          key: ${{ runner.os }}-build-
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           path: |
             ~/.npm
-    - name: Install dependencies
-      run: npm ci
     - name: Run linter
       run: npm run lint
     - name: Run unit tests
@@ -47,6 +45,8 @@ jobs:
     needs: [prepare, lint]
     runs-on: ubuntu-20.04
     steps:
+    - name: Build documentation
+      run: npm build:docs
     - name: Publish documentation
       uses: crazy-max/ghaction-github-pages@v1
       with: 
