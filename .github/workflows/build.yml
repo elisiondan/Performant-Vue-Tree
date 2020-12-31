@@ -1,15 +1,39 @@
-name: Publish
+name: Validate and build
 on: [push, pull_request]
 
-# on:
-#   push:
-#     branches:
-#     - main
-#   pull_request:
-#     branches:
-#     - main
-
 jobs:
+  prepare:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Set work folder permissions    
+      run: pwd && sudo chown -R $USER:$USER ./
+    - uses: actions/checkout@v2
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v1.4.4
+      with:
+        node-version: 14.x
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+    - name: Install dependencies
+      run: npm ci
+
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Run linter
+      run: npm run lint
+    - name: Run unit tests
+      run: npm run test    
+
   publish-docs:
     runs-on: ubuntu-20.04
     steps:
