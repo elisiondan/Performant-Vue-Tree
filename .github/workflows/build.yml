@@ -61,7 +61,7 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build documentation
-      run: npm run build:docs
+      run: npm run docs:build
     - name: Publish documentation
       uses: crazy-max/ghaction-github-pages@v1
       with: 
