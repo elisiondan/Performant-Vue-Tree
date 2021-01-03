@@ -11,7 +11,8 @@
     <pvt-input
       v-if="options.matchTermEvaluator.enabled"
       :placeholder="options.i18n.term_search"
-      data-test="tree-search tree-complements-search"
+      class="tree-search"
+      data-test="tree-complements-search"
       @change="onSearch"
     />
   </div>
