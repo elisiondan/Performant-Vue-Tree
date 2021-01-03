@@ -26,8 +26,8 @@
 
     <transition name="fade">
       <div
-        v-if="preserveHiddenContent || !disabled"
-        v-show="isCollapsed === false || !disabled"
+        v-if="preserveHiddenContent"
+        v-show="isCollapsed === false"
         class="flex flex-col h-full relative"
       >
         <slot name="expandedBeforeContent" />
