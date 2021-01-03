@@ -23,27 +23,7 @@
       :trees="treeData"
       :options="options"
       class="max-w-sm xxl:max-w-lg tree"
-    >
-      <!-- <template #nodeContent="{nodeData}">
-        nodeContent: {{ nodeData }}
-      </template> -->
-      <!--
-      <template #nodePrependLabel="{nodeData}">
-        nodePrependLabel: {{ nodeData }}
-      </template> -->
-
-      <!-- <template #nodeLabel="{nodeData}">
-        nodeLabel: {{ nodeData }}
-      </template> -->
-
-      <!-- <template #expandedBeforeChevron>
-        expandedBeforeChevron
-      </template> -->
-
-      <template #loading>
-        loading
-      </template>
-    </tree>
+    />
   </div>
 </template>
 
@@ -91,7 +71,7 @@ export default Vue.extend({
         getChildren: this.onarrowClick,
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
         virtualScrolling: {
-          useVirtualScrolling: false,
+          useVirtualScrolling: true,
           itemSize: 24,
           enableVariableSize: true,
         },
