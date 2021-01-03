@@ -40,6 +40,8 @@ jobs:
             node_modules
             **/node_modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      run: npm install
     - name: Run linter
       run: npm run lint
     - name: Run unit tests
@@ -56,6 +58,8 @@ jobs:
             node_modules
             **/node_modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      run: npm install
     - name: Build documentation
       run: npm run docs:build
     - name: Publish documentation
