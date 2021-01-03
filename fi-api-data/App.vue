@@ -101,8 +101,8 @@ export default Vue.extend({
     },
   },
   async created() {
-    const parsedData = await this.fetchParsedData('/auth/do/mu');
-    this.fiData = parsedData;
+    // const parsedData = await this.fetchParsedData('/auth/do/mu');
+    // this.fiData = parsedData;
     // this.treeData = this.parseRootNode(parsedData.uzel[0]);
     this.treeData = [artificialTree()];
     // this.treeData = trees;
