@@ -16,6 +16,7 @@ const expandAllEvaluator: INodeEvaluator = {
   handleNode(node: IProcessedTreeNode, payload: IExpandAllOptions): void {
     if (payload.$_setVisibilityEvaluator === undefined) { return; }
     node.__visible = !!payload.$_setVisibilityEvaluator;
+    console.log(node.__visible);
     node.__state = 'closed';
   },
 };

@@ -38,8 +38,6 @@ import getDataFrom from '~/services/fetch-fi-data';
 import FiApiResponse from '~/models/fi-api-response';
 import FiTreeNode from './models/fi-tree-node';
 import FiBaseNode, { FiFileNode, FiFolderNode } from './models/fi-node';
-import trees from './fixtures/trees';
-import artificialTree from './fixtures/artificial-tree';
 import expandAllEvaluator from '~/services/expand-all-evaluator';
 import collapseAllEvaluator from '~/services/collapse-all-evaluator';
 
@@ -75,17 +73,18 @@ export default Vue.extend({
           itemSize: 24,
           enableVariableSize: true,
         },
+        matchTermEvaluator: {
+          enabled: false,
+        },
       };
 
       return options;
     },
   },
   async created() {
-    // const parsedData = await this.fetchParsedData('/auth/do/mu');
-    // this.fiData = parsedData;
-    // this.treeData = this.parseRootNode(parsedData.uzel[0]);
-    this.treeData = [artificialTree()];
-    // this.treeData = trees;
+    const parsedData = await this.fetchParsedData('/auth/do/mu');
+    this.fiData = parsedData;
+    this.treeData = this.parseRootNode(parsedData.uzel[0]);
   },
   methods: {
     expandAll() {
@@ -159,6 +158,6 @@ export default Vue.extend({
 
 <style lang="postcss" scoped>
 .tree {
-    /* height: calc(100vh - 120px); */
+    height: calc(100vh - 120px);
 }
 </style>
