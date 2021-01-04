@@ -182,7 +182,7 @@ export default Vue.extend({
 
     async handleExpandedNode(node: IProcessedTreeNode) {
       node.__state = NodeState.CLOSED;
-      node.children = await treeParser.traverseTree([setVisibilityEvaluator], {
+      await treeParser.traverseTree([setVisibilityEvaluator], {
         trees: node.children,
         payload: { $_setVisibilityEvaluator: false },
       });
@@ -210,12 +210,13 @@ export default Vue.extend({
         this.isExpandableNode)
         .filter((n) => n.__visible);
 
-      if (changingNodes[0].__index !== undefined) {
+      const root = changingNodes[0];
+      if (root.__index !== undefined) {
         if (node.__state === NodeState.CLOSED) {
           // + 1 for leaving the root node untouched
-          this.renderedTree.splice(changingNodes[0].__index + 1, changingNodes.length - 1);
+          this.renderedTree.splice(root.__index + 1, changingNodes.length - 1);
         } else {
-          this.renderedTree.splice(changingNodes[0].__index + 1, 0, ...changingNodes.splice(1));
+          this.renderedTree.splice(root.__index + 1, 0, ...changingNodes.splice(1));
         }
       }
     },
