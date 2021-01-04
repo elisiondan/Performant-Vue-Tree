@@ -156,7 +156,12 @@ describe('TreeWrapper.vue', () => {
       expect(wrapper.findAll('[data-test="tree-wrapper-node"]').length).toBe(1);
 
       const traverseSpy = jest.spyOn(treeParser, 'traverseTree');
-      traverseSpy.mockResolvedValueOnce([]);
+      traverseSpy.mockImplementation((_, data) => {
+        if (data && data.trees) {
+          data.trees.forEach((n) => { n.__visible = false; });
+        }
+        return new Promise((resolve) => resolve([]));
+      });
 
       rootNode.vm.$emit('arrow-click', roots[0]);
       await wrapper.vm.$nextTick();
