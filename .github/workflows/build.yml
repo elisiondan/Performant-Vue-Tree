@@ -86,6 +86,9 @@ jobs:
       if: github.ref == 'refs/heads/master'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build
+      if: github.ref == 'refs/heads/master'
+      run: npm run build
     - name: Publish to npm 
       uses: JS-DevTools/npm-publish@v1
       if: github.ref == 'refs/heads/master'
