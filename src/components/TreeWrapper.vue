@@ -160,35 +160,57 @@ export default Vue.extend({
   methods: {
     async onArrowClick(node: IProcessedTreeNode) {
       const expanded = isExpanded(node);
+      let changingNodes: IProcessedTreeNode[] = [];
+
       if (expanded) {
-        await this.handleExpandedNode(node);
+        await this.collapseExpandedNode(node);
+        changingNodes = this.getChangingNodesForNewlyCollapsedNode(node);
       } else {
-        await this.handleCollapsedNode(node);
+        await this.expandCollapsedNode(node);
+        changingNodes = this.getChangingNodesForNewlyExpandedNode(node);
       }
 
-      if (this.isVirtualScrollerEnabled) {
-        loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
-        this.getNewRenderNodes(node);
-        loaderService.end(WaitTypes.TOGGLING_NODE_STATE);
-      } else {
-        // Since we are mutating nodes directly, we have to manually re-render
-        this.$forceUpdate();
-      }
+      this.updateRenderedTree(node, changingNodes);
+    },
+
+    getChangingNodesForNewlyCollapsedNode(node: IProcessedTreeNode) {
+      const start = 1 + this.renderedTree.findIndex((n) => n.id === node.id);
+      const firstFollowingNodeAtSameorLowerDepth = this.renderedTree
+        .findIndex((n) => {
+          if (n.__depth !== undefined
+          && node.__depth !== undefined
+          && n.__index !== undefined
+          && node.__index !== undefined) {
+            return n.__depth <= node.__depth // is preceding or at same level
+            && n.id !== node.id // is different node
+            && n.__index > node.__index; // comes later (is not ancestor)
+          }
+          console.error('Undefined depth when expected');
+          return false;
+        });
+      const end = firstFollowingNodeAtSameorLowerDepth > 0
+        ? firstFollowingNodeAtSameorLowerDepth
+        : this.renderedTree.length;
+      return this.renderedTree.slice(start, end);
+    },
+
+    getChangingNodesForNewlyExpandedNode(node: IProcessedTreeNode) {
+      return node.children;
     },
 
     onNodeClick(node: IProcessedTreeNode) {
       this.activeNodeId = node.id;
     },
 
-    async handleExpandedNode(node: IProcessedTreeNode) {
+    async collapseExpandedNode(node: IProcessedTreeNode) {
       node.__state = NodeState.CLOSED;
-      await treeParser.traverseTree([setVisibilityEvaluator], {
+      node.children = await treeParser.traverseTree([setVisibilityEvaluator], {
         trees: node.children,
         payload: { $_setVisibilityEvaluator: false },
       });
     },
 
-    async handleCollapsedNode(node: IProcessedTreeNode) {
+    async expandCollapsedNode(node: IProcessedTreeNode) {
       node.__state = NodeState.OPEN;
       loaderService.start(WaitTypes.TOGGLING_NODE_STATE);
       node.children = await this.options.getChildren(node);
@@ -202,22 +224,19 @@ export default Vue.extend({
       return nodes.filter((node) => isNodeVisible(node));
     },
 
-    getNewRenderNodes(node: IProcessedTreeNode) {
-      const changingNodes = flattenTree(node,
-        node.__depth,
-        node.__index || 0,
-        [],
-        this.isExpandableNode)
-        .filter((n) => n.__visible);
-
-      const root = changingNodes[0];
-      if (root.__index !== undefined) {
-        if (node.__state === NodeState.CLOSED) {
+    updateRenderedTree(root: IProcessedTreeNode, changingNodes: IProcessedTreeNode[]) {
+      if (this.isVirtualScrollerEnabled && changingNodes.length > 0) {
+        const expanded = isExpanded(root);
+        const index = this.renderedTree.findIndex((n) => n.id === root.id);
+        console.warn(changingNodes.length);
+        if (expanded) {
           // + 1 for leaving the root node untouched
-          this.renderedTree.splice(root.__index + 1, changingNodes.length - 1);
+          this.renderedTree.splice(index + 1, 0, ...changingNodes);
         } else {
-          this.renderedTree.splice(root.__index + 1, 0, ...changingNodes.splice(1));
+          this.renderedTree.splice(index + 1, changingNodes.length);
         }
+      } else {
+        this.$forceUpdate();
       }
     },
 
