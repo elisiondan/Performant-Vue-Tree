@@ -1,7 +1,7 @@
 import ITreeNode from '@/models/tree-node';
 
 let nodeCount = 1;
-let id = 1;
+let id = 0;
 
 function generateChildren(remainingDepth: number) {
   nodeCount += 1;
@@ -16,8 +16,8 @@ function generateChildren(remainingDepth: number) {
     return node;
   }
 
-  const nonFoldersCount = 2838;
-  const foldersCount = 20;
+  const nonFoldersCount = 2000;
+  const foldersCount = 15;
 
   for (let i = 0; i < foldersCount; i += 1) {
     node.children.push(
@@ -34,13 +34,23 @@ function generateChildren(remainingDepth: number) {
   return node;
 }
 
-export default function largeTree(): ITreeNode {
-  const root: ITreeNode = {
-    id: 1,
-    name: 'Artificial root',
-    children: [generateChildren(2)],
-  };
+function generateRoots(count: number) {
+  const roots: ITreeNode[] = [];
+  for (let i = 0; i < count; i += 1) {
+    id += 1;
+    const root = {
+      id,
+      name: `Root ${id}`,
+      children: [generateChildren(2)],
+    };
+    roots.push(root);
+  }
+  return roots;
+}
+
+export default function largeTree(): ITreeNode[] {
+  const roots = generateRoots(3);
   console.log(nodeCount);
 
-  return root;
+  return roots;
 }

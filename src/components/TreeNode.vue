@@ -7,7 +7,10 @@
       'border-l border-dashed border-gray-500': options.visual.showFolderBorders && !isRoot,
       'pb-1': isExpanded(node),
     }"
-    :style="{paddingLeft: !isRoot ? '.75rem' : '', marginLeft: !isRoot ? '.5rem' : ''}"
+    :style="{
+      paddingLeft: !isRoot ? '12px' : '',
+      marginLeft: getLeftMargin(node)
+    }"
     tabindex="0"
     @keyup.enter.stop="onCurrentNodeArrowClick"
     @click.stop="onCurrentNodeClick"
@@ -159,6 +162,20 @@ const TreeNode = Vue.extend({
     },
     isActive(node: IProcessedTreeNode) {
       return node.id === this.activeNodeId;
+    },
+    getLeftMargin(node: IProcessedTreeNode) {
+      if (this.isRoot) {
+        return '';
+      }
+      if (node.__depth === 1 || !this.options.virtualScrolling.useVirtualScrolling) {
+        return '8px';
+      }
+      if (node.__depth && node.__depth > 1) {
+        const dottedBorder = 7;
+        const depthPadding = 24;
+        return `${(node.__depth - 1) * depthPadding + dottedBorder}px`;
+      }
+      return '';
     },
   },
 });

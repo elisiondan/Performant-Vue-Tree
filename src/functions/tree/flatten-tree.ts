@@ -7,11 +7,9 @@ const flattenTree = (
   nodes: IProcessedTreeNode[] = [],
   isExpandableNode: (node: IProcessedTreeNode) => boolean,
 ) => {
-  nodes.push({
-    ...node,
-    __depth: depth,
-    __index: index,
-  });
+  node.__depth = depth;
+  node.__index = index;
+  nodes.push(node);
 
   node.children.forEach((n, i) => {
     flattenTree(n, depth + 1, index + i + 1, nodes, isExpandableNode);

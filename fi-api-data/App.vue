@@ -40,6 +40,7 @@ import FiTreeNode from './models/fi-tree-node';
 import FiBaseNode, { FiFileNode, FiFolderNode } from './models/fi-node';
 import expandAllEvaluator from '~/services/expand-all-evaluator';
 import collapseAllEvaluator from '~/services/collapse-all-evaluator';
+import artificialTree from '~/fixtures/artificial-tree';
 
 interface IData {
   fiData: FiApiResponse | null;
@@ -74,7 +75,7 @@ export default Vue.extend({
           enableVariableSize: true,
         },
         matchTermEvaluator: {
-          enabled: false,
+          enabled: true,
         },
       };
 
@@ -82,9 +83,10 @@ export default Vue.extend({
     },
   },
   async created() {
-    const parsedData = await this.fetchParsedData('/auth/do/mu');
-    this.fiData = parsedData;
-    this.treeData = this.parseRootNode(parsedData.uzel[0]);
+    // const parsedData = await this.fetchParsedData('/auth/do/mu');
+    // this.fiData = parsedData;
+    // this.treeData = this.parseRootNode(parsedData.uzel[0]);
+    this.treeData = artificialTree();
   },
   methods: {
     expandAll() {
