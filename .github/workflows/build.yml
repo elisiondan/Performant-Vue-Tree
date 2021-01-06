@@ -81,6 +81,11 @@ jobs:
             node_modules
             **/node_modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+    - name:  'Automated Version Bump'
+      uses:  'phips28/gh-action-bump-version@master'
+      if: github.ref == 'refs/heads/master'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish to npm 
       uses: JS-DevTools/npm-publish@v1
       if: github.ref == 'refs/heads/master'
