@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vue-cli-service serve ./fi-api-data/main.ts",
     "build": "npm run build-tree && npm run build-worker",
-    "build-tree": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run postinstall",
+    "build-tree": "cross-env NODE_ENV=production rollup --config build/rollup.config.js && npm run postbuild-scripts",
     "build-worker": "rollup --config build/worker-rollup.config.js",
     "test": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
@@ -20,7 +20,7 @@
     "docs:dev": "vuepress dev docs",
     "build:example": "vue-cli-service build ./fi-api-data/main.ts --modern",
     "run:example": "npm run build:example && npx http-serve ./example",
-    "postinstall": "npm run emit-declarations && node scripts/index.js",
+    "postbuild-scripts": "npm run emit-declarations && node scripts/index.js",
     "emit-declarations": "tsc -p ./tsconfig.build.json --emitDeclarationOnly"
   },
   "main": "dist/performant-vue-tree.ssr.js",
