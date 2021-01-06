@@ -228,7 +228,6 @@ export default Vue.extend({
       if (this.isVirtualScrollerEnabled && changingNodes.length > 0) {
         const expanded = isExpanded(root);
         const index = this.renderedTree.findIndex((n) => n.id === root.id);
-        console.warn(changingNodes.length);
         if (expanded) {
           // + 1 for leaving the root node untouched
           this.renderedTree.splice(index + 1, 0, ...changingNodes);
