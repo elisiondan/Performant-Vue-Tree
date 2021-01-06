@@ -74,6 +74,13 @@ jobs:
     needs: [publish-docs]
     runs-on: ubuntu-20.04
     steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: |
+            node_modules
+            **/node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
     - name: Publish to npm 
       uses: JS-DevTools/npm-publish@v1
       if: github.ref == 'refs/heads/master'
