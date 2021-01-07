@@ -29,6 +29,7 @@
       :tree-height="treeHeight"
       :roots="renderedTrees"
       :options="treeOptions"
+      :is-search-active="search !== ''"
       class="tree-wrapper mt-2 md:mt-4"
     >
       <template #nodeContent="{nodeData}">
@@ -79,7 +80,7 @@ import '@/assets/css/main.css';
 let fullTree: IProcessedTreeNode[] = [];
 
 interface IData {
-    search: '';
+    search: string;
     traversedTrees: IProcessedTreeNode[];
     selectedRootId: string | number;
     selectedRoot: IProcessedTreeNode | undefined;
@@ -183,6 +184,7 @@ export default Vue.extend({
         .find((root) => root.id === this.selectedRootId);
     },
     onSearch(term: string) {
+      this.search = term;
       treeObserver.notify({
         searchTerm: term,
         removeUnmatched: true,

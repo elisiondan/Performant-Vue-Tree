@@ -121,6 +121,10 @@ export default Vue.extend({
       type: String,
       required: true,
     },
+    isSearchActive: {
+      type: Boolean,
+      required: true,
+    },
   },
   data(): IData {
     return {
@@ -221,7 +225,11 @@ export default Vue.extend({
     },
 
     getVisibleNodes(nodes: IProcessedTreeNode[]) {
-      return nodes.filter((node) => isNodeVisible(node));
+      const visibleNodes = nodes.filter((node) => isNodeVisible(node));
+      if (this.isSearchActive) {
+        return visibleNodes.filter((node) => node.__leadsToMatched);
+      }
+      return visibleNodes;
     },
 
     updateRenderedTree(root: IProcessedTreeNode, changingNodes: IProcessedTreeNode[]) {

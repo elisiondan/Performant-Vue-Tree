@@ -66,7 +66,7 @@ export default Vue.extend({
   computed: {
     options(): ITreeOptions {
       const options: ITreeOptions = {
-        isExpandable(node: FiTreeNode) { return !!node.url || node.children.length > 0; },
+        // isExpandable(node: FiTreeNode) { return !!node.url || node.children.length > 0; },
         getChildren: this.onarrowClick,
         nodeEvaluators: [expandAllEvaluator, collapseAllEvaluator],
         virtualScrolling: {

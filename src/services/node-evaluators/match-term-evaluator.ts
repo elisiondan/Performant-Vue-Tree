@@ -80,7 +80,7 @@ const matchTermEvaluator: INodeEvaluator & IMatchTermEvaluator = {
       this.makeAllChildrenVisible(node);
     }
 
-    if (node.__leadsToMatched) {
+    if (node.__leadsToMatched && node.children.some((child) => child.__leadsToMatched)) {
       node.__state = 'open';
     }
 
