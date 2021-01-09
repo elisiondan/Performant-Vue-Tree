@@ -28,6 +28,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
 
@@ -40,6 +41,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
       expect(wrapper.find('[data-test="virtual-tree-wrapper"]').attributes().style).toContain('max-height: 100px');
@@ -55,6 +57,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
 
@@ -69,6 +72,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
 
@@ -102,6 +106,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
 
@@ -114,6 +119,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
       expect(wrapper.find('[data-test="tree-wrapper"]').attributes().style).toBeUndefined();
@@ -129,6 +135,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
 
@@ -143,6 +150,7 @@ describe('TreeWrapper.vue', () => {
           roots,
           options,
           treeHeight: '100px',
+          isSearchActive: false,
         },
       });
 

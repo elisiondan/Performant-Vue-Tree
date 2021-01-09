@@ -189,7 +189,6 @@ export default Vue.extend({
             && n.id !== node.id // is different node
             && n.__index > node.__index; // comes later (is not ancestor)
           }
-          console.error('Undefined depth when expected');
           return false;
         });
       const end = firstFollowingNodeAtSameorLowerDepth > 0
