@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Options | Perfomant Vue Tree</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/Performant-Vue-Tree/assets/css/0.styles.294436fb.css" as="style"><link rel="preload" href="/Performant-Vue-Tree/assets/js/app.134337c3.js" as="script"><link rel="preload" href="/Performant-Vue-Tree/assets/js/2.69bd3d75.js" as="script"><link rel="preload" href="/Performant-Vue-Tree/assets/js/14.41f0c255.js" as="script"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/10.d831a0bd.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/11.58d1c164.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/12.ec9af641.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/13.eade9bff.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/15.547f3e22.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/16.f74506a5.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/17.07399ba5.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/3.3017040b.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/4.9176e803.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/5.884ec324.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/6.9dd2d831.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/7.56872e05.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/8.ff5f0731.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/9.437db44a.js">
+    <link rel="stylesheet" href="/Performant-Vue-Tree/assets/css/0.styles.294436fb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/Performant-Vue-Tree/" class="home-link router-link-active"><!----> <span class="site-name">Perfomant Vue Tree</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/Performant-Vue-Tree/introduction.html" class="sidebar-link">Introduction</a></li><li><a href="/Performant-Vue-Tree/installation.html" class="sidebar-link">Installation</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Guide</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Performant-Vue-Tree/guide/basic-usage.html" class="sidebar-link">Usage</a></li><li><a href="/Performant-Vue-Tree/guide/options.html" aria-current="page" class="active sidebar-link">Options</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/Performant-Vue-Tree/guide/options.html#default-options" class="sidebar-link">Default options</a></li><li class="sidebar-sub-header"><a href="/Performant-Vue-Tree/guide/options.html#example-with-custom-options" class="sidebar-link">Example with custom options</a></li></ul></li><li><a href="/Performant-Vue-Tree/guide/slots.html" class="sidebar-link">Slots</a></li><li><a href="/Performant-Vue-Tree/guide/events.html" class="sidebar-link">Events</a></li><li><a href="/Performant-Vue-Tree/guide/custom-node-properties.html" class="sidebar-link">Custom node properties</a></li><li><a href="/Performant-Vue-Tree/guide/internal-node-properties.html" class="sidebar-link">Internal node properties</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Advanced</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Performant-Vue-Tree/advanced/node-evaluators.html" class="sidebar-link">Node evaluators</a></li><li><a href="/Performant-Vue-Tree/advanced/tree-traversal.html" class="sidebar-link">Tree traversal</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="options"><a href="#options" class="header-anchor">#</a> Options</h1> <p>The options prop is optional if you would like to override some of the default options.
+</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">{</span>
+    <span class="token comment">/* Whether node can be expanded or is a leaf node */</span>
+    <span class="token function">isExpandable</span> <span class="token punctuation">(</span>node<span class="token operator">:</span> ITreeNode<span class="token punctuation">)</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    <span class="token comment">/* Getter for node children, is awaited.
+     * Useful when you need to retreive children asynchronously */</span>
+    <span class="token function">getChildren</span> <span class="token punctuation">(</span>node<span class="token operator">:</span> ITreeNode<span class="token punctuation">)</span><span class="token operator">:</span> ITreeNode<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">|</span> Promise<span class="token operator">&lt;</span>ITreeNode<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+    <span class="token comment">/* Virtual scrolling is crucial when using large number of nodes */</span>
+    virtualScrolling<span class="token operator">:</span> <span class="token punctuation">{</span>
+        useVirtualScrolling<span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+        <span class="token comment">/* When enabled, you have to define the node's height.
+           If variable size mode is enabled, provide minimal height of each item.
+           Does not matter if some are bigger */</span>
+        itemSize<span class="token operator">:</span> number<span class="token punctuation">;</span>
+        <span class="token comment">/* When enabled, each item can have variable height.
+           May have impact on performance */</span>
+        enableVariableSize<span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+        <span class="token comment">/** Refer to @link https://github.com/Akryum/vue-virtual-scroller for available options.
+         * You should not define here 'items', 'itemSize' and 'minItemSize'
+         */</span>
+        vueVirtualScrollerOptions<span class="token operator">:</span> object<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">/* Node evaluators executed during tree traversal. See TBD */</span>
+    nodeEvaluators<span class="token operator">:</span> INodeEvaluator<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">/* Search by node name utility */</span>
+    matchTermEvaluator<span class="token operator">:</span> <span class="token punctuation">{</span>
+        enabled<span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+        <span class="token comment">/* Classname appended to nodes that match the search term */</span>
+        highlightClass<span class="token operator">:</span> string<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">/* Varisous visual options of the tree */</span>
+    visual<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token comment">/* Show icons for folders (i.e. nodes for which isExpandle is true) */</span>
+        showIconForFolders<span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+        <span class="token comment">/* Show left dotted line for folder's content */</span>
+        showFolderBorders<span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+        <span class="token comment">/* When enabled, there is utility to hide and show the tree */</span>
+        useTreeVisibilityToggle<span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    i18n<span class="token operator">:</span> <span class="token punctuation">{</span>
+        show_all<span class="token operator">:</span> string<span class="token punctuation">;</span>
+        term_search<span class="token operator">:</span> string<span class="token punctuation">;</span>
+        select_root<span class="token operator">:</span> string<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="default-options"><a href="#default-options" class="header-anchor">#</a> Default options</h2> <p><strong>Default options</strong></p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">{</span>
+  isExpandable<span class="token operator">:</span> node<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">child</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token operator">!</span>child<span class="token punctuation">.</span>__filtered <span class="token operator">&amp;&amp;</span> child<span class="token punctuation">.</span>__visible<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">getChildren</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">node</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> node<span class="token punctuation">.</span>children<span class="token punctuation">;</span><span class="token punctuation">,</span>
+ virtualScrolling<span class="token operator">:</span> <span class="token punctuation">{</span>
+    useVirtualScrolling<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    itemSize<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    enableVariableSize<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    vueVirtualScrollerOptions<span class="token operator">:</span> <span class="token punctuation">{</span>
+      buffer<span class="token operator">:</span> <span class="token number">1000</span><span class="token punctuation">,</span>
+      direction<span class="token operator">:</span> <span class="token string">'vertical'</span><span class="token punctuation">,</span>
+      sizeField<span class="token operator">:</span> <span class="token string">'size'</span><span class="token punctuation">,</span>
+      typeField<span class="token operator">:</span> <span class="token string">'type'</span><span class="token punctuation">,</span>
+      pageMode<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      prerender<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      emitUpdate<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      keyField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  nodeEvaluators<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  matchTermEvaluator<span class="token operator">:</span> <span class="token punctuation">{</span>
+    enabled<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    highlightClass<span class="token operator">:</span> <span class="token string">'bg-yellow-400'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  visual<span class="token operator">:</span> <span class="token punctuation">{</span>
+    showIconForFolders<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    showFolderBorders<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    useTreeVisibilityToggle<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  i18n<span class="token operator">:</span> <span class="token punctuation">{</span>
+    show_all<span class="token operator">:</span> <span class="token string">'Show all'</span><span class="token punctuation">,</span>
+    term_search<span class="token operator">:</span> <span class="token string">'Search'</span><span class="token punctuation">,</span>
+    select_root<span class="token operator">:</span> <span class="token string">'Select root'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="example-with-custom-options"><a href="#example-with-custom-options" class="header-anchor">#</a> Example with custom options</h2> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>app<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>performant-vue-tree</span> <span class="token attr-name">:trees</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>treeData<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:options</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>options<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>ts<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> performantTree <span class="token keyword">from</span> <span class="token string">'performant-vue-tree'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> Vue<span class="token punctuation">.</span><span class="token function">extend</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'App'</span><span class="token punctuation">,</span>
+  components<span class="token operator">:</span> <span class="token punctuation">{</span>
+    performantTree
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">data</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        treeData<span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                id<span class="token operator">:</span> <span class="token string">'root1'</span><span class="token punctuation">,</span>
+                children<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        options<span class="token operator">:</span> <span class="token punctuation">{</span>
+            matchTermEvaluator<span class="token operator">:</span> <span class="token punctuation">{</span>
+                enabled<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            virtualScrolling<span class="token operator">:</span> <span class="token punctuation">{</span>
+                useVirtualScrolling<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                minItemSize<span class="token operator">:</span> <span class="token number">17.5</span><span class="token punctuation">,</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/Performant-Vue-Tree/guide/basic-usage.html" class="prev">
+        Usage
+      </a></span> <span class="next"><a href="/Performant-Vue-Tree/guide/slots.html">
+        Slots
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/Performant-Vue-Tree/assets/js/app.134337c3.js" defer></script><script src="/Performant-Vue-Tree/assets/js/2.69bd3d75.js" defer></script><script src="/Performant-Vue-Tree/assets/js/14.41f0c255.js" defer></script>
+  </body>
+</html>

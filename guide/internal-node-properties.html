@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Internal node properties | Perfomant Vue Tree</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/Performant-Vue-Tree/assets/css/0.styles.294436fb.css" as="style"><link rel="preload" href="/Performant-Vue-Tree/assets/js/app.134337c3.js" as="script"><link rel="preload" href="/Performant-Vue-Tree/assets/js/2.69bd3d75.js" as="script"><link rel="preload" href="/Performant-Vue-Tree/assets/js/13.eade9bff.js" as="script"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/10.d831a0bd.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/11.58d1c164.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/12.ec9af641.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/14.41f0c255.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/15.547f3e22.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/16.f74506a5.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/17.07399ba5.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/3.3017040b.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/4.9176e803.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/5.884ec324.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/6.9dd2d831.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/7.56872e05.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/8.ff5f0731.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/9.437db44a.js">
+    <link rel="stylesheet" href="/Performant-Vue-Tree/assets/css/0.styles.294436fb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/Performant-Vue-Tree/" class="home-link router-link-active"><!----> <span class="site-name">Perfomant Vue Tree</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/Performant-Vue-Tree/introduction.html" class="sidebar-link">Introduction</a></li><li><a href="/Performant-Vue-Tree/installation.html" class="sidebar-link">Installation</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Guide</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Performant-Vue-Tree/guide/basic-usage.html" class="sidebar-link">Usage</a></li><li><a href="/Performant-Vue-Tree/guide/options.html" class="sidebar-link">Options</a></li><li><a href="/Performant-Vue-Tree/guide/slots.html" class="sidebar-link">Slots</a></li><li><a href="/Performant-Vue-Tree/guide/events.html" class="sidebar-link">Events</a></li><li><a href="/Performant-Vue-Tree/guide/custom-node-properties.html" class="sidebar-link">Custom node properties</a></li><li><a href="/Performant-Vue-Tree/guide/internal-node-properties.html" aria-current="page" class="active sidebar-link">Internal node properties</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/Performant-Vue-Tree/guide/internal-node-properties.html#processed-node" class="sidebar-link">Processed node</a></li></ul></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Advanced</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Performant-Vue-Tree/advanced/node-evaluators.html" class="sidebar-link">Node evaluators</a></li><li><a href="/Performant-Vue-Tree/advanced/tree-traversal.html" class="sidebar-link">Tree traversal</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="internal-node-properties"><a href="#internal-node-properties" class="header-anchor">#</a> Internal node properties</h1> <p>The section about <a href="/guide/custom-node-properties">custom node properties</a> shows that you can define your own properties on nodes. The <em>Performant Vue Tree</em> component relies on this approach as well.
+The overview below summarizes internal nodes that may exist on each of the node you access through slots and traversal service.</p> <p>Please note that these attribute <strong>are not</strong> appended to the original data, but only to the copied data within the tree component. Therefore, you cannot use them in your functions tak somehow work with the tree data before they are processed.
+On the other hand, you may use them in <a href="/advanced/node-evaluators">node evaluators</a>.</p> <p>All of the attributes have specific usage and are appended only when needed. Therefore you cannot rely on their existence upfront.</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">interface</span> <span class="token class-name">AddedProperties</span> <span class="token punctuation">{</span>
+    <span class="token comment">/** either 'open' or 'closed' * */</span>
+    __state<span class="token operator">?</span><span class="token operator">:</span> INodeState<span class="token punctuation">;</span>
+    <span class="token comment">/** true when node is currently visible * */</span>
+    __visible<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    <span class="token comment">/** true when node has been filtered out * */</span>
+    __filtered<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    <span class="token comment">/** true some descendant matched the search term * */</span>
+    __leadsToMatched<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    <span class="token comment">/** true when node itself matched the search term * */</span>
+    __matched<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    <span class="token comment">/** node nested depth. Root starts at 0 * */</span>
+    __depth<span class="token operator">?</span><span class="token operator">:</span> number<span class="token punctuation">;</span>
+    <span class="token comment">/** Order of the node in a flattened representation of the trees */</span>
+    __index<span class="token operator">?</span><span class="token operator">:</span> number<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>It is advised to not change signature of these attributes (e.g. assigning boolean to <em>__depth</em>). However, feel free to assign values to them manually if you wish to control any of these manually. Make sure to use <a href="/advanced/node-evaluators">node evaluators</a> and <a href="/advanced/tree-traversal">tree traversal</a> for controlling them, otherwise you would have to use <code>$forceUpdate</code> to re-render the tree.</p> <h2 id="processed-node"><a href="#processed-node" class="header-anchor">#</a> Processed node</h2> <p>Such a node is marked as <strong>processed</strong>. Effectively, the original <a href="/guide/basic-usage">ITreeNode</a> interface of a plain node is extended with the <strong>AddedProperties</strong> interface. Therefore, every node that you access from within the tree component conforms to the following combined interface. Note that all the properties are optional. Some of them are assigned at initialization of the tree, others are appended only when needed, generally when traversing through the tree or when toggling the node's state.</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">interface</span> <span class="token class-name">IProcessedTreeNode</span> <span class="token punctuation">{</span>
+    id<span class="token operator">:</span> string <span class="token operator">|</span> number<span class="token punctuation">;</span>
+    name<span class="token operator">?</span><span class="token operator">:</span> string<span class="token punctuation">;</span>
+    children<span class="token operator">:</span> IProcessedTreeNode<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    __state<span class="token operator">?</span><span class="token operator">:</span> INodeState<span class="token punctuation">;</span>
+    __visible<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    __filtered<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    __leadsToMatched<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    __matched<span class="token operator">?</span><span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+    __depth<span class="token operator">?</span><span class="token operator">:</span> number<span class="token punctuation">;</span>
+    __index<span class="token operator">?</span><span class="token operator">:</span> number<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/Performant-Vue-Tree/guide/custom-node-properties.html" class="prev">
+        Custom node properties
+      </a></span> <span class="next"><a href="/Performant-Vue-Tree/advanced/node-evaluators.html">
+        Node evaluators
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/Performant-Vue-Tree/assets/js/app.134337c3.js" defer></script><script src="/Performant-Vue-Tree/assets/js/2.69bd3d75.js" defer></script><script src="/Performant-Vue-Tree/assets/js/13.eade9bff.js" defer></script>
+  </body>
+</html>

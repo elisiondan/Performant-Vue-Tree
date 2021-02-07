@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Installation | Perfomant Vue Tree</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/Performant-Vue-Tree/assets/css/0.styles.294436fb.css" as="style"><link rel="preload" href="/Performant-Vue-Tree/assets/js/app.134337c3.js" as="script"><link rel="preload" href="/Performant-Vue-Tree/assets/js/2.69bd3d75.js" as="script"><link rel="preload" href="/Performant-Vue-Tree/assets/js/16.f74506a5.js" as="script"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/10.d831a0bd.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/11.58d1c164.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/12.ec9af641.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/13.eade9bff.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/14.41f0c255.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/15.547f3e22.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/17.07399ba5.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/3.3017040b.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/4.9176e803.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/5.884ec324.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/6.9dd2d831.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/7.56872e05.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/8.ff5f0731.js"><link rel="prefetch" href="/Performant-Vue-Tree/assets/js/9.437db44a.js">
+    <link rel="stylesheet" href="/Performant-Vue-Tree/assets/css/0.styles.294436fb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/Performant-Vue-Tree/" class="home-link router-link-active"><!----> <span class="site-name">Perfomant Vue Tree</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/Performant-Vue-Tree/introduction.html" class="sidebar-link">Introduction</a></li><li><a href="/Performant-Vue-Tree/installation.html" aria-current="page" class="active sidebar-link">Installation</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/Performant-Vue-Tree/installation.html#compatibility-note" class="sidebar-link">Compatibility Note</a></li><li class="sidebar-sub-header"><a href="/Performant-Vue-Tree/installation.html#npm" class="sidebar-link">NPM</a></li></ul></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Guide</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Performant-Vue-Tree/guide/basic-usage.html" class="sidebar-link">Usage</a></li><li><a href="/Performant-Vue-Tree/guide/options.html" class="sidebar-link">Options</a></li><li><a href="/Performant-Vue-Tree/guide/slots.html" class="sidebar-link">Slots</a></li><li><a href="/Performant-Vue-Tree/guide/events.html" class="sidebar-link">Events</a></li><li><a href="/Performant-Vue-Tree/guide/custom-node-properties.html" class="sidebar-link">Custom node properties</a></li><li><a href="/Performant-Vue-Tree/guide/internal-node-properties.html" class="sidebar-link">Internal node properties</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Advanced</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Performant-Vue-Tree/advanced/node-evaluators.html" class="sidebar-link">Node evaluators</a></li><li><a href="/Performant-Vue-Tree/advanced/tree-traversal.html" class="sidebar-link">Tree traversal</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="installation"><a href="#installation" class="header-anchor">#</a> Installation</h1> <h2 id="compatibility-note"><a href="#compatibility-note" class="header-anchor">#</a> Compatibility Note</h2> <ul><li>Vue.js <code>2.0.0</code>+</li></ul> <h2 id="npm"><a href="#npm" class="header-anchor">#</a> NPM</h2> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token function">npm</span> <span class="token function">install</span> performant-vue-tree
+</code></pre></div><p>Then the underlying worker script has to be copied to the public path. To do so, run the following script</p> <div class="language-sh extra-class"><pre class="language-sh"><code>node node_modules/performant-vue-tree/dist/init-worker.js 
+</code></pre></div><p>Then you can either register the component globally</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// global plugin</span>
+<span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> performantVueTree <span class="token keyword">from</span> <span class="token string">'vue-performant-tree'</span>
+
+Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>performantVueTree<span class="token punctuation">)</span>
+</code></pre></div><p>or import it separately where needed</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> performantVueTree <span class="token keyword">from</span> <span class="token string">'vue-performant-tree'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> Vue<span class="token punctuation">.</span><span class="token function">extend</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    components<span class="token operator">:</span> <span class="token punctuation">{</span> performantVueTree <span class="token punctuation">}</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/Performant-Vue-Tree/introduction.html" class="prev">
+        Introduction
+      </a></span> <span class="next"><a href="/Performant-Vue-Tree/guide/basic-usage.html">
+        Usage
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/Performant-Vue-Tree/assets/js/app.134337c3.js" defer></script><script src="/Performant-Vue-Tree/assets/js/2.69bd3d75.js" defer></script><script src="/Performant-Vue-Tree/assets/js/16.f74506a5.js" defer></script>
+  </body>
+</html>
