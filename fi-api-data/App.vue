@@ -8,7 +8,7 @@
         text-white py-2 px-4 rounded inline-block"
       @click="expandAll"
     >
-      Otevřít vše
+      Expand all
     </button>
 
     <button
@@ -16,7 +16,7 @@
         text-white py-2 px-4 rounded inline-block"
       @click="collapseAll"
     >
-      Zavřít vše
+      Collapse all
     </button>
 
     <tree
